@@ -1,4 +1,4 @@
-demo (piano): https://barjak-keyboard.netlify.app/
+demo (piano and two harpsichord): https://barjak-keyboard.netlify.app/
 
 # Barjak keyboard
 code: László Barják 2020
