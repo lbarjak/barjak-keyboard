@@ -1,6 +1,6 @@
 "use strict";
 
-import MidiIn from './midiin.js';
+//import MidiIn from './midiin.js';
 
 export default class BufferPlayer {
 
@@ -18,7 +18,7 @@ export default class BufferPlayer {
     static loading = 0;
 
     constructor() {
-        this.midiin = new MidiIn();
+        //this.midiin = new MidiIn();
         this.startNote = BufferPlayer.startNote;
         this.audioContext = new (
             window.AudioContext ||
@@ -31,6 +31,30 @@ export default class BufferPlayer {
         this.channels = [];
         this.gains = [];
         this.delay;
+
+        function requestMIDIAccessSuccess(midi) {
+            var inputs = midi.inputs.values();
+            for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+                console.log('1. midi input', input.value.name);
+                input.value.onmidimessage = midiOnMIDImessage;
+            }
+            midi.onstatechange = midiOnStateChange;
+        }
+        function midiOnStateChange(event) {
+            console.log('2. midiOnStateChange', event.port.name);
+        }
+        let self = this;
+        function midiOnMIDImessage(event) {
+            console.log("3.", event.data[0].toString(16), event.data[1], event.data[2]);
+            if (event.data[2]) {
+                self.play(event.data[1] - 12);
+            }
+            if (!event.data[2]) {
+                self.stop(event.data[1] - 12);
+            }
+        }
+        navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
+
         if (BufferPlayer.instrument == "piano") {
             BufferPlayer.min = BufferPlayer.pianoMin;
             BufferPlayer.max = BufferPlayer.pianoMax;
@@ -48,6 +72,7 @@ export default class BufferPlayer {
         }
 
     }
+
     initPiano() {// 12 C1 - 96 C8
         for (let i = this.startNote; i <= BufferPlayer.pianoMax; i++) {
             this.loader("./piano/" + i + ".ogg", i);
