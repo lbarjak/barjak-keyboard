@@ -1,5 +1,7 @@
 "use strict";
 
+import MidiIn from './midiin.js';
+
 export default class BufferPlayer {
 
     static pianoMin = 12;
@@ -16,6 +18,7 @@ export default class BufferPlayer {
     static loading = 0;
 
     constructor() {
+        this.midiin = new MidiIn();
         this.startNote = BufferPlayer.startNote;
         this.audioContext = new (
             window.AudioContext ||
@@ -88,9 +91,11 @@ export default class BufferPlayer {
         }
     }
     stop(note, sn) {
-        this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
-        this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
-        this.channels[note][sn] = false;
+        if (this.gains[note]) {
+            this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
+            this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
+            this.channels[note][sn] = false;
+        }
     }
 }
 
