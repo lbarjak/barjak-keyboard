@@ -44,13 +44,20 @@ export default class BufferPlayer {
             console.log('2. midiOnStateChange', event.port.name);
         }
         let self = this;
+        let midiChannel = 0;
+        let midiEvent;
+        let midiKey;
+        let midiVelocity;
         function midiOnMIDImessage(event) {
-            console.log("3.", event.data[0].toString(16), event.data[1], event.data[2]);
-            if (event.data[2]) {
-                self.play(event.data[1] - 12);
-            }
-            if (!event.data[2]) {
-                self.stop(event.data[1] - 12);
+            midiEvent = event.data[0].toString(16);
+            midiChannel = parseInt(midiEvent.substring(midiEvent.length - 1, midiEvent.length));
+            midiKey = event.data[1];
+            midiVelocity = event.data[2];
+            console.log("3.", midiEvent, midiKey, midiVelocity);
+            if (midiVelocity) {
+                self.play(midiKey - 12, midiChannel);
+            } else {
+                self.stop(midiKey - 12, midiChannel);
             }
         }
         navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
