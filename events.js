@@ -21,7 +21,7 @@ export default class Events {
                     //console.log(output);
                     midiOutput = output;
                 }
-                midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch, 127]);
+                midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
             });
     }
 
