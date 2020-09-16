@@ -6,6 +6,7 @@ import BufferPlayer from "./bufferplayer.js";
 export default class DrawTriangles {
 
     static startNote = BufferPlayer.startNote;
+    static numberOfHorizontalTris;
 
     constructor(numberOfVerticalTris, triangles) {
         this.numberOfVerticalTris = numberOfVerticalTris;
@@ -16,8 +17,8 @@ export default class DrawTriangles {
         const noteOffsetAlwaysSix = 6;
         let edgeOfTrinagle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
         let heightOfTriangle = edgeOfTrinagle * Math.sqrt(3) / 2;
-        let numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
-        BufferPlayer.countOfSounds = numberOfHorizontalTris + noteOffsetAlwaysSix * (this.numberOfVerticalTris - 1);
+        DrawTriangles.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
+        BufferPlayer.countOfSounds = DrawTriangles.numberOfHorizontalTris + noteOffsetAlwaysSix * (this.numberOfVerticalTris - 1);
         let heightOfKeyboard = Math.round(heightOfTriangle * this.numberOfVerticalTris);
         let color;
 
@@ -28,8 +29,8 @@ export default class DrawTriangles {
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
             pitch = DrawTriangles.startNote + row * noteOffsetAlwaysSix;
             triangleCenterY = heightOfKeyboard - (heightOfTriangle / 2 + row * heightOfTriangle);
-            for (let column = 0; column < numberOfHorizontalTris; column++) {
-                triangleCenterX = (canvas.width - (numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
+            for (let column = 0; column < DrawTriangles.numberOfHorizontalTris; column++) {
+                triangleCenterX = (canvas.width - (DrawTriangles.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
                     + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
                 indexOfNote = pitch % 12;
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;

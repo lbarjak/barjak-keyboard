@@ -1,7 +1,5 @@
 "use strict";
 
-//import MidiIn from './midiin.js';
-
 export default class BufferPlayer {
 
     static pianoMin = 12;
@@ -18,7 +16,6 @@ export default class BufferPlayer {
     static loading = 0;
 
     constructor() {
-        //this.midiin = new MidiIn();
         this.startNote = BufferPlayer.startNote;
         this.audioContext = new (
             window.AudioContext ||
@@ -32,6 +29,26 @@ export default class BufferPlayer {
         this.gains = [];
         this.delay;
 
+        if (BufferPlayer.instrument == "piano") {
+            BufferPlayer.min = BufferPlayer.pianoMin;
+            BufferPlayer.max = BufferPlayer.pianoMax;
+            this.initPiano();
+        }
+        if (BufferPlayer.instrument == "harpsichord") {
+            BufferPlayer.min = BufferPlayer.harpsichordMin;
+            BufferPlayer.max = BufferPlayer.harpsichordMax;
+            this.initHarpsichord();
+        }
+        if (BufferPlayer.instrument == "harpsichord2") {
+            BufferPlayer.min = BufferPlayer.harpsichord2Min;
+            BufferPlayer.max = BufferPlayer.harpsichord2Max;
+            this.initHarpsichord2();
+        }
+
+        this.midi();
+    }
+
+    midi() {
         function requestMIDIAccessSuccess(midi) {
             var inputs = midi.inputs.values();
             for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
@@ -59,23 +76,6 @@ export default class BufferPlayer {
             }
         }
         navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
-
-        if (BufferPlayer.instrument == "piano") {
-            BufferPlayer.min = BufferPlayer.pianoMin;
-            BufferPlayer.max = BufferPlayer.pianoMax;
-            this.initPiano();
-        }
-        if (BufferPlayer.instrument == "harpsichord") {
-            BufferPlayer.min = BufferPlayer.harpsichordMin;
-            BufferPlayer.max = BufferPlayer.harpsichordMax;
-            this.initHarpsichord();
-        }
-        if (BufferPlayer.instrument == "harpsichord2") {
-            BufferPlayer.min = BufferPlayer.harpsichord2Min;
-            BufferPlayer.max = BufferPlayer.harpsichord2Max;
-            this.initHarpsichord2();
-        }
-
     }
 
     initPiano() {// 12 C1 - 96 C8
