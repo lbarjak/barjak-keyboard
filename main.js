@@ -1,12 +1,12 @@
 "use strict";
 
-if (!navigator.requestMIDIAccess) {
-    alert("WebMIDI is not supported in this browser");
-}
-
 window.addEventListener("orientationchange", function (e) {
     location.reload();
 });
+
+if (!navigator.requestMIDIAccess) {
+    alert("WebMIDI is not supported in this browser");
+}
 
 import BufferPlayer from './bufferplayer.js';
 import Events from './events.js';
