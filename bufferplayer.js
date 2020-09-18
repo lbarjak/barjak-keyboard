@@ -50,6 +50,7 @@ export default class BufferPlayer {
 
     midi() {
         function requestMIDIAccessSuccess(midi) {
+            console.log(midi);
             var inputs = midi.inputs.values();
             for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
                 console.log('1. midi input', input.value.name);
