@@ -4,10 +4,6 @@ window.addEventListener("orientationchange", function (e) {
     location.reload();
 });
 
-if (!navigator.requestMIDIAccess) {
-    alert("WebMIDI is not supported in this browser");
-}
-
 import BufferPlayer from './bufferplayer.js';
 import Events from './events.js';
 import DrawTriangles from "./drawtriangles.js";
