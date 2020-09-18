@@ -1,7 +1,3 @@
-if (!navigator.requestMIDIAccess) {
-    alert("WebMIDI is not supported in this browser");
-}
-
 let mobile = false;
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
