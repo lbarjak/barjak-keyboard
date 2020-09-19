@@ -50,7 +50,6 @@ export default class BufferPlayer {
 
     midi() {
         function requestMIDIAccessSuccess(midi) {
-            console.log(midi);
             var inputs = midi.inputs.values();
             for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
                 console.log('1. midi input', input.value.name);
@@ -122,7 +121,7 @@ export default class BufferPlayer {
         }
     }
     stop(note, sn) {
-        if (this.gains[note]) {
+        if (this.gains[note][sn]) {
             this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
             this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
             this.channels[note][sn] = false;
