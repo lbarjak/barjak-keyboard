@@ -32,6 +32,7 @@ export default class Events {
                 this.sounds[pitch][sn] = false;
             }
             if (!this.sounds[pitch][sn]) {
+                this.sounds[pitch][sn] = true;
                 this.midi(144, pitch, sn);
                 this.triangles[sn].setSignOn();
             }
