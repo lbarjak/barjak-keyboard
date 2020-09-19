@@ -122,7 +122,7 @@ export default class BufferPlayer {
         }
     }
     stop(note, sn) {
-        if (this.gains[note]) {
+        if (this.gains[note][sn]) {
             this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
             this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
             this.channels[note][sn] = false;
