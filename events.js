@@ -4,11 +4,12 @@ import DrawTriangles from './drawtriangles.js';
 
 export default class Events {
 
-    constructor(triangles, player) {
+    constructor(triangles, player, midiOn) {
 
         this.triangles = triangles;
         this.player = player;
         this.sounds = [];
+        this.midiOn = midiOn;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -25,7 +26,7 @@ export default class Events {
             });
     }
     midi(onoff, pitch, sn) {
-        //this.midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
+        this.midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
@@ -35,16 +36,18 @@ export default class Events {
             }
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
-                this.midi(144, pitch, sn);
-                this.player.play(pitch - 12, sn);
+                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch - 12, sn);
+                //this.midi(144, pitch, sn);
+                //this.player.play(pitch - 12, sn);
                 this.triangles[sn].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.midi(128, pitch, sn);
+                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch - 12, sn);
                 this.triangles[sn].setSignOff();
-                this.player.stop(pitch - 12, sn);
+                //this.midi(128, pitch, sn);
+                //this.player.stop(pitch - 12, sn);
                 this.sounds[pitch][sn] = false;
             }
         };

@@ -72,6 +72,7 @@ function start() {
 
     let triangles = [];
     let countOfSounds;
+    let midiOn = false;
 
     let mobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
@@ -90,7 +91,7 @@ function start() {
     }
 
     countOfSounds = new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
-    new Events(triangles, player);
+    new Events(triangles, player, midiOn);
 }
 
 function parse_query_string(query) {
