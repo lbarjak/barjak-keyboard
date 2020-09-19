@@ -24,6 +24,13 @@ export default class Events {
                 midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
             });
     }
+    soundSwitch(onoff, pitch, sn) {
+        this.midi(onoff, pitch, sn);
+        if (onoff == 144)
+            this.triangles[sn].setSignOn();
+        if (onoff == 128)
+            this.triangles[sn].setSignOff();
+    }
 
     init() {
         let self = this;
@@ -35,8 +42,9 @@ export default class Events {
         canvas.addEventListener('mouseout', function (e) {
             if (previousTriangle != null) {
                 //sampler.stop(triangles[previousTriangle].getSound(), previousTriangle);
-                self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
-                triangles[previousTriangle].setSignOff();
+                //self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
+                self.soundSwitch(128, triangles[previousTriangle].getSound(), previousTriangle);
+                //triangles[previousTriangle].setSignOff();
                 isMouseDown = false;
             }
         });
@@ -45,8 +53,9 @@ export default class Events {
             console.log("sn:", previousTriangle, "hor.tris:", DrawTriangles.numberOfHorizontalTris,
                 "channel:", Math.floor(previousTriangle / DrawTriangles.numberOfHorizontalTris).toString(16));
             //sampler.play(triangles[previousTriangle].getSound(), previousTriangle);
-            self.midi(144, triangles[previousTriangle].getSound(), previousTriangle);
-            triangles[previousTriangle].setSignOn();
+            //self.midi(144, triangles[previousTriangle].getSound(), previousTriangle);
+            self.soundSwitch(144, triangles[previousTriangle].getSound(), previousTriangle);
+            //triangles[previousTriangle].setSignOn();
             isMouseDown = true;
         });
         canvas.addEventListener('mousemove', function (e) {
@@ -54,19 +63,22 @@ export default class Events {
                 currentTriangle = getCurrentTriangle(e.clientX, e.clientY);
                 if (currentTriangle != previousTriangle) {
                     //sampler.stop(triangles[previousTriangle].getSound(), previousTriangle);
-                    self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
-                    triangles[previousTriangle].setSignOff();
+                    //self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
+                    self.soundSwitch(128, triangles[previousTriangle].getSound(), previousTriangle);
+                    //triangles[previousTriangle].setSignOff();
                     //sampler.play(triangles[currentTriangle].getSound(), currentTriangle);
-                    self.midi(144, triangles[currentTriangle].getSound(), currentTriangle);
-                    triangles[currentTriangle].setSignOn(), currentTriangle;
+                    //self.midi(144, triangles[currentTriangle].getSound(), currentTriangle);
+                    self.soundSwitch(144, triangles[currentTriangle].getSound(), currentTriangle);
+                    //triangles[currentTriangle].setSignOn(), currentTriangle;
                     previousTriangle = currentTriangle;
                 }
             }
         });
         canvas.addEventListener('mouseup', function (e) {
             //sampler.stop(triangles[previousTriangle].getSound(), previousTriangle);
-            self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
-            triangles[previousTriangle].setSignOff();
+            //self.midi(128, triangles[previousTriangle].getSound(), previousTriangle);
+            self.soundSwitch(128, triangles[previousTriangle].getSound(), previousTriangle);
+            //triangles[previousTriangle].setSignOff();
             previousTriangle = getCurrentTriangle(e.clientX, e.clientY);
             isMouseDown = false;
         });
@@ -85,8 +97,9 @@ export default class Events {
                         e.touches[touch].clientX, e.touches[touch].clientY);
                     if (currentTriangleSn != null) {
                         //sampler.play(triangles[currentTriangleSn].getSound(), currentTriangleSn);
-                        self.midi(144, triangles[currentTriangleSn].getSound(), currentTriangleSn);
-                        triangles[currentTriangleSn].setSignOn();
+                        //self.midi(144, triangles[currentTriangleSn].getSound(), currentTriangleSn);
+                        self.soundSwitch(144, triangles[currentTriangleSn].getSound(), currentTriangleSn);
+                        //triangles[currentTriangleSn].setSignOn();
                         for (let sn in oldTriangles) {
                             if (oldTriangles[sn] == currentTriangleSn) {
                                 oldTriangles.splice(sn, 1);
@@ -98,8 +111,9 @@ export default class Events {
             }
             for (let sn in oldTriangles) {
                 //sampler.stop(triangles[oldTriangles[sn]].getSound(), oldTriangles[sn]);
-                self.midi(128, triangles[oldTriangles[sn]].getSound(), oldTriangles[sn]);
-                triangles[oldTriangles[sn]].setSignOff();
+                //self.midi(128, triangles[oldTriangles[sn]].getSound(), oldTriangles[sn]);
+                self.soundSwitch(128, triangles[oldTriangles[sn]].getSound(), oldTriangles[sn]);
+                //triangles[oldTriangles[sn]].setSignOff();
             }
             oldTriangles = newTriangles;
         }
