@@ -4,10 +4,10 @@ import DrawTriangles from './drawtriangles.js';
 
 export default class Events {
 
-    constructor(triangles, sampler) {
+    constructor(triangles, player) {
 
         this.triangles = triangles;
-        this.sampler = sampler;
+        this.player = player;
         this.sounds = [];
         this.midiOutput;
         this.init();
@@ -36,6 +36,7 @@ export default class Events {
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
                 this.midi(144, pitch, sn);
+                this.player.play(pitch - 12, sn);
                 this.triangles[sn].setSignOn();
             }
         }
@@ -43,6 +44,7 @@ export default class Events {
             if (this.sounds[pitch]) {
                 this.midi(128, pitch, sn);
                 this.triangles[sn].setSignOff();
+                this.player.stop(pitch - 12, sn);
                 this.sounds[pitch][sn] = false;
             }
         };
@@ -51,7 +53,6 @@ export default class Events {
     init() {
         let self = this;
         let triangles = this.triangles;
-        let sampler = this.sampler;
         let isMouseDown = false;
         let previousTriangle = 0;
         let currentTriangle;

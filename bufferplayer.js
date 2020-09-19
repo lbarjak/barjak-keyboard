@@ -45,7 +45,7 @@ export default class BufferPlayer {
             this.initHarpsichord2();
         }
 
-        this.midi();
+        //this.midi();
     }
 
     midi() {
