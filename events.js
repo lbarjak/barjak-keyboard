@@ -40,9 +40,11 @@ export default class Events {
             }
         }
         if (onoff == 0) {
-            this.midi(128, pitch, sn);
-            this.triangles[sn].setSignOff();
-            this.sounds[pitch][sn] = false;
+            if (this.sounds[pitch]) {
+                this.midi(128, pitch, sn);
+                this.triangles[sn].setSignOff();
+                this.sounds[pitch][sn] = false;
+            }
         };
     }
 
