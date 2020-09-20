@@ -33,7 +33,6 @@ export default class DrawTriangles {
                 triangleCenterX = (canvas.width - (DrawTriangles.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
                     + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
                 indexOfNote = pitch % 12;
-                console.log(pitch);
                 color = noteColors[indexOfNote];
                 if (BufferPlayer.instrument != "midi")
                     color = pitch < BufferPlayer.min || pitch > BufferPlayer.max ?

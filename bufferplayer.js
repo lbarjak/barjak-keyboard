@@ -29,7 +29,7 @@ export default class BufferPlayer {
         this.gains = [];
         this.delay;
 
-        if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi") {
+        if (BufferPlayer.instrument == "piano") {
             BufferPlayer.min = BufferPlayer.pianoMin;
             BufferPlayer.max = BufferPlayer.pianoMax;
             this.initPiano();
@@ -43,6 +43,11 @@ export default class BufferPlayer {
             BufferPlayer.min = BufferPlayer.harpsichord2Min;
             BufferPlayer.max = BufferPlayer.harpsichord2Max;
             this.initHarpsichord2();
+        }
+        if (BufferPlayer.instrument == "midi") {
+            console.log("ez midi");
+            BufferPlayer.loading = 108;
+
         }
 
         //this.midi();
