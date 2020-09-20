@@ -27,13 +27,14 @@ document.onselectstart = function () {
 
 let numberOfVerticalTris = 5;
 let query = window.location.search.substring(1);
+let instrument;
 if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
     query = window.location.search.substring(1);
-    let instrument = parse_query_string(query).inst;
+    instrument = parse_query_string(query).inst;
     BufferPlayer.instrument = instrument;
-    if (BufferPlayer.instrument == "piano") {
+    if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi") {
         DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
     }
     if (BufferPlayer.instrument == "harpsichord") {
@@ -72,7 +73,7 @@ function start() {
 
     let triangles = [];
     let countOfSounds;
-    let midiOn = false;
+    let midiOn = instrument == "midi" ? true : false;
 
     let mobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||

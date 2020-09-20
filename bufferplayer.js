@@ -29,7 +29,7 @@ export default class BufferPlayer {
         this.gains = [];
         this.delay;
 
-        if (BufferPlayer.instrument == "piano") {
+        if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi") {
             BufferPlayer.min = BufferPlayer.pianoMin;
             BufferPlayer.max = BufferPlayer.pianoMax;
             this.initPiano();

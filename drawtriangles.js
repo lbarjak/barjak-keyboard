@@ -40,7 +40,7 @@ export default class DrawTriangles {
                 if (BufferPlayer.instrument == "harpsichord")
                     color = pitch < BufferPlayer.harpsichordMin || pitch > BufferPlayer.harpsichordMax ?
                         "gray" : noteColors[indexOfNote];
-                if (BufferPlayer.instrument == "piano")
+                if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi")
                     color = pitch < BufferPlayer.pianoMin || pitch > BufferPlayer.pianoMax ?
                         "gray" : noteColors[indexOfNote];
                 this.triangles[countOfTriangles] = (
