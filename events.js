@@ -4,11 +4,12 @@ import DrawTriangles from './drawtriangles.js';
 
 export default class Events {
 
-    constructor(triangles, sampler) {
+    constructor(triangles, player, midiOn) {
 
         this.triangles = triangles;
-        this.sampler = sampler;
+        this.player = player;
         this.sounds = [];
+        this.midiOn = midiOn;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -25,7 +26,8 @@ export default class Events {
             });
     }
     midi(onoff, pitch, sn) {
-        this.midiOutput.send([onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
+        this.midiOutput.send(
+            [onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
@@ -35,13 +37,13 @@ export default class Events {
             }
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
-                this.midi(144, pitch, sn);
+                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
                 this.triangles[sn].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.midi(128, pitch, sn);
+                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
                 this.triangles[sn].setSignOff();
                 this.sounds[pitch][sn] = false;
             }
@@ -51,7 +53,6 @@ export default class Events {
     init() {
         let self = this;
         let triangles = this.triangles;
-        let sampler = this.sampler;
         let isMouseDown = false;
         let previousTriangle = 0;
         let currentTriangle;
