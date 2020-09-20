@@ -34,7 +34,7 @@ if (query) {
     query = window.location.search.substring(1);
     instrument = parse_query_string(query).inst;
     BufferPlayer.instrument = instrument;
-    if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi") {
+    if (BufferPlayer.instrument == "piano") {
         DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
     }
     if (BufferPlayer.instrument == "harpsichord") {
@@ -46,6 +46,9 @@ if (query) {
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
         BufferPlayer.startNote = 17;
         DrawTriangles.startNote = 16;
+    }
+    if (BufferPlayer.instrument == "midi") {
+        DrawTriangles.startNote = numberOfVerticalTris > 8 ? 8 : 23;
     }
 }
 
