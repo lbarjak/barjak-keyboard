@@ -37,13 +37,13 @@ export default class Events {
             }
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
-                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch - 12, sn);
+                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
                 this.triangles[sn].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch - 12, sn);
+                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
                 this.triangles[sn].setSignOff();
                 this.sounds[pitch][sn] = false;
             }
