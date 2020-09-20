@@ -33,16 +33,12 @@ export default class DrawTriangles {
                 triangleCenterX = (canvas.width - (DrawTriangles.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
                     + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
                 indexOfNote = pitch % 12;
+                console.log(pitch);
+                color = noteColors[indexOfNote];
+                if (BufferPlayer.instrument != "midi")
+                    color = pitch < BufferPlayer.min || pitch > BufferPlayer.max ?
+                        "gray" : noteColors[indexOfNote];
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;
-                if (BufferPlayer.instrument == "harpsichord2")
-                    color = pitch < BufferPlayer.harpsichord2Min || pitch > BufferPlayer.harpsichord2Max ?
-                        "gray" : noteColors[indexOfNote];
-                if (BufferPlayer.instrument == "harpsichord")
-                    color = pitch < BufferPlayer.harpsichordMin || pitch > BufferPlayer.harpsichordMax ?
-                        "gray" : noteColors[indexOfNote];
-                if (BufferPlayer.instrument == "piano" || BufferPlayer.instrument == "midi")
-                    color = pitch < BufferPlayer.pianoMin || pitch > BufferPlayer.pianoMax ?
-                        "gray" : noteColors[indexOfNote];
                 this.triangles[countOfTriangles] = (
                     new Triangle(
                         triangleCenterX, triangleCenterY, edgeOfTrinagle,

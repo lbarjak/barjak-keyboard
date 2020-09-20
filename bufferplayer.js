@@ -9,7 +9,7 @@ export default class BufferPlayer {
     static harpsichord2Min = 17;
     static harpsichord2Max = 76;
     static min = 0;
-    static max = 0;
+    static max = 107;
     static instrument = "piano";
     static startNote = BufferPlayer.pianoMin;
     static countOfSounds = 0;
