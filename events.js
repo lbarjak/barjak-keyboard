@@ -1,15 +1,14 @@
 "use strict"
 
-import DrawTriangles from './drawtriangles.js';
-
 export default class Events {
 
-    constructor(triangles, player, instrument) {
+    constructor(triangles, player, instrument, drawTriangles) {
 
         this.triangles = triangles;
         this.player = player;
         this.sounds = [];
         this.instrument = instrument;
+        this.drawTriangles = drawTriangles;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -27,7 +26,7 @@ export default class Events {
     }
     midi(onoff, pitch, sn) {
         this.midiOutput.send(
-            [onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
+            [onoff + Math.floor(sn / this.drawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
@@ -64,8 +63,6 @@ export default class Events {
         });
         canvas.addEventListener('mousedown', function (e) {
             previousTriangle = getCurrentTriangle(e.clientX, e.clientY);
-            console.log("sn:", previousTriangle, "hor.tris:", DrawTriangles.numberOfHorizontalTris,
-                "channel:", Math.floor(previousTriangle / DrawTriangles.numberOfHorizontalTris).toString(16));
             self.soundSwitch(1, triangles[previousTriangle].getSound(), previousTriangle);
             isMouseDown = true;
         });

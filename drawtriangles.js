@@ -5,21 +5,20 @@ import BufferPlayer from "./bufferplayer.js";
 
 export default class DrawTriangles {
 
-    static startNote = 0;
-    static numberOfHorizontalTris;
-
-    constructor(numberOfVerticalTris, triangles, instrument, player) {
+    constructor(numberOfVerticalTris, triangles, instrument, player, startNote) {
         this.numberOfVerticalTris = numberOfVerticalTris;
         this.triangles = triangles;
         this.instrument = instrument;
         this.player = player;
+        this.startNote = startNote;
+        this.numberOfHorizontalTris;
     }
 
     drawTriangles() {
         const noteOffsetAlwaysSix = 6;
         let edgeOfTrinagle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
         let heightOfTriangle = edgeOfTrinagle * Math.sqrt(3) / 2;
-        DrawTriangles.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
+        this.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
         let heightOfKeyboard = Math.round(heightOfTriangle * this.numberOfVerticalTris);
         let color;
 
@@ -30,12 +29,12 @@ export default class DrawTriangles {
         let pitch, triangleCenterX, triangleCenterY, indexOfNote, mirroring, countOfTriangles = 0;
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
 
-            pitch = DrawTriangles.startNote + row * noteOffsetAlwaysSix;
+            pitch = this.startNote + row * noteOffsetAlwaysSix;
 
             triangleCenterY = heightOfKeyboard - (heightOfTriangle / 2 + row * heightOfTriangle);
-            for (let column = 0; column < DrawTriangles.numberOfHorizontalTris; column++) {
+            for (let column = 0; column < this.numberOfHorizontalTris; column++) {
 
-                triangleCenterX = (canvas.width - (DrawTriangles.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
+                triangleCenterX = (canvas.width - (this.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
                     + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
 
                 indexOfNote = pitch % 12;

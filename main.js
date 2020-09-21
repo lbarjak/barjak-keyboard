@@ -27,24 +27,25 @@ document.onselectstart = function () {
 let numberOfVerticalTris = 5;
 let query = window.location.search.substring(1);
 let instrument;
+let startNote;
 if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
     instrument = parse_query_string(query).inst;
 
     if (instrument == "piano") {
-        DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
+        startNote = numberOfVerticalTris > 6 ? 11 : 23;
     }
     if (instrument == "harpsichord") {
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
-        DrawTriangles.startNote = 23;
+        startNote = 23;
     }
     if (instrument == "harpsichord2") {
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
-        DrawTriangles.startNote = 16;
+        startNote = 16;
     }
     if (instrument == "midi") {
-        DrawTriangles.startNote = numberOfVerticalTris > 8 ? 8 : 23;
+        startNote = numberOfVerticalTris > 8 ? 8 : 23;
     }
 }
 
@@ -79,15 +80,16 @@ function start() {
     }
     if (mobile == true && window.screen.orientation.angle == 0) {
         numberOfVerticalTris = 9;
-        DrawTriangles.startNote = 21;
+        startNote = 21;
     }
     if (mobile == true && window.screen.orientation.angle > 0) {
         numberOfVerticalTris = 4;
-        DrawTriangles.startNote = 33;
+        startNote = 33;
     }
 
-    new DrawTriangles(numberOfVerticalTris, triangles, instrument, player).drawTriangles();
-    new Events(triangles, player, instrument);
+    let drawTrinagles = new DrawTriangles(numberOfVerticalTris, triangles, instrument, player, startNote);
+    drawTrinagles.drawTriangles();
+    new Events(triangles, player, instrument, drawTrinagles);
 }
 
 function parse_query_string(query) {
