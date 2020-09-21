@@ -8,9 +8,11 @@ export default class DrawTriangles {
     static startNote = 0;
     static numberOfHorizontalTris;
 
-    constructor(numberOfVerticalTris, triangles) {
+    constructor(numberOfVerticalTris, triangles, instrument, player) {
         this.numberOfVerticalTris = numberOfVerticalTris;
         this.triangles = triangles;
+        this.instrument = instrument;
+        this.player = player;
     }
 
     drawTriangles() {
@@ -35,12 +37,11 @@ export default class DrawTriangles {
 
                 triangleCenterX = (canvas.width - (DrawTriangles.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
                     + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
+
                 indexOfNote = pitch % 12;
                 color = noteColors[indexOfNote];
-
-                if (BufferPlayer.instrument != "midi")
-                    color = pitch < BufferPlayer.min || pitch > BufferPlayer.max ?
-                        "gray" : noteColors[indexOfNote];
+                if (this.instrument != "midi" && (pitch < this.player.min || pitch > this.player.max))
+                    color = "gray";
 
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;
                 this.triangles[countOfTriangles] = (

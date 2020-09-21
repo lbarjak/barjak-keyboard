@@ -31,7 +31,6 @@ if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
     instrument = parse_query_string(query).inst;
-    BufferPlayer.instrument = instrument;
 
     if (instrument == "piano") {
         DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
@@ -49,7 +48,7 @@ if (query) {
     }
 }
 
-let player = new BufferPlayer();
+let player = new BufferPlayer(instrument);
 ctx.font = "16px Arial";
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
@@ -58,12 +57,12 @@ let message;
 (function timer() {
     ctx.fillStyle = "#4d4d4d";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    message = "Loading sounds " + BufferPlayer.loading
-        + " out of " + (BufferPlayer.max - BufferPlayer.min + 1) + "...";
+    message = "Loading sounds " + player.loading
+        + " out of " + (player.max - player.min + 1) + "...";
     ctx.fillStyle = "white";
     ctx.fillText(message, canvas.width * 0.5, canvas.height * 0.3);
     t = setTimeout(timer, 10);
-    if (BufferPlayer.loading == BufferPlayer.max - BufferPlayer.min + 1) {
+    if (player.loading == player.max - player.min + 1) {
         clearTimeout(t);
         start();
     }
@@ -87,7 +86,7 @@ function start() {
         DrawTriangles.startNote = 33;
     }
 
-    new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
+    new DrawTriangles(numberOfVerticalTris, triangles, instrument, player).drawTriangles();
     new Events(triangles, player, instrument);
 }
 
