@@ -31,7 +31,7 @@ let instrument;
 if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
-    query = window.location.search.substring(1);
+    //query = window.location.search.substring(1);
     instrument = parse_query_string(query).inst;
     BufferPlayer.instrument = instrument;
     if (BufferPlayer.instrument == "piano") {
@@ -75,7 +75,6 @@ let message;
 function start() {
 
     let triangles = [];
-    let countOfSounds;
     let midiOn = instrument == "midi" ? true : false;
 
     let mobile = false;
@@ -94,7 +93,7 @@ function start() {
         DrawTriangles.startNote = 33;
     }
 
-    countOfSounds = new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
+    new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
     new Events(triangles, player, midiOn);
 }
 

@@ -18,7 +18,6 @@ export default class DrawTriangles {
         let edgeOfTrinagle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
         let heightOfTriangle = edgeOfTrinagle * Math.sqrt(3) / 2;
         DrawTriangles.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
-        BufferPlayer.countOfSounds = DrawTriangles.numberOfHorizontalTris + noteOffsetAlwaysSix * (this.numberOfVerticalTris - 1);
         let heightOfKeyboard = Math.round(heightOfTriangle * this.numberOfVerticalTris);
         let color;
 
@@ -45,5 +44,6 @@ export default class DrawTriangles {
                 pitch++;
             }
         }
+        console.log(countOfTriangles);
     }
 }

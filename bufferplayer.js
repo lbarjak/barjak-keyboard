@@ -11,8 +11,7 @@ export default class BufferPlayer {
     static min = 0;
     static max = 107;
     static instrument = "piano";
-    static startNote = BufferPlayer.pianoMin;
-    static countOfSounds = 0;
+    static startNote = BufferPlayer.min;
     static loading = 0;
 
     constructor() {
@@ -84,17 +83,17 @@ export default class BufferPlayer {
     }
 
     initPiano() {// 12 C1 - 96 C8
-        for (let i = this.startNote; i <= BufferPlayer.pianoMax; i++) {
+        for (let i = BufferPlayer.min; i <= BufferPlayer.max; i++) {
             this.loader("./piano/" + i + ".ogg", i);
         }
     }
     initHarpsichord() {// 24 C2 - 74 D6
-        for (let i = this.startNote; i <= BufferPlayer.harpsichordMax; i++) {
+        for (let i = BufferPlayer.min; i <= BufferPlayer.max; i++) {
             this.loader("./zell_1737_8_i/" + i + ".ogg", i);
         }
     }
     initHarpsichord2() {// 17 F1 - 76 E6
-        for (let i = this.startNote; i <= BufferPlayer.harpsichord2Max; i++) {
+        for (let i = BufferPlayer.min; i <= BufferPlayer.max; i++) {
             this.loader("./pjcohen/" + i + ".ogg", i);
         }
     }
@@ -127,7 +126,7 @@ export default class BufferPlayer {
     }
     stop(note, sn) {
         if (this.gains[note][sn]) {
-            this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
+            this.delay = 0.1 + (BufferPlayer.max - BufferPlayer.min - note + 12 - 2 - 1) / 300;
             this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
             this.channels[note][sn] = false;
         }
