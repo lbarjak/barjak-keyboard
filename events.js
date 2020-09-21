@@ -4,12 +4,12 @@ import DrawTriangles from './drawtriangles.js';
 
 export default class Events {
 
-    constructor(triangles, player, midiOn) {
+    constructor(triangles, player, instrument) {
 
         this.triangles = triangles;
         this.player = player;
         this.sounds = [];
-        this.midiOn = midiOn;
+        this.instrument = instrument;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -37,13 +37,13 @@ export default class Events {
             }
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
-                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
+                this.instrument == "midi" ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
                 this.triangles[sn].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
+                this.instrument == "midi" ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
                 this.triangles[sn].setSignOff();
                 this.sounds[pitch][sn] = false;
             }

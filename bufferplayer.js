@@ -42,7 +42,6 @@ export default class BufferPlayer {
             this.initHarpsichord2();
         }
         if (BufferPlayer.instrument == "midi") {
-            console.log("ez midi");
             BufferPlayer.loading = 108;
 
         }

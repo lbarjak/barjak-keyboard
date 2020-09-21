@@ -24,7 +24,6 @@ canvas.oncontextmenu = function (e) {
 document.onselectstart = function () {
     return false;
 };
-
 let numberOfVerticalTris = 5;
 let query = window.location.search.substring(1);
 let instrument;
@@ -33,18 +32,19 @@ if (query) {
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
     instrument = parse_query_string(query).inst;
     BufferPlayer.instrument = instrument;
-    if (BufferPlayer.instrument == "piano") {
+
+    if (instrument == "piano") {
         DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
     }
-    if (BufferPlayer.instrument == "harpsichord") {
+    if (instrument == "harpsichord") {
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
         DrawTriangles.startNote = 23;
     }
-    if (BufferPlayer.instrument == "harpsichord2") {
+    if (instrument == "harpsichord2") {
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
         DrawTriangles.startNote = 16;
     }
-    if (BufferPlayer.instrument == "midi") {
+    if (instrument == "midi") {
         DrawTriangles.startNote = numberOfVerticalTris > 8 ? 8 : 23;
     }
 }
@@ -72,7 +72,6 @@ let message;
 function start() {
 
     let triangles = [];
-    let midiOn = instrument == "midi" ? true : false;
 
     let mobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
@@ -89,7 +88,7 @@ function start() {
     }
 
     new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
-    new Events(triangles, player, midiOn);
+    new Events(triangles, player, instrument);
 }
 
 function parse_query_string(query) {
