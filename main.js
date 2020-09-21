@@ -31,7 +31,6 @@ let instrument;
 if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
-    //query = window.location.search.substring(1);
     instrument = parse_query_string(query).inst;
     BufferPlayer.instrument = instrument;
     if (BufferPlayer.instrument == "piano") {
@@ -39,12 +38,10 @@ if (query) {
     }
     if (BufferPlayer.instrument == "harpsichord") {
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
-        BufferPlayer.startNote = 24;
         DrawTriangles.startNote = 23;
     }
     if (BufferPlayer.instrument == "harpsichord2") {
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
-        BufferPlayer.startNote = 17;
         DrawTriangles.startNote = 16;
     }
     if (BufferPlayer.instrument == "midi") {
@@ -84,12 +81,10 @@ function start() {
     }
     if (mobile == true && window.screen.orientation.angle == 0) {
         numberOfVerticalTris = 9;
-        BufferPlayer.startNote = 21;
         DrawTriangles.startNote = 21;
     }
     if (mobile == true && window.screen.orientation.angle > 0) {
         numberOfVerticalTris = 4;
-        BufferPlayer.startNote = 33;
         DrawTriangles.startNote = 33;
     }
 
