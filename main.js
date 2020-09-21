@@ -24,15 +24,17 @@ canvas.oncontextmenu = function (e) {
 document.onselectstart = function () {
     return false;
 };
+
 let numberOfVerticalTris = 5;
+
 let query = window.location.search.substring(1);
 let instrument;
 let startNote;
 if (query) {
     let rows = parse_query_string(query).rows;
     numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
-    instrument = parse_query_string(query).inst;
 
+    instrument = parse_query_string(query).inst;
     if (instrument == "piano") {
         startNote = numberOfVerticalTris > 6 ? 11 : 23;
     }
@@ -48,8 +50,23 @@ if (query) {
         startNote = numberOfVerticalTris > 8 ? 8 : 23;
     }
 }
+let mobile = false;
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform))) {
+    mobile = true;
+}
+if (mobile == true && window.screen.orientation.angle == 0) {
+    numberOfVerticalTris = 9;
+    startNote = 21;
+}
+if (mobile == true && window.screen.orientation.angle > 0) {
+    numberOfVerticalTris = 4;
+    startNote = 33;
+}
 
 let player = new BufferPlayer(instrument);
+let drawTriangles = new DrawTriangles(numberOfVerticalTris, instrument, player, startNote);
+
 ctx.font = "16px Arial";
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
@@ -70,26 +87,8 @@ let message;
 })();
 
 function start() {
-
-    let triangles = [];
-
-    let mobile = false;
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
-        (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform))) {
-        mobile = true;
-    }
-    if (mobile == true && window.screen.orientation.angle == 0) {
-        numberOfVerticalTris = 9;
-        startNote = 21;
-    }
-    if (mobile == true && window.screen.orientation.angle > 0) {
-        numberOfVerticalTris = 4;
-        startNote = 33;
-    }
-
-    let drawTrinagles = new DrawTriangles(numberOfVerticalTris, triangles, instrument, player, startNote);
-    drawTrinagles.drawTriangles();
-    new Events(triangles, player, instrument, drawTrinagles);
+    let triangles = drawTriangles.drawTriangles();
+    new Events(triangles, player, instrument, drawTriangles.numberOfHorizontalTris);
 }
 
 function parse_query_string(query) {

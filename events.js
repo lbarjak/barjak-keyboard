@@ -2,13 +2,13 @@
 
 export default class Events {
 
-    constructor(triangles, player, instrument, drawTriangles) {
+    constructor(triangles, player, instrument, numberOfHorizontalTris) {
 
         this.triangles = triangles;
         this.player = player;
         this.sounds = [];
         this.instrument = instrument;
-        this.drawTriangles = drawTriangles;
+        this.numberOfHorizontalTris = numberOfHorizontalTris;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -26,7 +26,7 @@ export default class Events {
     }
     midi(onoff, pitch, sn) {
         this.midiOutput.send(
-            [onoff + Math.floor(sn / this.drawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
+            [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch + 12, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {

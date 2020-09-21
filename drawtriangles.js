@@ -1,13 +1,12 @@
 "use strict";
 
 import Triangle from "./triangle.js";
-import BufferPlayer from "./bufferplayer.js";
 
 export default class DrawTriangles {
 
-    constructor(numberOfVerticalTris, triangles, instrument, player, startNote) {
+    constructor(numberOfVerticalTris, instrument, player, startNote) {
         this.numberOfVerticalTris = numberOfVerticalTris;
-        this.triangles = triangles;
+        this.triangles = [];
         this.instrument = instrument;
         this.player = player;
         this.startNote = startNote;
@@ -50,6 +49,6 @@ export default class DrawTriangles {
                 pitch++;
             }
         }
-        console.log(countOfTriangles);
+        return this.triangles;
     }
 }
