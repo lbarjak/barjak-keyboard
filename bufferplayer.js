@@ -2,21 +2,7 @@
 
 export default class BufferPlayer {
 
-    static pianoMin = 12;
-    static pianoMax = 96;
-    static harpsichordMin = 24;
-    static harpsichordMax = 74;
-    static harpsichord2Min = 17;
-    static harpsichord2Max = 76;
-    static min = 0;
-    static max = 107;
-    static instrument = "piano";
-    static startNote = BufferPlayer.pianoMin;
-    static countOfSounds = 0;
-    static loading = 0;
-
-    constructor() {
-        this.startNote = BufferPlayer.startNote;
+    constructor(instrument = "piano") {
         this.audioContext = new (
             window.AudioContext ||
             window.webkitAudioContext ||
@@ -28,29 +14,88 @@ export default class BufferPlayer {
         this.channels = [];
         this.gains = [];
         this.delay;
+        this.pianoMin = 12;
+        this.pianoMax = 96;
+        this.harpsichordMin = 24;
+        this.harpsichordMax = 74;
+        this.harpsichord2Min = 17;
+        this.harpsichord2Max = 76;
+        this.min = 0;
+        this.max = 107;
+        this.loading = 0;
+        this.instrument = instrument;
 
-        if (BufferPlayer.instrument == "piano") {
-            BufferPlayer.min = BufferPlayer.pianoMin;
-            BufferPlayer.max = BufferPlayer.pianoMax;
+        if (this.instrument == "piano") {
+            this.min = this.pianoMin;
+            this.max = this.pianoMax;
             this.initPiano();
         }
-        if (BufferPlayer.instrument == "harpsichord") {
-            BufferPlayer.min = BufferPlayer.harpsichordMin;
-            BufferPlayer.max = BufferPlayer.harpsichordMax;
+        if (this.instrument == "harpsichord") {
+            this.min = this.harpsichordMin;
+            this.max = this.harpsichordMax;
             this.initHarpsichord();
         }
-        if (BufferPlayer.instrument == "harpsichord2") {
-            BufferPlayer.min = BufferPlayer.harpsichord2Min;
-            BufferPlayer.max = BufferPlayer.harpsichord2Max;
+        if (this.instrument == "harpsichord2") {
+            this.min = this.harpsichord2Min;
+            this.max = this.harpsichord2Max;
             this.initHarpsichord2();
         }
-        if (BufferPlayer.instrument == "midi") {
-            console.log("ez midi");
-            BufferPlayer.loading = 108;
+        if (this.instrument == "midi") {
+            this.loading = 108;
 
         }
 
         //this.midi();
+    }
+
+    initPiano() {// 12 C1 - 96 C8
+        for (let i = this.min; i <= this.max; i++) {
+            this.loader("./piano/" + i + ".ogg", i);
+        }
+    }
+    initHarpsichord() {// 24 C2 - 74 D6
+        for (let i = this.min; i <= this.max; i++) {
+            this.loader("./zell_1737_8_i/" + i + ".ogg", i);
+        }
+    }
+    initHarpsichord2() {// 17 F1 - 76 E6
+        for (let i = this.min; i <= this.max; i++) {
+            this.loader("./pjcohen/" + i + ".ogg", i);
+        }
+    }
+    loader(fileName, i) {
+        window.fetch(fileName)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => this.audioContext.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+                this.buffers[i] = audioBuffer;
+                this.loading++;
+            });
+    }
+
+    play(note, sn) {
+        if (!this.channels[note]) {
+            this.channels[note] = {};
+            this.channels[note][sn] = false;
+        }
+        if (!this.channels[note][sn]) {
+            this.channels[note][sn] = this.audioContext.createBufferSource();
+            this.channels[note][sn].buffer = this.buffers[note];
+            if (!this.gains[note])
+                this.gains[note] = {};
+            this.gains[note][sn] = this.audioContext.createGain();
+            this.gains[note][sn].gain.setValueAtTime(0.8, this.audioContext.currentTime);
+            this.gains[note][sn].connect(this.audioContext.destination);
+            this.channels[note][sn].connect(this.gains[note][sn]);
+            this.channels[note][sn].start();
+        }
+    }
+    stop(note, sn) {
+        if (this.gains[note][sn]) {
+            this.delay = 0.1 + (this.max - this.min - note + 12 - 2 - 1) / 300;
+            this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
+            this.channels[note][sn] = false;
+        }
     }
 
     midi() {
@@ -81,56 +126,6 @@ export default class BufferPlayer {
             }
         }
         navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
-    }
-
-    initPiano() {// 12 C1 - 96 C8
-        for (let i = this.startNote; i <= BufferPlayer.pianoMax; i++) {
-            this.loader("./piano/" + i + ".ogg", i);
-        }
-    }
-    initHarpsichord() {// 24 C2 - 74 D6
-        for (let i = this.startNote; i <= BufferPlayer.harpsichordMax; i++) {
-            this.loader("./zell_1737_8_i/" + i + ".ogg", i);
-        }
-    }
-    initHarpsichord2() {// 17 F1 - 76 E6
-        for (let i = this.startNote; i <= BufferPlayer.harpsichord2Max; i++) {
-            this.loader("./pjcohen/" + i + ".ogg", i);
-        }
-    }
-    loader(fileName, i) {
-        window.fetch(fileName)
-            .then(response => response.arrayBuffer())
-            .then(arrayBuffer => this.audioContext.decodeAudioData(arrayBuffer))
-            .then(audioBuffer => {
-                this.buffers[i] = audioBuffer;
-                BufferPlayer.loading++;
-            });
-    }
-
-    play(note, sn) {
-        if (!this.channels[note]) {
-            this.channels[note] = {};
-            this.channels[note][sn] = false;
-        }
-        if (!this.channels[note][sn]) {
-            this.channels[note][sn] = this.audioContext.createBufferSource();
-            this.channels[note][sn].buffer = this.buffers[note];
-            if (!this.gains[note])
-                this.gains[note] = {};
-            this.gains[note][sn] = this.audioContext.createGain();
-            this.gains[note][sn].gain.setValueAtTime(0.8, this.audioContext.currentTime);
-            this.gains[note][sn].connect(this.audioContext.destination);
-            this.channels[note][sn].connect(this.gains[note][sn]);
-            this.channels[note][sn].start();
-        }
-    }
-    stop(note, sn) {
-        if (this.gains[note][sn]) {
-            this.delay = 0.1 + (this.startNote + BufferPlayer.countOfSounds - note - 1) / 300;
-            this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
-            this.channels[note][sn] = false;
-        }
     }
 }
 

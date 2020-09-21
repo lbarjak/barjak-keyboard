@@ -1,15 +1,14 @@
 "use strict"
 
-import DrawTriangles from './drawtriangles.js';
-
 export default class Events {
 
-    constructor(triangles, player, midiOn) {
+    constructor(triangles, player, instrument, numberOfHorizontalTris) {
 
         this.triangles = triangles;
         this.player = player;
         this.sounds = [];
-        this.midiOn = midiOn;
+        this.instrument = instrument;
+        this.numberOfHorizontalTris = numberOfHorizontalTris;
         this.midiOutput;
         this.init();
         this.midiInit();
@@ -27,7 +26,7 @@ export default class Events {
     }
     midi(onoff, pitch, sn) {
         this.midiOutput.send(
-            [onoff + Math.floor(sn / DrawTriangles.numberOfHorizontalTris), pitch + 12, 127]);
+            [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch + 12, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
@@ -37,13 +36,13 @@ export default class Events {
             }
             if (!this.sounds[pitch][sn]) {
                 this.sounds[pitch][sn] = true;
-                this.midiOn ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
+                this.instrument == "midi" ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
                 this.triangles[sn].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.midiOn ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
+                this.instrument == "midi" ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
                 this.triangles[sn].setSignOff();
                 this.sounds[pitch][sn] = false;
             }
@@ -64,8 +63,6 @@ export default class Events {
         });
         canvas.addEventListener('mousedown', function (e) {
             previousTriangle = getCurrentTriangle(e.clientX, e.clientY);
-            console.log("sn:", previousTriangle, "hor.tris:", DrawTriangles.numberOfHorizontalTris,
-                "channel:", Math.floor(previousTriangle / DrawTriangles.numberOfHorizontalTris).toString(16));
             self.soundSwitch(1, triangles[previousTriangle].getSound(), previousTriangle);
             isMouseDown = true;
         });
@@ -94,18 +91,16 @@ export default class Events {
             e.preventDefault();
             let newTriangles = [];
             for (let touch in e.touches) {
-                if (!isNaN(touch)) {
-                    let currentTriangleSn = getCurrentTriangle(
-                        e.touches[touch].clientX, e.touches[touch].clientY);
-                    if (currentTriangleSn != null) {
-                        self.soundSwitch(1, triangles[currentTriangleSn].getSound(), currentTriangleSn);
-                        for (let sn in oldTriangles) {
-                            if (oldTriangles[sn] == currentTriangleSn) {
-                                oldTriangles.splice(sn, 1);
-                            }
+                let currentTriangleSn = getCurrentTriangle(
+                    e.touches[touch].clientX, e.touches[touch].clientY);
+                if (currentTriangleSn != null) {
+                    self.soundSwitch(1, triangles[currentTriangleSn].getSound(), currentTriangleSn);
+                    for (let sn in oldTriangles) {
+                        if (oldTriangles[sn] == currentTriangleSn) {
+                            oldTriangles.splice(sn, 1);
                         }
-                        newTriangles.push(currentTriangleSn);
                     }
+                    newTriangles.push(currentTriangleSn);
                 }
             }
             for (let sn in oldTriangles) {

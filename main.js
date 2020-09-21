@@ -26,33 +26,48 @@ document.onselectstart = function () {
 };
 
 let numberOfVerticalTris = 5;
+
+let rows, instrument, startNote;
 let query = window.location.search.substring(1);
-let instrument;
 if (query) {
-    let rows = parse_query_string(query).rows;
-    numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
-    query = window.location.search.substring(1);
+    rows = parse_query_string(query).rows;
     instrument = parse_query_string(query).inst;
-    BufferPlayer.instrument = instrument;
-    if (BufferPlayer.instrument == "piano") {
-        DrawTriangles.startNote = numberOfVerticalTris > 6 ? 11 : 23;
-    }
-    if (BufferPlayer.instrument == "harpsichord") {
+}
+numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
+
+switch (instrument) {
+    case "piano":
+        startNote = numberOfVerticalTris > 6 ? 11 : 23;
+        break;
+    case "harpsichord":
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
-        BufferPlayer.startNote = 24;
-        DrawTriangles.startNote = 23;
-    }
-    if (BufferPlayer.instrument == "harpsichord2") {
+        startNote = 23;
+        break;
+    case "harpsichord2":
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
-        BufferPlayer.startNote = 17;
-        DrawTriangles.startNote = 16;
-    }
-    if (BufferPlayer.instrument == "midi") {
-        DrawTriangles.startNote = numberOfVerticalTris > 8 ? 8 : 23;
-    }
+        startNote = 16;
+        break;
+    case "midi":
+        startNote = numberOfVerticalTris > 8 ? 8 : 23;
 }
 
-let player = new BufferPlayer();
+let mobile = false;
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform))) {
+    mobile = true;
+}
+if (mobile == true && window.screen.orientation.angle == 0) {
+    numberOfVerticalTris = 9;
+    startNote = 21;
+}
+if (mobile == true && window.screen.orientation.angle > 0) {
+    numberOfVerticalTris = 4;
+    startNote = 33;
+}
+
+let player = new BufferPlayer(instrument);
+let drawTriangles = new DrawTriangles(numberOfVerticalTris, instrument, player, startNote);
+
 ctx.font = "16px Arial";
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
@@ -61,41 +76,20 @@ let message;
 (function timer() {
     ctx.fillStyle = "#4d4d4d";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    message = "Loading sounds " + BufferPlayer.loading
-        + " out of " + (BufferPlayer.max - BufferPlayer.min + 1) + "...";
+    message = "Loading sounds " + player.loading
+        + " out of " + (player.max - player.min + 1) + "...";
     ctx.fillStyle = "white";
     ctx.fillText(message, canvas.width * 0.5, canvas.height * 0.3);
     t = setTimeout(timer, 10);
-    if (BufferPlayer.loading == BufferPlayer.max - BufferPlayer.min + 1) {
+    if (player.loading == player.max - player.min + 1) {
         clearTimeout(t);
         start();
     }
 })();
 
 function start() {
-
-    let triangles = [];
-    let countOfSounds;
-    let midiOn = instrument == "midi" ? true : false;
-
-    let mobile = false;
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
-        (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform))) {
-        mobile = true;
-    }
-    if (mobile == true && window.screen.orientation.angle == 0) {
-        numberOfVerticalTris = 9;
-        BufferPlayer.startNote = 21;
-        DrawTriangles.startNote = 21;
-    }
-    if (mobile == true && window.screen.orientation.angle > 0) {
-        numberOfVerticalTris = 4;
-        BufferPlayer.startNote = 33;
-        DrawTriangles.startNote = 33;
-    }
-
-    countOfSounds = new DrawTriangles(numberOfVerticalTris, triangles).drawTriangles();
-    new Events(triangles, player, midiOn);
+    let triangles = drawTriangles.drawTriangles();
+    new Events(triangles, player, instrument, drawTriangles.numberOfHorizontalTris);
 }
 
 function parse_query_string(query) {
