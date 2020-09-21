@@ -91,18 +91,16 @@ export default class Events {
             e.preventDefault();
             let newTriangles = [];
             for (let touch in e.touches) {
-                if (!isNaN(touch)) {
-                    let currentTriangleSn = getCurrentTriangle(
-                        e.touches[touch].clientX, e.touches[touch].clientY);
-                    if (currentTriangleSn != null) {
-                        self.soundSwitch(1, triangles[currentTriangleSn].getSound(), currentTriangleSn);
-                        for (let sn in oldTriangles) {
-                            if (oldTriangles[sn] == currentTriangleSn) {
-                                oldTriangles.splice(sn, 1);
-                            }
+                let currentTriangleSn = getCurrentTriangle(
+                    e.touches[touch].clientX, e.touches[touch].clientY);
+                if (currentTriangleSn != null) {
+                    self.soundSwitch(1, triangles[currentTriangleSn].getSound(), currentTriangleSn);
+                    for (let sn in oldTriangles) {
+                        if (oldTriangles[sn] == currentTriangleSn) {
+                            oldTriangles.splice(sn, 1);
                         }
-                        newTriangles.push(currentTriangleSn);
                     }
+                    newTriangles.push(currentTriangleSn);
                 }
             }
             for (let sn in oldTriangles) {
