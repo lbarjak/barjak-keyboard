@@ -27,29 +27,30 @@ document.onselectstart = function () {
 
 let numberOfVerticalTris = 5;
 
+let rows, instrument, startNote;
 let query = window.location.search.substring(1);
-let instrument;
-let startNote;
 if (query) {
-    let rows = parse_query_string(query).rows;
-    numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
-
+    rows = parse_query_string(query).rows;
     instrument = parse_query_string(query).inst;
-    if (instrument == "piano") {
+}
+numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
+
+switch (instrument) {
+    case "piano":
         startNote = numberOfVerticalTris > 6 ? 11 : 23;
-    }
-    if (instrument == "harpsichord") {
+        break;
+    case "harpsichord":
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
         startNote = 23;
-    }
-    if (instrument == "harpsichord2") {
+        break;
+    case "harpsichord2":
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
         startNote = 16;
-    }
-    if (instrument == "midi") {
+        break;
+    case "midi":
         startNote = numberOfVerticalTris > 8 ? 8 : 23;
-    }
 }
+
 let mobile = false;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
     (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform))) {
