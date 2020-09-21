@@ -5,7 +5,7 @@ import BufferPlayer from "./bufferplayer.js";
 
 export default class DrawTriangles {
 
-    static startNote = BufferPlayer.startNote;
+    static startNote = 0;
     static numberOfHorizontalTris;
 
     constructor(numberOfVerticalTris, triangles) {

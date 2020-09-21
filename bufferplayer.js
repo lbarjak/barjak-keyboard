@@ -11,11 +11,9 @@ export default class BufferPlayer {
     static min = 0;
     static max = 107;
     static instrument = "piano";
-    static startNote = BufferPlayer.min;
     static loading = 0;
 
     constructor() {
-        this.startNote = BufferPlayer.startNote;
         this.audioContext = new (
             window.AudioContext ||
             window.webkitAudioContext ||
