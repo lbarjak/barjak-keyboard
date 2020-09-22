@@ -42,7 +42,6 @@ export default class BufferPlayer {
         }
         if (this.instrument == "midi") {
             this.loading = 108;
-
         }
 
         //this.midi();
