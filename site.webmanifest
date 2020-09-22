@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "barjak-keyboard",
+    "short_name": "barjak-kbd",
     "icons": [
         {
             "src": "/android-chrome-144x144.png",
