@@ -10,28 +10,28 @@ export default class BufferPlayer {
         this.channels = [];
         this.gains = [];
         this.delay;
-        this.min = 0;
-        this.max = 107;
+        this.min = 12;
+        this.max = 119;
         this.loading = 0;
         this.instrument = instrument;
 
-        if (this.instrument == "piano") {// 12 C1 - 96 C8
-            this.min = 12;
-            this.max = 96;
+        if (this.instrument == "piano") {//midi 24 C1 - 108 C8
+            this.min = 24;
+            this.max = 108;
             this.initInstrument("./piano/");
         }
-        if (this.instrument == "harpsichord") {// 24 C2 - 74 D6
-            this.min = 24;
-            this.max = 74;
+        if (this.instrument == "harpsichord") {//midi 36 C2 - 86 D6
+            this.min = 36;
+            this.max = 86;
             this.initInstrument("./zell_1737_8_i/");
         }
-        if (this.instrument == "harpsichord2") {// 17 F1 - 76 E6
-            this.min = 17;
-            this.max = 76;
+        if (this.instrument == "harpsichord2") {//midi 29 F1 - 88 E6
+            this.min = 29;
+            this.max = 88;
             this.initInstrument("./pjcohen/");
         }
         if (this.instrument == "midi") {
-            this.loading = 108;
+            this.loading = 120;
         }
 
         //this.midi();

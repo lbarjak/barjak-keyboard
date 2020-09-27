@@ -4,12 +4,12 @@ import Triangle from "./triangle.js";
 
 export default class DrawTriangles {
 
-    constructor(numberOfVerticalTris, instrument, player, startNote) {
+    constructor(numberOfVerticalTris, instrument, player, startTriangle) {
         this.numberOfVerticalTris = numberOfVerticalTris;
         this.triangles = [];
         this.instrument = instrument;
         this.player = player;
-        this.startNote = startNote;
+        this.startTriangle = startTriangle;
         this.numberOfHorizontalTris;
     }
 
@@ -28,7 +28,7 @@ export default class DrawTriangles {
         let pitch, triangleCenterX, triangleCenterY, indexOfNote, mirroring, countOfTriangles = 0;
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
 
-            pitch = this.startNote + row * noteOffsetAlwaysSix;
+            pitch = this.startTriangle + row * noteOffsetAlwaysSix;
 
             triangleCenterY = heightOfKeyboard - (heightOfTriangle / 2 + row * heightOfTriangle);
             for (let column = 0; column < this.numberOfHorizontalTris; column++) {
