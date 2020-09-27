@@ -31,7 +31,7 @@ export default class BufferPlayer {
             this.initInstrument("./pjcohen/");
         }
         if (this.instrument == "midi") {
-            this.loading = 120;
+            this.loading = 108;
         }
 
         //this.midi();
