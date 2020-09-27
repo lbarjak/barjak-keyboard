@@ -25,7 +25,6 @@ export default class Events {
             });
     }
     midi(onoff, pitch, sn) {
-        console.log(pitch);
         this.midiOutput.send(
             [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch, 127]);
     }

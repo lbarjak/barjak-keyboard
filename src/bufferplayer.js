@@ -67,7 +67,7 @@ export default class BufferPlayer {
     }
     stop(note, sn) {
         if (this.gains[note][sn]) {
-            this.delay = 0.1 + (this.max - this.min - note + 12 - 2 - 1) / 300;
+            this.delay = 0.1 + (this.max - note - 2) / 300;
             this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
             this.channels[note][sn] = false;
         }
@@ -93,11 +93,11 @@ export default class BufferPlayer {
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
             midiVelocity = event.data[2];
-            console.log("3.", midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity);
+            console.log("3. event, channel, key", midiEvent, midiChannel, midiKey);
             if (midiEvent == "9") {
-                self.play(midiKey - 12, midiChannel);
+                self.play(midiKey, midiChannel);
             } else {
-                self.stop(midiKey - 12, midiChannel);
+                self.stop(midiKey, midiChannel);
             }
         }
         navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
