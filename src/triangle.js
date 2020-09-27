@@ -18,9 +18,9 @@ export default class Triangle {
         color == "gray" ? ctx.strokeStyle = "#999999" : ctx.strokeStyle = "#808080";
         ctx.lineWidth = 1;
         let shift = pos * (x2 - x1) / 5;
-        ctx.strokeText(noteName + (pitch - pitch % 12) / 12, x, y + shift);
+        ctx.strokeText(noteName + ((pitch - pitch % 12) / 12 - 1), x, y + shift);
         ctx.fillStyle = color;
-        ctx.fillText(noteName + (pitch - pitch % 12) / 12, x, y + shift);
+        ctx.fillText(noteName + ((pitch - pitch % 12) / 12 - 1), x, y + shift);
     }
     static drawTriangleSign(x1, y1, x2, y2, x3, y3, color, noteName, n, x, y, pos) {
         if (color != "gray") {

@@ -10,24 +10,24 @@ export default class BufferPlayer {
         this.channels = [];
         this.gains = [];
         this.delay;
-        this.min = 0;
-        this.max = 107;
+        this.min = 12;
+        this.max = 119;
         this.loading = 0;
         this.instrument = instrument;
 
-        if (this.instrument == "piano") {// 12 C1 - 96 C8
-            this.min = 12;
-            this.max = 96;
+        if (this.instrument == "piano") {//midi 24 C1 - 108 C8
+            this.min = 24;
+            this.max = 108;
             this.initInstrument("./piano/");
         }
-        if (this.instrument == "harpsichord") {// 24 C2 - 74 D6
-            this.min = 24;
-            this.max = 74;
+        if (this.instrument == "harpsichord") {//midi 36 C2 - 86 D6
+            this.min = 36;
+            this.max = 86;
             this.initInstrument("./zell_1737_8_i/");
         }
-        if (this.instrument == "harpsichord2") {// 17 F1 - 76 E6
-            this.min = 17;
-            this.max = 76;
+        if (this.instrument == "harpsichord2") {//midi 29 F1 - 88 E6
+            this.min = 29;
+            this.max = 88;
             this.initInstrument("./pjcohen/");
         }
         if (this.instrument == "midi") {
@@ -67,7 +67,7 @@ export default class BufferPlayer {
     }
     stop(note, sn) {
         if (this.gains[note][sn]) {
-            this.delay = 0.1 + (this.max - this.min - note + 12 - 2 - 1) / 300;
+            this.delay = 0.1 + (this.max - note - 2) / 300;
             this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
             this.channels[note][sn] = false;
         }
@@ -93,11 +93,11 @@ export default class BufferPlayer {
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
             midiVelocity = event.data[2];
-            console.log("3.", midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity);
+            console.log("3. event, channel, key", midiEvent, midiChannel, midiKey);
             if (midiEvent == "9") {
-                self.play(midiKey - 12, midiChannel);
+                self.play(midiKey, midiChannel);
             } else {
-                self.stop(midiKey - 12, midiChannel);
+                self.stop(midiKey, midiChannel);
             }
         }
         navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);

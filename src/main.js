@@ -27,7 +27,7 @@ document.onselectstart = function () {
 
 let numberOfVerticalTris = 5;
 
-let rows, instrument, startNote;
+let rows, instrument, startTriangle;
 let query = window.location.search.substring(1);
 if (query) {
     rows = parse_query_string(query).rows;
@@ -37,18 +37,21 @@ numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6;
 
 switch (instrument) {
     case "piano":
-        startNote = numberOfVerticalTris > 6 ? 11 : 23;
+        let pianoMin = 24;
+        startTriangle = numberOfVerticalTris > 6 ? pianoMin - 1 : pianoMin + 12 - 1;
         break;
     case "harpsichord":
+        let harpsichordMin = 36;
         numberOfVerticalTris = numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris;
-        startNote = 23;
+        startTriangle = harpsichordMin - 1;
         break;
     case "harpsichord2":
+        let harpsichord2Min = 29;
         numberOfVerticalTris = numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris;
-        startNote = 16;
+        startTriangle = harpsichord2Min - 1;
         break;
     case "midi":
-        startNote = numberOfVerticalTris > 8 ? 8 : 23;
+        startTriangle = numberOfVerticalTris > 8 ? 11 : 23;
 }
 
 let mobile = false;
@@ -58,15 +61,15 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
 }
 if (mobile == true && window.screen.orientation.angle == 0) {
     numberOfVerticalTris = 9;
-    startNote = 21;
+    startTriangle = 33;
 }
 if (mobile == true && window.screen.orientation.angle > 0) {
     numberOfVerticalTris = 4;
-    startNote = 33;
+    startTriangle = 45;
 }
 
 let player = new BufferPlayer(instrument);
-let drawTriangles = new DrawTriangles(numberOfVerticalTris, instrument, player, startNote);
+let drawTriangles = new DrawTriangles(numberOfVerticalTris, instrument, player, startTriangle);
 
 ctx.font = "16px Arial";
 ctx.textAlign = "center";

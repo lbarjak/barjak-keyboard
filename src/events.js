@@ -25,9 +25,8 @@ export default class Events {
             });
     }
     midi(onoff, pitch, sn) {
-        console.log(pitch + 12);
         this.midiOutput.send(
-            [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch + 12, 127]);
+            [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
