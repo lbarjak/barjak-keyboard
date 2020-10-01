@@ -10,6 +10,7 @@ export default class Events {
         this.instrument = instrument;
         this.numberOfHorizontalTris = numberOfHorizontalTris;
         this.midiOutput;
+        this.midiChannel;
         this.init();
         this.midiInit();
     }
@@ -25,8 +26,8 @@ export default class Events {
             });
     }
     midi(onoff, pitch, sn) {
-        this.midiOutput.send(
-            [onoff + Math.floor(sn / this.numberOfHorizontalTris), pitch, 127]);
+        this.midiChannel = Math.floor(sn / this.numberOfHorizontalTris);
+        this.midiOutput.send([onoff + this.midiChannel, pitch, 127]);
     }
     soundSwitch(onoff, pitch, sn) {
         if (onoff == 1) {
