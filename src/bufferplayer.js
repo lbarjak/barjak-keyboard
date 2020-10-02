@@ -48,28 +48,28 @@ export default class BufferPlayer {
         }
     }
 
-    play(note, sn) {
+    play(note, serNumOfTri) {
         if (!this.channels[note]) {
             this.channels[note] = {};
-            this.channels[note][sn] = false;
+            this.channels[note][serNumOfTri] = false;
         }
-        if (!this.channels[note][sn]) {
-            this.channels[note][sn] = this.audioContext.createBufferSource();
-            this.channels[note][sn].buffer = this.buffers[note];
+        if (!this.channels[note][serNumOfTri]) {
+            this.channels[note][serNumOfTri] = this.audioContext.createBufferSource();
+            this.channels[note][serNumOfTri].buffer = this.buffers[note];
             if (!this.gains[note])
                 this.gains[note] = {};
-            this.gains[note][sn] = this.audioContext.createGain();
-            this.gains[note][sn].gain.setValueAtTime(0.8, this.audioContext.currentTime);
-            this.gains[note][sn].connect(this.audioContext.destination);
-            this.channels[note][sn].connect(this.gains[note][sn]);
-            this.channels[note][sn].start();
+            this.gains[note][serNumOfTri] = this.audioContext.createGain();
+            this.gains[note][serNumOfTri].gain.setValueAtTime(0.8, this.audioContext.currentTime);
+            this.gains[note][serNumOfTri].connect(this.audioContext.destination);
+            this.channels[note][serNumOfTri].connect(this.gains[note][serNumOfTri]);
+            this.channels[note][serNumOfTri].start();
         }
     }
-    stop(note, sn) {
-        if (this.gains[note][sn]) {
+    stop(note, serNumOfTri) {
+        if (this.gains[note][serNumOfTri]) {
             this.delay = 0.1 + (this.max - note - 2) / 300;
-            this.gains[note][sn].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
-            this.channels[note][sn] = false;
+            this.gains[note][serNumOfTri].gain.setTargetAtTime(0, this.audioContext.currentTime, this.delay);
+            this.channels[note][serNumOfTri] = false;
         }
     }
 

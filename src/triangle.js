@@ -40,7 +40,7 @@ export default class Triangle {
         return false;
     }
 
-    constructor(centerX, centerY, edge, mirroring, noteName, color, pitch, count) {
+    constructor(centerX, centerY, edge, mirroring, noteName, color, pitch, countOfTris) {
         this.x = Math.round(centerX);
         this.y = Math.round(centerY);
         this.edge = Math.round(edge);
@@ -48,7 +48,7 @@ export default class Triangle {
         this.noteName = noteName;
         this.color = color;
         this.pitch = pitch;
-        this.sn = count;
+        this.serNumOfTri = countOfTris;
         this.x1 = Math.round(centerX - edge / 2);
         this.x2 = Math.round(centerX);
         this.x3 = Math.round(centerX + edge / 2);
@@ -64,7 +64,7 @@ export default class Triangle {
     getCurrentTriangle(x, y) {
         if (Triangle.isPointInTriangle(
             this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, x, y)) {
-            return this.sn;
+            return this.serNumOfTri;
         }
         return -1;
     }
