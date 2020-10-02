@@ -25,27 +25,27 @@ export default class Events {
                 }
             });
     }
-    midi(onoff, pitch, sn) {
-        this.midiChannel = Math.floor(sn / this.numberOfHorizontalTris);
+    midi(onoff, pitch, serNumOfTri) {
+        this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris);
         this.midiOutput.send([onoff + this.midiChannel, pitch, 127]);
     }
-    soundSwitch(onoff, pitch, sn) {
+    soundSwitch(onoff, pitch, serNumOfTri) {
         if (onoff == 1) {
             if (!this.sounds[pitch]) {
                 this.sounds[pitch] = {};
-                this.sounds[pitch][sn] = false;
+                this.sounds[pitch][serNumOfTri] = false;
             }
-            if (!this.sounds[pitch][sn]) {
-                this.sounds[pitch][sn] = true;
-                this.instrument == "midi" ? this.midi(144, pitch, sn) : this.player.play(pitch, sn);
-                this.triangles[sn].setSignOn();
+            if (!this.sounds[pitch][serNumOfTri]) {
+                this.sounds[pitch][serNumOfTri] = true;
+                this.instrument == "midi" ? this.midi(144, pitch, serNumOfTri) : this.player.play(pitch, serNumOfTri);
+                this.triangles[serNumOfTri].setSignOn();
             }
         }
         if (onoff == 0) {
             if (this.sounds[pitch]) {
-                this.instrument == "midi" ? this.midi(128, pitch, sn) : this.player.stop(pitch, sn);
-                this.triangles[sn].setSignOff();
-                this.sounds[pitch][sn] = false;
+                this.instrument == "midi" ? this.midi(128, pitch, serNumOfTri) : this.player.stop(pitch, serNumOfTri);
+                this.triangles[serNumOfTri].setSignOff();
+                this.sounds[pitch][serNumOfTri] = false;
             }
         };
     }
@@ -92,20 +92,20 @@ export default class Events {
             e.preventDefault();
             let newTriangles = [];
             for (let touch in e.touches) {
-                let currentTriangleSn = getCurrentTriangle(
+                let currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX, e.touches[touch].clientY);
-                if (currentTriangleSn != null) {
-                    self.soundSwitch(1, triangles[currentTriangleSn].getSound(), currentTriangleSn);
-                    for (let sn in oldTriangles) {
-                        if (oldTriangles[sn] == currentTriangleSn) {
-                            oldTriangles.splice(sn, 1);
+                if (currentTriangleSerNum != null) {
+                    self.soundSwitch(1, triangles[currentTriangleSerNum].getSound(), currentTriangleSerNum);
+                    for (let serNumOfTri in oldTriangles) {
+                        if (oldTriangles[serNumOfTri] == currentTriangleSerNum) {
+                            oldTriangles.splice(serNumOfTri, 1);
                         }
                     }
-                    newTriangles.push(currentTriangleSn);
+                    newTriangles.push(currentTriangleSerNum);
                 }
             }
-            for (let sn in oldTriangles) {
-                self.soundSwitch(0, triangles[oldTriangles[sn]].getSound(), oldTriangles[sn]);
+            for (let serNumOfTri in oldTriangles) {
+                self.soundSwitch(0, triangles[oldTriangles[serNumOfTri]].getSound(), oldTriangles[serNumOfTri]);
             }
             oldTriangles = newTriangles;
         }
