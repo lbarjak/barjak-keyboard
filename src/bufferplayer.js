@@ -34,7 +34,7 @@ export default class BufferPlayer {
             this.loading = 108;
         }
 
-        //this.midi();
+        this.midiInit();
     }
     initInstrument(name) {
         for (let i = this.min; i <= this.max; i++) {
@@ -73,34 +73,40 @@ export default class BufferPlayer {
         }
     }
 
-    midi() {
-        function requestMIDIAccessSuccess(midi) {
-            var inputs = midi.inputs.values();
-            for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-                console.log('1. midi input', input.value.name);
-                input.value.onmidimessage = midiOnMIDImessage;
+    midiInit() {
+        function midi(response) {
+            for (let inputPort of response.inputs.values()) {
+                connect(inputPort);
             }
-            midi.onstatechange = midiOnStateChange;
+            response.onstatechange = midiOnStateChange;
         }
         function midiOnStateChange(event) {
-            console.log('2. midiOnStateChange', event.port.name);
+            if (event.port.type == "input" && event.port.state == "connected" && !event.port.onmidimessage) {
+                connect(event.port);
+            }
+        }
+
+        function connect(port) {
+            console.log("connected:", port.type, port.name);
+            port.onmidimessage = midiMessage;
         }
         let self = this;
         let midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity;
-        function midiOnMIDImessage(event) {
+        function midiMessage(event) {
             midiStatusByte = event.data[0].toString(16);
             midiEvent = midiStatusByte.substring(0, 1);
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
             midiVelocity = event.data[2];
-            console.log("3. event, channel, key", midiEvent, midiChannel, midiKey);
+            console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey);
             if (midiEvent == "9") {
                 self.play(midiKey, midiChannel);
             } else {
                 self.stop(midiKey, midiChannel);
             }
         }
-        navigator.requestMIDIAccess().then(requestMIDIAccessSuccess);
+
+        navigator.requestMIDIAccess().then(midi);
     }
 }
 
