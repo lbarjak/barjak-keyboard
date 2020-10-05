@@ -9,6 +9,7 @@ export default class Events {
         this.sounds = [];
         this.instrument = instrument;
         this.numberOfHorizontalTris = numberOfHorizontalTris;
+        this.midiOutputs = [];
         this.midiOutput;
         this.midiChannel;
         this.init();
@@ -18,11 +19,13 @@ export default class Events {
     midiInit() {
         let self = this;
         navigator.requestMIDIAccess()
-            .then(function (midi) {
-                const outputs = midi.outputs.values();
+            .then(function (response) {
+                const outputs = response.outputs.values();
                 for (const output of outputs) {
-                    self.midiOutput = output;
+                    self.midiOutputs.push(output);
                 }
+                if (self.midiOutputs[0])
+                    self.midiOutput = self.midiOutputs[0];
             });
     }
     midi(onoff, pitch, serNumOfTri) {
