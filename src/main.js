@@ -28,7 +28,7 @@ document.onselectstart = function () {
 let numberOfVerticalTris = 5;
 
 let rows, instrument, startTriangle;
-let query = window.location.search.substring(1);
+let query = window.location.search.substring(1) || "rows=6&inst=piano";
 if (query) {
     rows = parse_query_string(query).rows;
     instrument = parse_query_string(query).inst;
