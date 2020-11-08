@@ -1,5 +1,7 @@
 demo (piano, harpsichord and midi): https://barjak-keyboard.netlify.app
 
+YouTube video: https://youtu.be/TAFolFpNNH0
+
 # Barjak keyboard
 code: László Barják 2020
 
