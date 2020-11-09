@@ -113,8 +113,15 @@ export default class Events {
             oldTriangles = newTriangles;
         }
 
+        let serialNumberOfTriangle;
+        let len = triangles.length;
         function getCurrentTriangle(x, y) {
-            return (triangles.find(triangle => triangle.getCurrentTriangle(x, y) > -1)).serNumOfTri;
+            for (let i = 0; i < len; i++) {
+                serialNumberOfTriangle = triangles[i].getCurrentTriangle(x, y);
+                if (serialNumberOfTriangle > -1) {
+                    return serialNumberOfTriangle;
+                }
+            }
         }
     }
 }
