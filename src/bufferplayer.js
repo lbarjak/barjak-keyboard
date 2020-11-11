@@ -33,7 +33,7 @@ export default class BufferPlayer {
             this.loading = 108;
         }
 
-        this.midiInit();
+        //this.midiInit();
     }
     initInstrument(name) {
         for (let i = this.min; i <= this.max; i++) {
