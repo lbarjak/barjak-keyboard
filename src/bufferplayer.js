@@ -5,7 +5,6 @@ export default class BufferPlayer {
     constructor(instrument = "piano") {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext ||
             window.mozAudioContext || window.oAudioContext || window.msAudioContext);
-        this.audioContext.resume();
         this.buffers = [];
         this.channels = [];
         this.gains = [];
