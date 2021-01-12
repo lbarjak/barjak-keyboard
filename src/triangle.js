@@ -61,6 +61,12 @@ export default class Triangle {
             this.color, this.noteName, this.pitch, this.x, this.y, this.position);
     }
 
+    static getTriangle(triangleCenterX, triangleCenterY, edgeOfTrinagle,
+        mirroring, noteName, color, pitch, countOfTriangles) {
+            return new Triangle(triangleCenterX, triangleCenterY, edgeOfTrinagle,
+                mirroring, noteName, color, pitch, countOfTriangles);
+    }
+
     getCurrentTriangle(x, y) {
         if (Triangle.isPointInTriangle(
             this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, x, y)) {
