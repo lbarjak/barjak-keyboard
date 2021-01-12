@@ -42,8 +42,8 @@ export default class DrawTriangles {
                     color = "gray";
 
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;
-                this.triangles[countOfTriangles] = (Triangle.getTriangle(triangleCenterX, triangleCenterY, 
-                    edgeOfTrinagle, mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++));
+                this.triangles[countOfTriangles] = Triangle.getTriangle(triangleCenterX, triangleCenterY, 
+                    edgeOfTrinagle, mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++);
                 pitch++;
             }
         }
