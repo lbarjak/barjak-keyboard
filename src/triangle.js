@@ -39,32 +39,33 @@ export default class Triangle {
         }
         return false;
     }
+    static edgeOfTrinagle;
 
-    constructor(centerX, centerY, edge, mirroring, noteName, color, pitch, countOfTris) {
+    static getTriangle(triangleCenterX, triangleCenterY,
+        mirroring, noteName, color, pitch, countOfTriangles) {
+            return new Triangle(triangleCenterX, triangleCenterY,
+                mirroring, noteName, color, pitch, countOfTriangles);
+    }
+
+    constructor(centerX, centerY, mirroring, noteName, color, pitch, countOfTris) {
         this.x = Math.round(centerX);
         this.y = Math.round(centerY);
-        this.edge = Math.round(edge);
+        this.edge = Math.round(Triangle.edgeOfTrinagle);
         this.position = mirroring;
         this.noteName = noteName;
         this.color = color;
         this.pitch = pitch;
         this.serNumOfTri = countOfTris;
-        this.x1 = Math.round(centerX - edge / 2);
+        this.x1 = Math.round(centerX - Triangle.edgeOfTrinagle / 2);
         this.x2 = Math.round(centerX);
-        this.x3 = Math.round(centerX + edge / 2);
-        let height = Math.round(edge * Math.sqrt(3) / 2);
+        this.x3 = Math.round(centerX + Triangle.edgeOfTrinagle / 2);
+        let height = Math.round(Triangle.edgeOfTrinagle * Math.sqrt(3) / 2);
         this.y1 = Math.round(centerY + mirroring * height / 2);
         this.y2 = Math.round(centerY - mirroring * height / 2);
         this.y3 = this.y1;
         Triangle.drawTriangle(
             this.x1, this.y1, this.x2, this.y2, this.x3, this.y3,
             this.color, this.noteName, this.pitch, this.x, this.y, this.position);
-    }
-
-    static getTriangle(triangleCenterX, triangleCenterY, edgeOfTrinagle,
-        mirroring, noteName, color, pitch, countOfTriangles) {
-            return new Triangle(triangleCenterX, triangleCenterY, edgeOfTrinagle,
-                mirroring, noteName, color, pitch, countOfTriangles);
     }
 
     getCurrentTriangle(x, y) {

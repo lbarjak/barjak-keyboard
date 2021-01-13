@@ -16,6 +16,7 @@ export default class DrawTriangles {
     drawTriangles() {
         const noteOffsetAlwaysSix = 6;
         let edgeOfTrinagle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
+        Triangle.edgeOfTrinagle = edgeOfTrinagle;
         let heightOfTriangle = edgeOfTrinagle * Math.sqrt(3) / 2;
         this.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
         let heightOfKeyboard = Math.round(heightOfTriangle * this.numberOfVerticalTris);
@@ -43,7 +44,7 @@ export default class DrawTriangles {
 
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;
                 this.triangles[countOfTriangles] = Triangle.getTriangle(triangleCenterX, triangleCenterY, 
-                    edgeOfTrinagle, mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++);
+                    mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++);
                 pitch++;
             }
         }
