@@ -96,7 +96,7 @@ export default class BufferPlayer {
             midiEvent = midiStatusByte.substring(0, 1);
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
-            midiVelocity = self.instrument == "piano" ? event.data[2] : 72;
+            midiVelocity = self.instrument == "piano" ? event.data[2] : 127;
             console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey, "midiVelocity:", midiVelocity);
             if (midiEvent == "9") {
                 self.play(midiKey, midiChannel, midiVelocity);
