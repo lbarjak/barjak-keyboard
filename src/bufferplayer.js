@@ -33,7 +33,7 @@ export default class BufferPlayer {
             this.loading = 108;
         }
 
-        //this.midiInit();
+        this.midiInit();
     }
     initInstrument(name) {
         for (let i = this.min; i <= this.max; i++) {
@@ -97,7 +97,7 @@ export default class BufferPlayer {
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
             midiVelocity = event.data[2];
-            console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey);
+            console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey, "midiVelocity:", midiVelocity);
             if (midiEvent == "9") {
                 self.play(midiKey, midiChannel);
             } else {
