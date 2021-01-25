@@ -15,9 +15,10 @@ export default class DrawTriangles {
 
     drawTriangles() {
         const noteOffsetAlwaysSix = 6;
-        let edgeOfTrinagle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
-        let heightOfTriangle = edgeOfTrinagle * Math.sqrt(3) / 2;
-        this.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTrinagle);
+        let edgeOfTriangle = window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3) * 2;
+        Triangle.edgeOfTriangle = edgeOfTriangle;
+        let heightOfTriangle = edgeOfTriangle * Math.sqrt(3) / 2;
+        this.numberOfHorizontalTris = 2 + 2 * Math.round(canvas.width / edgeOfTriangle);
         let heightOfKeyboard = Math.round(heightOfTriangle * this.numberOfVerticalTris);
         let color;
 
@@ -33,8 +34,8 @@ export default class DrawTriangles {
             triangleCenterY = heightOfKeyboard - (heightOfTriangle / 2 + row * heightOfTriangle);
             for (let column = 0; column < this.numberOfHorizontalTris; column++) {
 
-                triangleCenterX = (canvas.width - (this.numberOfHorizontalTris / 2 + 0.5) * edgeOfTrinagle) / 2
-                    + edgeOfTrinagle / 2 + column * edgeOfTrinagle / 2;
+                triangleCenterX = (canvas.width - (this.numberOfHorizontalTris / 2 + 0.5) * edgeOfTriangle) / 2
+                    + edgeOfTriangle / 2 + column * edgeOfTriangle / 2;
 
                 indexOfNote = pitch % 12;
                 color = noteColors[indexOfNote];
@@ -42,10 +43,8 @@ export default class DrawTriangles {
                     color = "gray";
 
                 mirroring = 2 * ((column % 2) ^ (row % 2)) - 1;
-                this.triangles[countOfTriangles] = (
-                    new Triangle(
-                        triangleCenterX, triangleCenterY, edgeOfTrinagle,
-                        mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++));
+                this.triangles[countOfTriangles] = Triangle.getTriangle(triangleCenterX, triangleCenterY, 
+                    mirroring, noteNames[indexOfNote], color, pitch, countOfTriangles++);
                 pitch++;
             }
         }

@@ -5,7 +5,6 @@ export default class BufferPlayer {
     constructor(instrument = "piano") {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext ||
             window.mozAudioContext || window.oAudioContext || window.msAudioContext);
-        this.audioContext.resume();
         this.buffers = [];
         this.channels = [];
         this.gains = [];
@@ -48,7 +47,7 @@ export default class BufferPlayer {
         }
     }
 
-    play(note, serNumOfTri) {
+    play(note, serNumOfTri, midiVelocity = 127) {
         if (!this.channels[note]) {
             this.channels[note] = {};
             this.channels[note][serNumOfTri] = false;
@@ -59,7 +58,7 @@ export default class BufferPlayer {
             if (!this.gains[note])
                 this.gains[note] = {};
             this.gains[note][serNumOfTri] = this.audioContext.createGain();
-            this.gains[note][serNumOfTri].gain.setValueAtTime(0.8, this.audioContext.currentTime);
+            this.gains[note][serNumOfTri].gain.setValueAtTime(0.8 * midiVelocity / 127, this.audioContext.currentTime);
             this.gains[note][serNumOfTri].connect(this.audioContext.destination);
             this.channels[note][serNumOfTri].connect(this.gains[note][serNumOfTri]);
             this.channels[note][serNumOfTri].start();
@@ -97,10 +96,10 @@ export default class BufferPlayer {
             midiEvent = midiStatusByte.substring(0, 1);
             midiChannel = midiStatusByte.substring(1);
             midiKey = event.data[1];
-            midiVelocity = event.data[2];
-            console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey);
+            midiVelocity = self.instrument == "piano" ? event.data[2] : 127;
+            console.log(event.currentTarget.name, "-", "midiEvent:", midiEvent, " midiChannel:", midiChannel, " midiKey:", midiKey, "midiVelocity:", midiVelocity);
             if (midiEvent == "9") {
-                self.play(midiKey, midiChannel);
+                self.play(midiKey, midiChannel, midiVelocity);
             } else {
                 self.stop(midiKey, midiChannel);
             }

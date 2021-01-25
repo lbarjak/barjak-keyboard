@@ -94,7 +94,7 @@ export default class Events {
         function handleTouch(e) {
             e.preventDefault();
             let newTriangles = [];
-            for (let touch in e.touches) {
+            for (let touch = 0; touch < e.touches.length; touch++) {
                 let currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX, e.touches[touch].clientY);
                 if (currentTriangleSerNum != null) {
@@ -113,15 +113,8 @@ export default class Events {
             oldTriangles = newTriangles;
         }
 
-        let serialNumberOfTriangle;
-        let len = triangles.length;
         function getCurrentTriangle(x, y) {
-            for (let i = 0; i < len; i++) {
-                serialNumberOfTriangle = triangles[i].getCurrentTriangle(x, y);
-                if (serialNumberOfTriangle > -1) {
-                    return serialNumberOfTriangle;
-                }
-            }
+            return (triangles.find(triangle => triangle.getCurrentTriangle(x, y) > -1)).serNumOfTri;
         }
     }
 }
