@@ -26,7 +26,7 @@ export default class Events {
                 }
                 if (self.midiOutputs[0])
                     self.midiOutput = self.midiOutputs[0];
-            });
+        });
     }
     midi(onoff, pitch, serNumOfTri) {
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris);
@@ -97,7 +97,7 @@ export default class Events {
             for (let touch = 0; touch < e.touches.length; touch++) {
                 let currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX, e.touches[touch].clientY);
-                if (currentTriangleSerNum != null) {
+                if (currentTriangleSerNum) {
                     self.soundSwitch(1, triangles[currentTriangleSerNum].getSound(), currentTriangleSerNum);
                     for (let serNumOfTri in oldTriangles) {
                         if (oldTriangles[serNumOfTri] == currentTriangleSerNum) {
@@ -114,7 +114,8 @@ export default class Events {
         }
 
         function getCurrentTriangle(x, y) {
-            return (triangles.find(triangle => triangle.getCurrentTriangle(x, y) > -1)).serNumOfTri;
+            let findIt = triangles.find(triangle => triangle.getCurrentTriangle(x, y) > -1);
+            return findIt ? findIt.serNumOfTri : null;
         }
     }
 }
