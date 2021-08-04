@@ -58,7 +58,7 @@ export default class Events {
         let previousTriangle = 0
         let currentTriangle
         canvas.addEventListener('mouseout', function (e) {
-            if (previousTriangle != null) {
+            if (previousTriangle) {
                 self.soundSwitch(
                     0,
                     triangles[previousTriangle].getSound(),
