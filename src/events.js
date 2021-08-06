@@ -54,55 +54,42 @@ export default class Events {
     init() {
         let self = this
         let triangles = this.triangles
-        let isMouseDown = false
-        let previousTriangle = 0
-        let currentTriangle
-        canvas.addEventListener('mouseout', function (e) {
-            if (previousTriangle) {
-                self.soundSwitch(
-                    0,
-                    triangles[previousTriangle].getSound(),
-                    previousTriangle
-                )
-                isMouseDown = false
+
+        canvas.addEventListener('mouseout', handleMouse, false)
+        canvas.addEventListener('mousedown', handleMouse, false)
+        canvas.addEventListener('mousemove', handleMouse, false)
+        canvas.addEventListener('mouseup', handleMouse, false)
+        let mousedown = false
+        let prevTriangleSerNum = -1
+        let currentTriangleSerNum
+        function handleMouse(e) {
+            switch (e.type) {
+                case 'mousedown':
+                    mousedown = true
+                    break
+                case 'mouseup':
+                    mousedown = false
             }
-        })
-        canvas.addEventListener('mousedown', function (e) {
-            previousTriangle = getCurrentTriangle(e.clientX, e.clientY)
-            self.soundSwitch(
-                1,
-                triangles[previousTriangle].getSound(),
-                previousTriangle
-            )
-            isMouseDown = true
-        })
-        canvas.addEventListener('mousemove', function (e) {
-            if (isMouseDown) {
-                currentTriangle = getCurrentTriangle(e.clientX, e.clientY)
-                if (currentTriangle != previousTriangle) {
-                    self.soundSwitch(
-                        0,
-                        triangles[previousTriangle].getSound(),
-                        previousTriangle
-                    )
-                    self.soundSwitch(
-                        1,
-                        triangles[currentTriangle].getSound(),
-                        currentTriangle
-                    )
-                    previousTriangle = currentTriangle
+            currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
+            if (currentTriangleSerNum && mousedown) {
+                self.soundSwitch(
+                    1,
+                    triangles[currentTriangleSerNum].getSound(),
+                    currentTriangleSerNum
+                )
+                if (prevTriangleSerNum == currentTriangleSerNum) {
+                    prevTriangleSerNum = -1
                 }
             }
-        })
-        canvas.addEventListener('mouseup', function (e) {
-            self.soundSwitch(
-                0,
-                triangles[previousTriangle].getSound(),
-                previousTriangle
-            )
-            previousTriangle = getCurrentTriangle(e.clientX, e.clientY)
-            isMouseDown = false
-        })
+            if (prevTriangleSerNum > -1) {
+                self.soundSwitch(
+                    0,
+                    triangles[prevTriangleSerNum].getSound(),
+                    prevTriangleSerNum
+                )
+            }
+            prevTriangleSerNum = currentTriangleSerNum
+        }
 
         canvas.addEventListener('touchstart', handleTouch, false)
         canvas.addEventListener('touchmove', handleTouch, false)
