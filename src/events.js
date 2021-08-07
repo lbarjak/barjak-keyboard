@@ -8,6 +8,7 @@ export default class Events {
         this.midiOutputs = []
         this.midiOutput
         this.midiChannel
+        this.pitch
         this.init()
         this.midiInit()
     }
@@ -22,97 +23,66 @@ export default class Events {
             if (self.midiOutputs[0]) self.midiOutput = self.midiOutputs[0]
         })
     }
-    midi(onoff, pitch, serNumOfTri) {
+    midi(onoff, serNumOfTri) {
+        this.pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+        this.midiOutput.send([onoff + this.midiChannel, this.pitch, 127])
     }
-    soundSwitch(onoff, pitch, serNumOfTri) {
+    soundSwitch(onoff, serNumOfTri) {
+        this.pitch = this.triangles[serNumOfTri].getSound()
         if (onoff == 1) {
-            if (!this.sounds[pitch]) {
-                this.sounds[pitch] = {}
-                this.sounds[pitch][serNumOfTri] = false
+            if (!this.sounds[this.pitch]) {
+                this.sounds[this.pitch] = {}
+                this.sounds[this.pitch][serNumOfTri] = false
             }
-            if (!this.sounds[pitch][serNumOfTri]) {
-                this.sounds[pitch][serNumOfTri] = true
+            if (!this.sounds[this.pitch][serNumOfTri]) {
+                this.sounds[this.pitch][serNumOfTri] = true
                 this.instrument == 'midi'
-                    ? this.midi(144, pitch, serNumOfTri)
-                    : this.player.play(pitch, serNumOfTri)
+                    ? this.midi(144, this.pitch, serNumOfTri)
+                    : this.player.play(this.pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOn()
             }
         }
         if (onoff == 0) {
-            if (this.sounds[pitch]) {
+            if (this.sounds[this.pitch]) {
                 this.instrument == 'midi'
-                    ? this.midi(128, pitch, serNumOfTri)
-                    : this.player.stop(pitch, serNumOfTri)
+                    ? this.midi(128, this.pitch, serNumOfTri)
+                    : this.player.stop(this.pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOff()
-                this.sounds[pitch][serNumOfTri] = false
+                this.sounds[this.pitch][serNumOfTri] = false
             }
         }
     }
 
     init() {
         let self = this
-        let triangles = this.triangles
-        let isMouseDown = false
-        let previousTriangle = 0
-        let currentTriangle
         canvas.addEventListener('mouseout', handleMouse, false)
         canvas.addEventListener('mousedown', handleMouse, false)
         canvas.addEventListener('mousemove', handleMouse, false)
         canvas.addEventListener('mouseup', handleMouse, false)
+        let isMouseDown
+        let oldTriangleSerNum
         function handleMouse(e) {
-            switch (e.type) {
-                case 'mouseout':
-                    if (previousTriangle) {
-                        self.soundSwitch(
-                            0,
-                            triangles[previousTriangle].getSound(),
-                            previousTriangle
-                        )
-                        isMouseDown = false
-                    }
-                    break
-                case 'mousedown':
-                    previousTriangle = getCurrentTriangle(e.clientX, e.clientY)
-                    self.soundSwitch(
-                        1,
-                        triangles[previousTriangle].getSound(),
-                        previousTriangle
-                    )
-                    isMouseDown = true
-                    break
-                case 'mousemove':
-                    if (isMouseDown) {
-                        currentTriangle = getCurrentTriangle(
-                            e.clientX,
-                            e.clientY
-                        )
-                        if (currentTriangle != previousTriangle) {
-                            self.soundSwitch(
-                                0,
-                                triangles[previousTriangle].getSound(),
-                                previousTriangle
-                            )
-                            self.soundSwitch(
-                                1,
-                                triangles[currentTriangle].getSound(),
-                                currentTriangle
-                            )
-                            previousTriangle = currentTriangle
-                        }
-                    }
-                    break
-                case 'mouseup':
-                    self.soundSwitch(
-                        0,
-                        triangles[previousTriangle].getSound(),
-                        previousTriangle
-                    )
-                    previousTriangle = getCurrentTriangle(e.clientX, e.clientY)
-                    isMouseDown = false
-                    break
+            if (e.type == 'mousedown') isMouseDown = true
+            if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
+
+            let currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
+            if (currentTriangleSerNum && isMouseDown) {
+                self.soundSwitch(
+                    1,
+                    currentTriangleSerNum
+                )
+                if (oldTriangleSerNum == currentTriangleSerNum) {
+                    oldTriangleSerNum = null
+                }
             }
+            if (oldTriangleSerNum) {
+                self.soundSwitch(
+                    0,
+                    oldTriangleSerNum
+                )
+            }
+            oldTriangleSerNum = currentTriangleSerNum
         }
 
         canvas.addEventListener('touchstart', handleTouch, false)
@@ -131,7 +101,6 @@ export default class Events {
                 if (currentTriangleSerNum) {
                     self.soundSwitch(
                         1,
-                        triangles[currentTriangleSerNum].getSound(),
                         currentTriangleSerNum
                     )
                     for (let serNumOfTri in oldTriangles) {
@@ -147,7 +116,6 @@ export default class Events {
             for (let serNumOfTri in oldTriangles) {
                 self.soundSwitch(
                     0,
-                    triangles[oldTriangles[serNumOfTri]].getSound(),
                     oldTriangles[serNumOfTri]
                 )
             }
@@ -155,7 +123,7 @@ export default class Events {
         }
 
         function getCurrentTriangle(x, y) {
-            let findIt = triangles.find(
+            let findIt = self.triangles.find(
                 (triangle) => triangle.getCurrentTriangle(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
