@@ -8,7 +8,6 @@ export default class Events {
         this.midiOutputs = []
         this.midiOutput
         this.midiChannel
-        this.pitch
         this.init()
         this.midiInit()
     }
@@ -24,32 +23,32 @@ export default class Events {
         })
     }
     midi(onoff, serNumOfTri) {
-        this.pitch = this.triangles[serNumOfTri].getSound()
+        let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        this.midiOutput.send([onoff + this.midiChannel, this.pitch, 127])
+        this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
     }
     soundSwitch(onoff, serNumOfTri) {
-        this.pitch = this.triangles[serNumOfTri].getSound()
+        let pitch = this.triangles[serNumOfTri].getSound()
         if (onoff == 1) {
-            if (!this.sounds[this.pitch]) {
-                this.sounds[this.pitch] = {}
-                this.sounds[this.pitch][serNumOfTri] = false
+            if (!this.sounds[pitch]) {
+                this.sounds[pitch] = {}
+                this.sounds[pitch][serNumOfTri] = false
             }
-            if (!this.sounds[this.pitch][serNumOfTri]) {
-                this.sounds[this.pitch][serNumOfTri] = true
+            if (!this.sounds[pitch][serNumOfTri]) {
+                this.sounds[pitch][serNumOfTri] = true
                 this.instrument == 'midi'
-                    ? this.midi(144, this.pitch, serNumOfTri)
-                    : this.player.play(this.pitch, serNumOfTri)
+                    ? this.midi(144, serNumOfTri)
+                    : this.player.play(pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOn()
             }
         }
         if (onoff == 0) {
-            if (this.sounds[this.pitch]) {
+            if (this.sounds[pitch]) {
                 this.instrument == 'midi'
-                    ? this.midi(128, this.pitch, serNumOfTri)
-                    : this.player.stop(this.pitch, serNumOfTri)
+                    ? this.midi(128, serNumOfTri)
+                    : this.player.stop(pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOff()
-                this.sounds[this.pitch][serNumOfTri] = false
+                this.sounds[pitch][serNumOfTri] = false
             }
         }
     }
