@@ -61,38 +61,38 @@ export default class Events {
         canvas.addEventListener('mousemove', handleMouse, false)
         canvas.addEventListener('mouseup', handleMouse, false)
         let isMouseDown
-        let oldTriangleSerNum
+        let prevTriangleSerNum
+        let currentTriangleSerNum
         function handleMouse(e) {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
-
-            let currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
+            currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
                 self.soundSwitch(
                     1,
                     currentTriangleSerNum
                 )
-                if (oldTriangleSerNum == currentTriangleSerNum) {
-                    oldTriangleSerNum = null
+                if (prevTriangleSerNum == currentTriangleSerNum) {
+                    prevTriangleSerNum = null
                 }
             }
-            if (oldTriangleSerNum) {
+            if (prevTriangleSerNum) {
                 self.soundSwitch(
                     0,
-                    oldTriangleSerNum
+                    prevTriangleSerNum
                 )
             }
-            oldTriangleSerNum = currentTriangleSerNum
+            prevTriangleSerNum = currentTriangleSerNum
         }
 
         canvas.addEventListener('touchstart', handleTouch, false)
         canvas.addEventListener('touchmove', handleTouch, false)
         canvas.addEventListener('touchend', handleTouch, false)
         canvas.addEventListener('touchcancel', handleTouch, false)
-        let oldTriangles = []
+        let prevTriangles = []
         function handleTouch(e) {
             e.preventDefault()
-            let newTriangles = []
+            let currentTriangles = []
             for (let touch = 0; touch < e.touches.length; touch++) {
                 let currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX,
@@ -103,23 +103,23 @@ export default class Events {
                         1,
                         currentTriangleSerNum
                     )
-                    for (let serNumOfTri in oldTriangles) {
+                    for (let serNumOfTri in prevTriangles) {
                         if (
-                            oldTriangles[serNumOfTri] == currentTriangleSerNum
+                            prevTriangles[serNumOfTri] == currentTriangleSerNum
                         ) {
-                            oldTriangles.splice(serNumOfTri, 1)
+                            prevTriangles.splice(serNumOfTri, 1)
                         }
                     }
-                    newTriangles.push(currentTriangleSerNum)
+                    currentTriangles.push(currentTriangleSerNum)
                 }
             }
-            for (let serNumOfTri in oldTriangles) {
+            for (let serNumOfTri in prevTriangles) {
                 self.soundSwitch(
                     0,
-                    oldTriangles[serNumOfTri]
+                    prevTriangles[serNumOfTri]
                 )
             }
-            oldTriangles = newTriangles
+            prevTriangles = currentTriangles
         }
 
         function getCurrentTriangle(x, y) {
