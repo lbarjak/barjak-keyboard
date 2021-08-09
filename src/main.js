@@ -37,28 +37,6 @@ export default class MainJS {
         }
         numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6
 
-        switch (instrument) {
-            case 'piano':
-                let pianoMin = 24
-                startTriangle =
-                    numberOfVerticalTris > 6 ? pianoMin - 1 : pianoMin + 12 - 1
-                break
-            case 'harpsichord':
-                let harpsichordMin = 36
-                numberOfVerticalTris =
-                    numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris
-                startTriangle = harpsichordMin - 1
-                break
-            case 'harpsichord2':
-                let harpsichord2Min = 29
-                numberOfVerticalTris =
-                    numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris
-                startTriangle = harpsichord2Min - 1
-                break
-            case 'midi':
-                startTriangle = numberOfVerticalTris > 8 ? 11 : 23
-        }
-
         let mobile = false
         if (
             /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
@@ -76,6 +54,30 @@ export default class MainJS {
         }
 
         let player = new BufferPlayer(instrument)
+
+        switch (instrument) {
+            case 'piano':
+                //let pianoMin = 24
+                startTriangle =
+                    //numberOfVerticalTris > 6 ? pianoMin - 1 : pianoMin + 12 - 1
+                    numberOfVerticalTris > 6 ? player.min - 1 : player.min + 12 - 1
+                break
+            case 'harpsichord':
+                //let harpsichordMin = 36
+                numberOfVerticalTris =
+                    numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris
+                startTriangle = player.min - 1
+                break
+            case 'harpsichord2':
+                //let harpsichord2Min = 29
+                numberOfVerticalTris =
+                    numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris
+                startTriangle = player.min - 1
+                break
+            case 'midi':
+                startTriangle = numberOfVerticalTris > 8 ? 11 : 23
+        }
+
         let drawTriangles = new DrawTriangles(
             numberOfVerticalTris,
             instrument,
