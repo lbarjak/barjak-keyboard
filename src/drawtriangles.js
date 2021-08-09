@@ -80,8 +80,9 @@ export default class DrawTriangles {
                 indexOfNote = pitch % 12
                 color = noteColors[indexOfNote]
                 if (
-                    this.instrument != 'midi' &&
-                    (pitch < this.player.min || pitch > this.player.max)
+                    (this.instrument != 'midi' &&
+                        (pitch < this.player.min || pitch > this.player.max)) ||
+                    (this.instrument == 'midi' && pitch < 12)
                 )
                     color = 'gray'
 
