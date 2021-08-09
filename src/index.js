@@ -1,4 +1,8 @@
+import MainJS from './main.js'
 export default class IndexJS {
+    constructor() {
+        this.menu()
+    }
     menu() {
         if (
             /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
@@ -7,7 +11,6 @@ export default class IndexJS {
             window.location.href = 'keyboard.html'
         }
         const btn = document.querySelector('#btn')
-        console.log("btn: ", btn)
         btn.onclick = function () {
             const inst = document.querySelectorAll('input[name="instrument"]')
             let selectedInst
