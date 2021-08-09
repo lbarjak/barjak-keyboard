@@ -29,7 +29,12 @@
             align-items: center;
         }
     </style>
-    <script src="./src/index.js"></script>
+    <script type="module">
+        import IndexJS from './src/index.js'
+        window.onload = function (e) {
+            new IndexJS().menu()
+        }
+    </script>
 </head>
 
 <body>

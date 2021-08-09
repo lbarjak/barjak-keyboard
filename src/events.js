@@ -25,6 +25,7 @@ export default class Events {
     midi(onoff, serNumOfTri) {
         let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
+        console.log(pitch)
         this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
     }
     soundSwitch(onoff, serNumOfTri) {
