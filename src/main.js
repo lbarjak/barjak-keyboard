@@ -4,36 +4,24 @@ import DrawTriangles from './drawtriangles.js'
 
 export default class MainJS {
     constructor() {
+        this.player
         this.main()
+        this.canvas()
+        this.drawTriangles
+        this.instrument
     }
     main() {
         window.addEventListener('orientationchange', function (e) {
             location.reload()
         })
-        const keyboard = document.getElementById('canvas')
-        window.ctx = keyboard.getContext('2d')
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
-        ctx.fillStyle = '#4d4d4d'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-        //no right click
-        canvas.oncontextmenu = function (e) {
-            e.preventDefault()
-            e.stopPropagation()
-        }
-        //no dragging
-        document.onselectstart = function () {
-            return false
-        }
 
         let numberOfVerticalTris = 5
 
-        let rows, instrument, startTriangle
+        let rows, startTriangle
         let query = window.location.search.substring(1) || 'rows=6&inst=piano'
         if (query) {
             rows = parse_query_string(query).rows
-            instrument = parse_query_string(query).inst
+            this.instrument = parse_query_string(query).inst
         }
         numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6
 
@@ -53,70 +41,33 @@ export default class MainJS {
             startTriangle = 45
         }
 
-        let player = new BufferPlayer(instrument)
+        this.player = new BufferPlayer(this.instrument)
 
-        switch (instrument) {
+        switch (this.instrument) {
             case 'piano':
-                //let pianoMin = 24
                 startTriangle =
-                    //numberOfVerticalTris > 6 ? pianoMin - 1 : pianoMin + 12 - 1
-                    numberOfVerticalTris > 6 ? player.min - 1 : player.min + 12 - 1
+                    numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
                 break
             case 'harpsichord':
-                //let harpsichordMin = 36
                 numberOfVerticalTris =
                     numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris
-                startTriangle = player.min - 1
+                startTriangle = this.player.min - 1
                 break
             case 'harpsichord2':
-                //let harpsichord2Min = 29
                 numberOfVerticalTris =
                     numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris
-                startTriangle = player.min - 1
+                startTriangle = this.player.min - 1
                 break
             case 'midi':
                 startTriangle = numberOfVerticalTris > 8 ? 11 : 23
         }
 
-        let drawTriangles = new DrawTriangles(
+        this.drawTriangles = new DrawTriangles(
             numberOfVerticalTris,
-            instrument,
-            player,
+            this.instrument,
+            this.player,
             startTriangle
         )
-
-        ctx.font = '16px Arial'
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        let t
-        let message
-            ; (function timer() {
-                ctx.fillStyle = '#4d4d4d'
-                ctx.fillRect(0, 0, canvas.width, canvas.height)
-                message =
-                    'Loading sounds ' +
-                    player.loading +
-                    ' out of ' +
-                    (player.max - player.min + 1) +
-                    '...'
-                ctx.fillStyle = 'white'
-                ctx.fillText(message, canvas.width * 0.5, canvas.height * 0.3)
-                t = setTimeout(timer, 10)
-                if (player.loading == player.max - player.min + 1) {
-                    clearTimeout(t)
-                    start()
-                }
-            })()
-
-        function start() {
-            let triangles = drawTriangles.drawTriangles()
-            new Events(
-                triangles,
-                player,
-                instrument,
-                drawTriangles.numberOfHorizontalTris
-            )
-        }
 
         function parse_query_string(query) {
             var vars = query.split('&')
@@ -136,5 +87,57 @@ export default class MainJS {
             }
             return query_string
         }
+    }
+
+    start() {
+        console.log("start")
+        let triangles = this.drawTriangles.drawTriangles()
+        new Events(
+            triangles,
+            this.player,
+            this.instrument,
+            this.drawTriangles.numberOfHorizontalTris
+        )
+    }
+
+    canvas() {
+        const keyboard = document.getElementById('canvas')
+        window.ctx = keyboard.getContext('2d')
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        ctx.fillStyle = '#4d4d4d'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        //no right click
+        canvas.oncontextmenu = function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+        //no dragging
+        document.onselectstart = function () {
+            return false
+        }
+        ctx.font = '16px Arial'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        let t
+        let message
+        let self = this
+            ; (function timer() {
+                ctx.fillStyle = '#4d4d4d'
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                message =
+                    'Loading sounds ' +
+                    self.player.loading +
+                    ' out of ' +
+                    (self.player.max - self.player.min + 1) +
+                    '...'
+                ctx.fillStyle = 'white'
+                ctx.fillText(message, canvas.width * 0.5, canvas.height * 0.3)
+                t = setTimeout(timer, 10)
+                if (self.player.loading == self.player.max - self.player.min + 1) {
+                    clearTimeout(t)
+                    self.start()
+                }
+            })()
     }
 }
