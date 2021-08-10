@@ -1,4 +1,5 @@
 import Triangle from './triangle.js'
+import MainJS from './main.js'
 
 export default class DrawTriangles {
     constructor(instrument, player) {
@@ -14,10 +15,9 @@ export default class DrawTriangles {
     settings() {
 
         let rows
-        let query = window.location.search.substring(1) || 'rows=6&inst=piano'
+        let query = window.location.search.substring(1)
         if (query) {
-            rows = parse_query_string(query).rows
-            this.instrument = parse_query_string(query).inst
+            rows = MainJS.parse_query_string(query).rows
         }
         this.numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6
 
@@ -54,25 +54,6 @@ export default class DrawTriangles {
                 break
             case 'midi':
                 this.startTriangle = this.numberOfVerticalTris > 8 ? 11 : 23
-        }
-
-        function parse_query_string(query) {
-            var vars = query.split('&')
-            var query_string = {}
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=')
-                var key = decodeURIComponent(pair[0])
-                var value = decodeURIComponent(pair[1])
-                if (typeof query_string[key] === 'undefined') {
-                    query_string[key] = decodeURIComponent(value)
-                } else if (typeof query_string[key] === 'string') {
-                    var arr = [query_string[key], decodeURIComponent(value)]
-                    query_string[key] = arr
-                } else {
-                    query_string[key].push(decodeURIComponent(value))
-                }
-            }
-            return query_string
         }
     }
 
