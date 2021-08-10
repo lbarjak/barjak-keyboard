@@ -1,16 +1,17 @@
 import Triangle from './triangle.js'
 
 export default class DrawTriangles {
-        constructor(instrument, player) {
+    constructor(instrument, player) {
         this.numberOfVerticalTris
         this.triangles = []
         this.instrument = instrument
         this.player = player
         this.startTriangle
         this.numberOfHorizontalTris
+        this.settings()
     }
 
-    drawTriangles() {
+    settings() {
 
         let rows
         let query = window.location.search.substring(1) || 'rows=6&inst=piano'
@@ -73,6 +74,9 @@ export default class DrawTriangles {
             }
             return query_string
         }
+    }
+
+    drawTriangles() {
 
         const noteOffsetAlwaysSix = 6
         let edgeOfTriangle =
@@ -135,8 +139,8 @@ export default class DrawTriangles {
                 triangleCenterX =
                     (canvas.width -
                         (this.numberOfHorizontalTris / 2 + 0.5) *
-                            edgeOfTriangle) /
-                        2 +
+                        edgeOfTriangle) /
+                    2 +
                     edgeOfTriangle / 2 +
                     (column * edgeOfTriangle) / 2
 

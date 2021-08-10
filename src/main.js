@@ -24,7 +24,6 @@ export default class MainJS {
     }
 
     start() {
-        console.log("start")
         let triangles = this.drawTriangles.drawTriangles()
         new Events(
             triangles,
