@@ -15,78 +15,12 @@ export default class MainJS {
             location.reload()
         })
 
-        let numberOfVerticalTris = 5
-
-        let rows, startTriangle
-        let query = window.location.search.substring(1) || 'rows=6&inst=piano'
-        if (query) {
-            rows = parse_query_string(query).rows
-            this.instrument = parse_query_string(query).inst
-        }
-        numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6
-
-        let mobile = false
-        if (
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
-        ) {
-            mobile = true
-        }
-        if (mobile == true && window.screen.orientation.angle == 0) {
-            numberOfVerticalTris = 9
-            startTriangle = 33
-        }
-        if (mobile == true && window.screen.orientation.angle > 0) {
-            numberOfVerticalTris = 4
-            startTriangle = 45
-        }
-
         this.player = new BufferPlayer(this.instrument)
 
-        switch (this.instrument) {
-            case 'piano':
-                startTriangle =
-                    numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
-                break
-            case 'harpsichord':
-                numberOfVerticalTris =
-                    numberOfVerticalTris > 6 ? 6 : numberOfVerticalTris
-                startTriangle = this.player.min - 1
-                break
-            case 'harpsichord2':
-                numberOfVerticalTris =
-                    numberOfVerticalTris > 7 ? 7 : numberOfVerticalTris
-                startTriangle = this.player.min - 1
-                break
-            case 'midi':
-                startTriangle = numberOfVerticalTris > 8 ? 11 : 23
-        }
-
         this.drawTriangles = new DrawTriangles(
-            numberOfVerticalTris,
             this.instrument,
             this.player,
-            startTriangle
         )
-
-        function parse_query_string(query) {
-            var vars = query.split('&')
-            var query_string = {}
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=')
-                var key = decodeURIComponent(pair[0])
-                var value = decodeURIComponent(pair[1])
-                if (typeof query_string[key] === 'undefined') {
-                    query_string[key] = decodeURIComponent(value)
-                } else if (typeof query_string[key] === 'string') {
-                    var arr = [query_string[key], decodeURIComponent(value)]
-                    query_string[key] = arr
-                } else {
-                    query_string[key].push(decodeURIComponent(value))
-                }
-            }
-            return query_string
-        }
     }
 
     start() {
