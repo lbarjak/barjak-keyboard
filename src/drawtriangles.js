@@ -58,14 +58,14 @@ export default class DrawTriangles {
     }
 
     drawTriangles() {
-
+        const keyboard = document.getElementsByTagName('canvas')[0]
         const noteOffsetAlwaysSix = 6
         let edgeOfTriangle =
             (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         Triangle.edgeOfTriangle = edgeOfTriangle
         let heightOfTriangle = (edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris =
-            2 + 2 * Math.round(canvas.width / edgeOfTriangle)
+            2 + 2 * Math.round(keyboard.width / edgeOfTriangle)
         let heightOfKeyboard = Math.round(
             heightOfTriangle * this.numberOfVerticalTris
         )
@@ -118,7 +118,7 @@ export default class DrawTriangles {
                 column++
             ) {
                 triangleCenterX =
-                    (canvas.width -
+                    (keyboard.width -
                         (this.numberOfHorizontalTris / 2 + 0.5) *
                         edgeOfTriangle) /
                     2 +

@@ -8,7 +8,7 @@ export default class MainJS {
         this.drawTriangles
         this.instrument = "piano"
         this.main()
-        this.canvas()
+        this.keyboard()
     }
 
     main() {
@@ -57,15 +57,15 @@ export default class MainJS {
         )
     }
 
-    canvas() {
-        const keyboard = document.getElementById('canvas')
+    keyboard() {
+        const keyboard = document.getElementsByTagName('canvas')[0]
         window.ctx = keyboard.getContext('2d')
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+        keyboard.width = window.innerWidth
+        keyboard.height = window.innerHeight
         ctx.fillStyle = '#4d4d4d'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillRect(0, 0, keyboard.width, keyboard.height)
         //no right click
-        canvas.oncontextmenu = function (e) {
+        keyboard.oncontextmenu = function (e) {
             e.preventDefault()
             e.stopPropagation()
         }
@@ -81,7 +81,7 @@ export default class MainJS {
         let self = this
             ; (function timer() {
                 ctx.fillStyle = '#4d4d4d'
-                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                ctx.fillRect(0, 0, keyboard.width, keyboard.height)
                 message =
                     'Loading sounds ' +
                     self.player.loading +
@@ -89,7 +89,7 @@ export default class MainJS {
                     (self.player.max - self.player.min + 1) +
                     '...'
                 ctx.fillStyle = 'white'
-                ctx.fillText(message, canvas.width * 0.5, canvas.height * 0.3)
+                ctx.fillText(message, keyboard.width * 0.5, keyboard.height * 0.3)
                 t = setTimeout(timer, 10)
                 if (self.player.loading == self.player.max - self.player.min + 1) {
                     clearTimeout(t)

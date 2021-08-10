@@ -55,11 +55,12 @@ export default class Events {
     }
 
     init() {
+        const keyboard = document.getElementsByTagName('canvas')[0]
         let self = this
-        canvas.addEventListener('mouseout', handleMouse, false)
-        canvas.addEventListener('mousedown', handleMouse, false)
-        canvas.addEventListener('mousemove', handleMouse, false)
-        canvas.addEventListener('mouseup', handleMouse, false)
+        keyboard.addEventListener('mouseout', handleMouse, false)
+        keyboard.addEventListener('mousedown', handleMouse, false)
+        keyboard.addEventListener('mousemove', handleMouse, false)
+        keyboard.addEventListener('mouseup', handleMouse, false)
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
@@ -85,10 +86,10 @@ export default class Events {
             prevTriangleSerNum = currentTriangleSerNum
         }
 
-        canvas.addEventListener('touchstart', handleTouch, false)
-        canvas.addEventListener('touchmove', handleTouch, false)
-        canvas.addEventListener('touchend', handleTouch, false)
-        canvas.addEventListener('touchcancel', handleTouch, false)
+        keyboard.addEventListener('touchstart', handleTouch, false)
+        keyboard.addEventListener('touchmove', handleTouch, false)
+        keyboard.addEventListener('touchend', handleTouch, false)
+        keyboard.addEventListener('touchcancel', handleTouch, false)
         let prevTriangles = []
         function handleTouch(e) {
             e.preventDefault()
