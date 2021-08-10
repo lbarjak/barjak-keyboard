@@ -10,12 +10,11 @@ export default class MainJS {
         this.main()
         this.canvas()
     }
-    
+
     main() {
         window.addEventListener('orientationchange', function (e) {
             location.reload()
         })
-
         let query = window.location.search.substring(1)
         if (query) {
             this.instrument = MainJS.parse_query_string(query).inst
