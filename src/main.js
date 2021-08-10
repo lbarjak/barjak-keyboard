@@ -10,6 +10,7 @@ export default class MainJS {
         this.main()
         this.canvas()
     }
+    
     main() {
         window.addEventListener('orientationchange', function (e) {
             location.reload()
@@ -19,7 +20,7 @@ export default class MainJS {
 
         this.drawTriangles = new DrawTriangles(
             this.instrument,
-            this.player,
+            this.player
         )
     }
 
