@@ -5,10 +5,10 @@ import DrawTriangles from './drawtriangles.js'
 export default class MainJS {
     constructor() {
         this.player
-        this.main()
-        this.canvas()
         this.drawTriangles
         this.instrument
+        this.main()
+        this.canvas()
     }
     main() {
         window.addEventListener('orientationchange', function (e) {
