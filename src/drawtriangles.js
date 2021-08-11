@@ -1,5 +1,4 @@
 import Triangle from './triangle.js'
-import MainJS from './main.js'
 
 export default class DrawTriangles {
     constructor(instrument, player) {
