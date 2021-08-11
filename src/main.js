@@ -20,7 +20,8 @@ export default class MainJS {
             this.instrument = MainJS.parse_query_string(query).inst
         }
 
-        this.player = new BufferPlayer(this.instrument)
+        //this.player = new BufferPlayer(this.instrument)
+        this.player = BufferPlayer.getInstance()
 
         this.drawTriangles = new DrawTriangles(
             this.instrument,
@@ -73,28 +74,30 @@ export default class MainJS {
         document.onselectstart = function () {
             return false
         }
-        ctx.font = '16px Arial'
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        let t
-        let message
-        let self = this
-            ; (function timer() {
-                ctx.fillStyle = '#4d4d4d'
-                ctx.fillRect(0, 0, keyboard.width, keyboard.height)
-                message =
-                    'Loading sounds ' +
-                    self.player.loading +
-                    ' out of ' +
-                    (self.player.max - self.player.min + 1) +
-                    '...'
-                ctx.fillStyle = 'white'
-                ctx.fillText(message, keyboard.width * 0.5, keyboard.height * 0.3)
-                t = setTimeout(timer, 10)
-                if (self.player.loading == self.player.max - self.player.min + 1) {
-                    clearTimeout(t)
-                    self.start()
-                }
-            })()
+        this.start()
+        // ctx.font = '16px Arial'
+        // ctx.textAlign = 'center'
+        // ctx.textBaseline = 'middle'
+        // let t
+        // let message
+        // let self = this
+        //     ; (function timer() {
+        //         ctx.fillStyle = '#4d4d4d'
+        //         ctx.fillRect(0, 0, keyboard.width, keyboard.height)
+        //         message =
+        //             'Loading sounds ' +
+        //             self.player.loading +
+        //             ' out of ' +
+        //             (self.player.max - self.player.min + 1) +
+        //             '...'
+        //         ctx.fillStyle = 'white'
+        //         ctx.fillText(message, keyboard.width * 0.5, keyboard.height * 0.3)
+        //         t = setTimeout(timer, 10)
+        //         if (self.player.loading == self.player.max - self.player.min + 1) {
+        //             clearTimeout(t)
+        //             self.start()
+        //         }
+        //     })()
+        //const keyboard = document.getElementsByTagName('canvas')[0]
     }
 }

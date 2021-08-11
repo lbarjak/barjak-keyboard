@@ -61,6 +61,10 @@ export default class Events {
         keyboard.addEventListener('mousedown', handleMouse, false)
         keyboard.addEventListener('mousemove', handleMouse, false)
         keyboard.addEventListener('mouseup', handleMouse, false)
+        // keyboard.removeEventListener('mouseout', handleMouse, false)
+        // keyboard.removeEventListener('mousedown', handleMouse, false)
+        // keyboard.removeEventListener('mousemove', handleMouse, false)
+        // keyboard.removeEventListener('mouseup', handleMouse, false)
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
