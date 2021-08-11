@@ -92,7 +92,7 @@ export default class IndexJS {
         new Events(
             triangles,
             this.player,
-            this.instrument,
+            this.selectedInst,
             this.drawTriangles.numberOfHorizontalTris
         )
     }

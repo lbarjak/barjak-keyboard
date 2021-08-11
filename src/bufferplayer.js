@@ -120,7 +120,7 @@ export default class BufferPlayer {
         }
 
         function connect(port) {
-            console.log('connected:', port.type, port.name)
+            console.log('BufferPlayer connected:', port.type, port.name)
             port.onmidimessage = midiMessage
         }
         let self = this

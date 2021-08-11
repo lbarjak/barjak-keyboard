@@ -20,6 +20,7 @@ export default class Events {
                 self.midiOutputs.push(output)
             }
             if (self.midiOutputs[0]) self.midiOutput = self.midiOutputs[0]
+            console.log('event.js/Events connected:', self.midiOutputs[0].type, self.midiOutputs[0].name)
         })
     }
     midi(onoff, serNumOfTri) {
