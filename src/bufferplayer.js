@@ -132,6 +132,7 @@ export default class BufferPlayer {
             midiKey = event.data[1]
             midiVelocity = self.instrument == 'piano' ? event.data[2] : 127
             console.log(
+                "input:",
                 event.currentTarget.name,
                 '-',
                 'midiEvent:',

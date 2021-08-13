@@ -26,7 +26,6 @@ export default class Events {
     midi(onoff, serNumOfTri) {
         let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        console.log(pitch)
         this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
     }
     soundSwitch(onoff, serNumOfTri) {
@@ -77,11 +76,13 @@ export default class Events {
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
+        let on = true
         function handleMouse(e) {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
+                on = true
                 self.soundSwitch(
                     1,
                     currentTriangleSerNum
@@ -90,11 +91,12 @@ export default class Events {
                     prevTriangleSerNum = null
                 }
             }
-            if (prevTriangleSerNum) {
+            if (prevTriangleSerNum && on) {
                 self.soundSwitch(
                     0,
                     prevTriangleSerNum
                 )
+                on = false
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
