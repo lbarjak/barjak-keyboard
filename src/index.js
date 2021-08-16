@@ -1,4 +1,4 @@
-import Events from './events.js'
+import EventJS from './events.js'
 import BufferPlayer from './bufferplayer.js'
 import DrawTriangles from './drawtriangles.js'
 export default class IndexJS {
@@ -36,7 +36,6 @@ export default class IndexJS {
             }
             //window.location.href =
             //    'keyboard.html?rows=' + selectedValue + '&inst=' + selectedInst
-            console.log(self.selectedInst)
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(
                 self.selectedInst,
@@ -89,7 +88,7 @@ export default class IndexJS {
 
     keyboard() {
         let triangles = this.drawTriangles.drawTriangles()
-        new Events(
+        new EventJS(
             triangles,
             this.player,
             this.selectedInst,

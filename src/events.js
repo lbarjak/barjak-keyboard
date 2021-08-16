@@ -1,4 +1,4 @@
-export default class Events {
+export default class EventJS {
     constructor(triangles, player, instrument, numberOfHorizontalTris) {
         this.triangles = triangles
         this.player = player
@@ -44,8 +44,7 @@ export default class Events {
     soundSwitch(onOff, serNumOfTri, allOff = false) {
         let pitch
         if (allOff && (this.sounds.length > 0)) {
-            console.log("allOff")
-            for (let serNumOfTri = 0; serNumOfTri < this.triangles.length; serNumOfTri++) {
+            for (let serNumOfTri in this.triangles) {
                 pitch = this.triangles[serNumOfTri].getSound()
                 this.triangles[serNumOfTri].setSignOff()
                 if (this.sounds[pitch]) {
@@ -65,7 +64,6 @@ export default class Events {
             }
             if (!this.sounds[pitch][serNumOfTri]) {
                 this.sounds[pitch][serNumOfTri] = true
-                console.log(this.instrument)
                 this.instrument == 'midi'
                     ? this.midi(144, serNumOfTri)
                     : this.player.play(pitch, serNumOfTri)

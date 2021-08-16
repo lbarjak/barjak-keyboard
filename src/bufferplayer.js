@@ -2,15 +2,12 @@ export default class BufferPlayer {
 
     static instance
     static getInstance(instrument) {
-        console.log(instrument, "BufferPlayer.instance:", BufferPlayer.instance)
         if (!BufferPlayer.instance) {
-            console.log("if ág", instrument)
             BufferPlayer.instance = new BufferPlayer(instrument)
         } else if (BufferPlayer.instance.instrument != instrument){
             console.log("else if ág ", BufferPlayer.instance.instrument, instrument)
             BufferPlayer.instance = new BufferPlayer(instrument)
         }
-        console.log("return előtt", instrument, "BufferPlayer.instance:", BufferPlayer.instance)
         return BufferPlayer.instance
     }
 
@@ -151,6 +148,6 @@ export default class BufferPlayer {
             }
         }
 
-        //navigator.requestMIDIAccess().then(midi)
+        navigator.requestMIDIAccess().then(midi)
     }
 }
