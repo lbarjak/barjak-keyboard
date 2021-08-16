@@ -151,6 +151,6 @@ export default class BufferPlayer {
             }
         }
 
-        navigator.requestMIDIAccess().then(midi)
+        //navigator.requestMIDIAccess().then(midi)
     }
 }
