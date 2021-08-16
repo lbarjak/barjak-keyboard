@@ -52,8 +52,8 @@ export default class EventJS {
                         : this.player.stop(pitch, serNumOfTri)
                     this.triangles[serNumOfTri].setSignOff()
                 }
-                this.sounds = []
             }
+            this.sounds = []
         }
         pitch = this.triangles[serNumOfTri].getSound()
         if (onOff) {
