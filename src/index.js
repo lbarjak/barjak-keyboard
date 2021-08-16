@@ -3,6 +3,7 @@ import BufferPlayer from './bufferplayer.js'
 import DrawTriangles from './drawtriangles.js'
 export default class IndexJS {
     constructor() {
+        this.keyboard = document.getElementsByTagName('canvas')[0]
         this.player
         this.selectedInst
         this.selectedValue
@@ -38,14 +39,15 @@ export default class IndexJS {
     }
 
     load() {
-        const keyboard = document.getElementsByTagName('canvas')[0]
-        window.ctx = keyboard.getContext('2d')
-        keyboard.width = window.innerWidth
-        keyboard.height = window.innerHeight
+        let self = this
+        //const keyboard = document.getElementsByTagName('canvas')[0]
+        window.ctx = this.keyboard.getContext('2d')
+        this.keyboard.width = window.innerWidth
+        this.keyboard.height = window.innerHeight
         ctx.fillStyle = '#4d4d4d'
-        ctx.fillRect(0, 0, keyboard.width, keyboard.height)
+        ctx.fillRect(0, 0, this.keyboard.width, this.keyboard.height)
         //no right click
-        keyboard.oncontextmenu = function (e) {
+        this.keyboard.oncontextmenu = function (e) {
             e.preventDefault()
             e.stopPropagation()
         }
@@ -58,10 +60,9 @@ export default class IndexJS {
         ctx.textBaseline = 'middle'
         let t
         let message
-        let self = this
             ; (function timer() {
                 ctx.fillStyle = '#4d4d4d'
-                ctx.fillRect(0, 0, keyboard.width, keyboard.height)
+                ctx.fillRect(0, 0, self.keyboard.width, self.keyboard.height)
                 message =
                     'Loading sounds ' +
                     self.player.loading +
@@ -69,16 +70,18 @@ export default class IndexJS {
                     (self.player.max - self.player.min + 1) +
                     '...'
                 ctx.fillStyle = 'white'
-                ctx.fillText(message, keyboard.width * 0.5, keyboard.height * 0.3)
+                ctx.fillText(message, self.keyboard.width * 0.5, self.keyboard.height * 0.3)
                 t = setTimeout(timer, 10)
                 if (self.player.loading == self.player.max - self.player.min + 1) {
                     clearTimeout(t)
-                    self.keyboard()
+                    self.kbd()
                 }
             })()
     }
 
-    keyboard() {
+    kbd() {
+        let self = this
+        //self.keyboard.style.display = "block"
         let triangles = this.drawTriangles.drawTriangles()
         new EventJS(
             triangles,
@@ -86,5 +89,17 @@ export default class IndexJS {
             this.selectedInst,
             this.drawTriangles.numberOfHorizontalTris
         )
+        document.addEventListener('keydown', logKey);
+        function logKey(e) {
+            if (e.key === "Escape") {
+                console.log(e.key)
+                //self.keyboard.style.display = "none"
+                const form = document.createElement('form')
+                form.method = "GET"
+                form.action = location.href
+                document.body.appendChild(form)
+                form.submit()
+            }
+        }
     }
 }
