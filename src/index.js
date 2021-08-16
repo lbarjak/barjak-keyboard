@@ -10,13 +10,6 @@ export default class IndexJS {
         this.menu()
     }
     menu() {
-        if (
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
-        ) {
-            //window.location.href = 'keyboard.html'
-            this.selectedInst = "piano"
-        }
         const btn = document.querySelector('#btn')
         self = this
         btn.onclick = function () {
@@ -34,11 +27,10 @@ export default class IndexJS {
                     break
                 }
             }
-            //window.location.href =
-            //    'keyboard.html?rows=' + selectedValue + '&inst=' + selectedInst
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(
                 self.selectedInst,
+                self.selectedValue,
                 self.player
             )
             self.load()

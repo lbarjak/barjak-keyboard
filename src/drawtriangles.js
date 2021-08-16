@@ -1,10 +1,11 @@
 import Triangle from './triangle.js'
 
 export default class DrawTriangles {
-    constructor(instrument, player) {
+    constructor(instrument, rows, player) {
         this.numberOfVerticalTris
         this.triangles = []
         this.instrument = instrument
+        this.rows = rows
         this.player = player
         this.startTriangle
         this.numberOfHorizontalTris
@@ -12,13 +13,8 @@ export default class DrawTriangles {
     }
 
     settings() {
-
-        let rows
-        let query = window.location.search.substring(1)
-        if (query) {
-            rows = MainJS.parse_query_string(query).rows
-        }
-        this.numberOfVerticalTris = rows > 3 && rows < 11 ? rows : 6
+        console.log("rows", this.rows)
+        this.numberOfVerticalTris = this.rows > 3 && this.rows < 11 ? this.rows : 6
 
         let mobile = false
         if (
