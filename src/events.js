@@ -43,15 +43,14 @@ export default class EventJS {
     }
     soundSwitch(onOff, serNumOfTri, allOff = false) {
         let pitch
-        if (allOff && (this.sounds.length > 0)) {
+        if (allOff) {
             for (let serNumOfTri in this.triangles) {
                 pitch = this.triangles[serNumOfTri].getSound()
-                this.triangles[serNumOfTri].setSignOff()
                 if (this.sounds[pitch]) {
                     this.instrument == 'midi'
                         ? this.midi(128, serNumOfTri)
                         : this.player.stop(pitch, serNumOfTri)
-                    this.player.stop(pitch, serNumOfTri)
+                    this.triangles[serNumOfTri].setSignOff()
                 }
                 this.sounds = []
             }
@@ -116,7 +115,7 @@ export default class EventJS {
                     prevTriangleSerNum = null
                 }
             }
-            if (prevTriangleSerNum) {
+            if (prevTriangleSerNum && (self.sounds.length > 0)) {
                 self.soundSwitch(
                     false,
                     prevTriangleSerNum
