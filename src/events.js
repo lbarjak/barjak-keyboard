@@ -1,4 +1,4 @@
-export default class EventJS {
+export default class EventsJS {
     constructor(triangles, player, instrument, numberOfHorizontalTris) {
         this.triangles = triangles
         this.player = player
@@ -143,7 +143,8 @@ export default class EventJS {
                         true,
                         currentTriangleSerNum
                     )
-                    for (let serNumOfTri in prevTriangles) {
+                    let serNumOfTri = 0
+                    for (serNumOfTri in prevTriangles) {
                         if (
                             prevTriangles[serNumOfTri] == currentTriangleSerNum
                         ) {
