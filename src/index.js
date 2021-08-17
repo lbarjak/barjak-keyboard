@@ -1,7 +1,7 @@
-import EventsJS from './events.js'
+import Events from './events.js'
 import BufferPlayer from './bufferplayer.js'
 import DrawTriangles from './drawtriangles.js'
-export default class IndexJS {
+export default class Index {
     constructor() {
         this.keyboard = document.getElementsByTagName('canvas')[0]
         this.player = null
@@ -82,7 +82,7 @@ export default class IndexJS {
         //let self = this
         //self.keyboard.style.display = "block"
         let triangles = this.drawTriangles.drawTriangles()
-        new EventsJS(
+        new Events(
             triangles,
             this.player,
             this.selectedInst,

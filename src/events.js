@@ -1,4 +1,4 @@
-export default class EventsJS {
+export default class Events {
     constructor(triangles, player, instrument, numberOfHorizontalTris) {
         this.triangles = triangles
         this.player = player
