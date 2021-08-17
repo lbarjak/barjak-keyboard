@@ -4,10 +4,10 @@ import DrawTriangles from './drawtriangles.js'
 export default class IndexJS {
     constructor() {
         this.keyboard = document.getElementsByTagName('canvas')[0]
-        this.player
-        this.selectedInst
-        this.selectedValue
-        this.drawTriangles
+        this.player = null
+        this.selectedInst = "piano"
+        this.selectedValue = 6
+        this.drawTriangles = null
         this.menu()
     }
     menu() {
@@ -40,7 +40,6 @@ export default class IndexJS {
 
     load() {
         let self = this
-        //const keyboard = document.getElementsByTagName('canvas')[0]
         window.ctx = this.keyboard.getContext('2d')
         this.keyboard.width = window.innerWidth
         this.keyboard.height = window.innerHeight
@@ -80,7 +79,7 @@ export default class IndexJS {
     }
 
     kbd() {
-        let self = this
+        //let self = this
         //self.keyboard.style.display = "block"
         let triangles = this.drawTriangles.drawTriangles()
         new EventJS(

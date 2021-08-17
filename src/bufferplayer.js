@@ -20,7 +20,7 @@ export default class BufferPlayer {
         this.buffers = []
         this.channels = []
         this.gains = []
-        this.delay
+        this.delay = .0
         this.min = 12
         this.max = 119
         this.loading = 0

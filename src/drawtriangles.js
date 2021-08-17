@@ -2,13 +2,13 @@ import Triangle from './triangle.js'
 
 export default class DrawTriangles {
     constructor(instrument, rows, player) {
-        this.numberOfVerticalTris
+        this.numberOfVerticalTris = 0 
         this.triangles = []
         this.instrument = instrument
         this.rows = rows
         this.player = player
-        this.startTriangle
-        this.numberOfHorizontalTris
+        this.startTriangle = 0
+        this.numberOfHorizontalTris = 0
         this.settings()
     }
 

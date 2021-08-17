@@ -6,8 +6,8 @@ export default class EventJS {
         this.instrument = instrument
         this.numberOfHorizontalTris = numberOfHorizontalTris
         this.midiOutputs = []
-        this.midiOutput
-        this.midiChannel
+        this.midiOutput = null
+        this.midiChannel = 0
         this.init()
         this.midiInit()
     }
@@ -133,7 +133,7 @@ export default class EventJS {
         function handleTouch(e) {
             e.preventDefault()
             let currentTriangles = []
-            for (let touch of e.touches) {
+            for (let touch in e.touches) {
                 currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX,
                     e.touches[touch].clientY
