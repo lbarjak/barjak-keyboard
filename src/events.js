@@ -44,7 +44,7 @@ export default class EventJS {
     soundSwitch(onOff, serNumOfTri, allOff = false) {
         let pitch
         if (allOff) {
-            for (let serNumOfTri in this.triangles) {
+            for (serNumOfTri in this.triangles) {
                 pitch = this.triangles[serNumOfTri].getSound()
                 if (this.sounds[pitch]) {
                     this.instrument == 'midi'
@@ -133,8 +133,8 @@ export default class EventJS {
         function handleTouch(e) {
             e.preventDefault()
             let currentTriangles = []
-            for (let touch = 0; touch < e.touches.length; touch++) {
-                let currentTriangleSerNum = getCurrentTriangle(
+            for (let touch of e.touches) {
+                currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX,
                     e.touches[touch].clientY
                 )
