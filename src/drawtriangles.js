@@ -2,7 +2,7 @@ import Triangle from './triangle.js'
 
 export default class DrawTriangles {
     constructor(instrument, rows, player) {
-        this.numberOfVerticalTris = 0 
+        this.numberOfVerticalTris = 0
         this.triangles = []
         this.instrument = instrument
         this.rows = rows
@@ -124,8 +124,8 @@ export default class DrawTriangles {
                 color = noteColors[indexOfNote]
                 if (
                     (this.instrument != 'midi' &&
-                        (pitch < this.player.min || pitch > this.player.max)) ||
-                    (this.instrument == 'midi' && pitch < 12)
+                        (pitch == this.startTriangle || pitch > this.player.max)) ||
+                    (this.instrument == 'midi' && pitch == this.startTriangle)
                 )
                     color = 'gray'
 
