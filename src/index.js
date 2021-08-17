@@ -91,13 +91,16 @@ export default class Index {
         document.addEventListener('keydown', logKey);
         function logKey(e) {
             if (e.key === "Escape") {
-                console.log(e.key)
                 //self.keyboard.style.display = "none"
-                const form = document.createElement('form')
-                form.method = "GET"
-                form.action = location.href
-                document.body.appendChild(form)
-                form.submit()
+                var oAjax = new XMLHttpRequest;
+                oAjax.open('get', '');
+                oAjax.setRequestHeader('Pragma', 'no-cache');
+                oAjax.send();
+                oAjax.onreadystatechange = function () {
+                    if (oAjax.readyState === 4) {
+                        location.reload();
+                    }
+                }
             }
         }
     }
