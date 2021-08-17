@@ -1,4 +1,4 @@
-import EventJS from './events.js'
+import EventsJS from './events.js'
 import BufferPlayer from './bufferplayer.js'
 import DrawTriangles from './drawtriangles.js'
 export default class IndexJS {
@@ -82,7 +82,7 @@ export default class IndexJS {
         //let self = this
         //self.keyboard.style.display = "block"
         let triangles = this.drawTriangles.drawTriangles()
-        new EventJS(
+        new EventsJS(
             triangles,
             this.player,
             this.selectedInst,
