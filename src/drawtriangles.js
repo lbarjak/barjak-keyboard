@@ -23,11 +23,11 @@ export default class DrawTriangles {
         ) {
             mobile = true
         }
-        if (mobile == true && window.screen.orientation.angle == 0) {
+        if (mobile && window.screen.orientation.angle == 0) {
             this.numberOfVerticalTris = 9
             this.startTriangle = 33
         }
-        if (mobile == true && window.screen.orientation.angle > 0) {
+        if (mobile && window.screen.orientation.angle > 0) {
             this.numberOfVerticalTris = 4
             this.startTriangle = 45
         }
