@@ -4,6 +4,7 @@ import DrawTriangles from './drawtriangles.js'
 export default class Index {
     constructor() {
         this.keyboard = document.getElementsByTagName('canvas')[0]
+        this.page1 = document.getElementById("page1")
         this.player = null
         this.selectedInst = "piano"
         this.selectedValue = 6
@@ -39,6 +40,8 @@ export default class Index {
     }
 
     load() {
+        this.keyboard.style.display = "block"
+        this.page1.style.display = "none"
         let self = this
         window.ctx = this.keyboard.getContext('2d')
         this.keyboard.width = window.innerWidth
@@ -92,7 +95,7 @@ export default class Index {
         function logKey(e) {
             if (e.key === "Escape") {
                 //self.keyboard.style.display = "none"
-                var oAjax = new XMLHttpRequest;
+                let oAjax = new XMLHttpRequest;
                 oAjax.open('get', '');
                 oAjax.setRequestHeader('Pragma', 'no-cache');
                 oAjax.send();

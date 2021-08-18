@@ -84,14 +84,23 @@ export default class Events {
         const keyboard = document.getElementsByTagName('canvas')[0]
 
         window.addEventListener('orientationchange', function (e) {
-            keyboard.removeEventListener('touchstart', handleTouch, false)
-            keyboard.removeEventListener('touchmove', handleTouch, false)
-            keyboard.removeEventListener('touchend', handleTouch, false)
-            keyboard.removeEventListener('touchcancel', handleTouch, false)
-            keyboard.removeEventListener('mouseout', handleMouse, false)
-            keyboard.removeEventListener('mousedown', handleMouse, false)
-            keyboard.removeEventListener('mousemove', handleMouse, false)
-            keyboard.removeEventListener('mouseup', handleMouse, false)
+            let oAjax = new XMLHttpRequest;
+            oAjax.open('get', '');
+            oAjax.setRequestHeader('Pragma', 'no-cache');
+            oAjax.send();
+            oAjax.onreadystatechange = function () {
+                if (oAjax.readyState === 4) {
+                    location.reload();
+                }
+            }
+            // keyboard.removeEventListener('touchstart', handleTouch, false)
+            // keyboard.removeEventListener('touchmove', handleTouch, false)
+            // keyboard.removeEventListener('touchend', handleTouch, false)
+            // keyboard.removeEventListener('touchcancel', handleTouch, false)
+            // keyboard.removeEventListener('mouseout', handleMouse, false)
+            // keyboard.removeEventListener('mousedown', handleMouse, false)
+            // keyboard.removeEventListener('mousemove', handleMouse, false)
+            // keyboard.removeEventListener('mouseup', handleMouse, false)
         })
 
         let self = this
