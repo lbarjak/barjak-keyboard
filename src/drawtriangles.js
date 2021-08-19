@@ -55,7 +55,9 @@ export default class DrawTriangles {
         Triangle.edgeOfTriangle = this.edgeOfTriangle
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris =
-            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)/////////////////
+            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
+        console.log("countOfTriangles =", this.numberOfVerticalTris * this.numberOfHorizontalTris)
+
     }
 
     drawTriangles() {
