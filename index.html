@@ -29,12 +29,16 @@
         body {
             background-image: url('background.png');
             font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
         }
         canvas {
             display: none;
         }
         #page1 {
-            text-align: center;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
     </style>
     <script type="module">
@@ -63,7 +67,7 @@
             Harpsichord II. <br /><br />
             <input type="radio" name="instrument" value="midi" /> MIDI out
             (sounds off)
-            <h3 style="text-align: center">Rows of keyboard:</h3>
+            <h3>Rows of keyboard:</h3>
             <input type="radio" name="rows" value="4" /> 4
             <input type="radio" name="rows" value="5" /> 5
             <input type="radio" name="rows" value="6" checked="checked" />
@@ -71,11 +75,9 @@
             <input type="radio" name="rows" value="8" /> 8
             <input type="radio" name="rows" value="9" /> 9
             <input type="radio" name="rows" value="10" /> 10
-            <div style="text-align: center">
-                <br />
-                <input type="button" id="btn" value="PLAY" />
-                <p>esc: back to this menu</p>
-            </div>
+            <br /><br />
+            <input type="button" id="btn" value="PLAY" />
+            <p>esc: back to this menu</p>
         </form>
     </div>
 </body>
