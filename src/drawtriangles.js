@@ -1,20 +1,19 @@
 import Triangle from './triangle.js'
 
 export default class DrawTriangles {
-    constructor(instrument, rows, player) {
-        this.numberOfVerticalTris = 0
+    constructor(instrument, numberOfVerticalTris, player) {
+        this.numberOfVerticalTris = numberOfVerticalTris
         this.triangles = []
         this.instrument = instrument
-        this.rows = rows
         this.player = player
         this.startTriangle = 0
         this.numberOfHorizontalTris = 0
+        this.edgeOfTriangle = 0
+        this.heightOfTriangle = 0
         this.settings()
     }
 
     settings() {
-        console.log("rows", this.rows)
-        this.numberOfVerticalTris = this.rows > 3 && this.rows < 11 ? this.rows : 6
 
         let mobile = false
         if (
@@ -50,19 +49,19 @@ export default class DrawTriangles {
             case 'midi':
                 this.startTriangle = this.numberOfVerticalTris > 8 ? 11 : 23
         }
+
+        this.edgeOfTriangle =
+            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
+        Triangle.edgeOfTriangle = this.edgeOfTriangle
+        this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
+        this.numberOfHorizontalTris =
+            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)/////////////////
     }
 
     drawTriangles() {
-        const keyboard = document.getElementsByTagName('canvas')[0]
         const noteOffsetAlwaysSix = 6
-        let edgeOfTriangle =
-            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
-        Triangle.edgeOfTriangle = edgeOfTriangle
-        let heightOfTriangle = (edgeOfTriangle * Math.sqrt(3)) / 2
-        this.numberOfHorizontalTris =
-            2 + 2 * Math.round(keyboard.width / edgeOfTriangle)
         let heightOfKeyboard = Math.round(
-            heightOfTriangle * this.numberOfVerticalTris
+            this.heightOfTriangle * this.numberOfVerticalTris
         )
         let color
 
@@ -106,19 +105,20 @@ export default class DrawTriangles {
 
             triangleCenterY =
                 heightOfKeyboard -
-                (heightOfTriangle / 2 + row * heightOfTriangle)
+                //(this.heightOfTriangle / 2 + row * this.heightOfTriangle)
+                this.heightOfTriangle * (0.5 + row)
             for (
                 let column = 0;
                 column < this.numberOfHorizontalTris;
                 column++
             ) {
                 triangleCenterX =
-                    (keyboard.width -
+                    (window.innerWidth -
                         (this.numberOfHorizontalTris / 2 + 0.5) *
-                        edgeOfTriangle) /
+                        this.edgeOfTriangle) /
                     2 +
-                    edgeOfTriangle / 2 +
-                    (column * edgeOfTriangle) / 2
+                    this.edgeOfTriangle / 2 +
+                    (column * this.edgeOfTriangle) / 2
 
                 indexOfNote = pitch % 12
                 color = noteColors[indexOfNote]
