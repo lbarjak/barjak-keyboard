@@ -31,14 +31,6 @@ export default class DrawTriangles {
             this.startTriangle = 45
         }
 
-        this.edgeOfTriangle =
-            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
-        Triangle.edgeOfTriangle = this.edgeOfTriangle
-        this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
-        this.numberOfHorizontalTris =
-            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
-        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
-
         if (this.instrument == "midi") {
             let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }
             this.startTriangle = starters[this.numberOfVerticalTris]
@@ -59,6 +51,14 @@ export default class DrawTriangles {
             let starters = { "4": this.player.min - 1, "5": this.player.min - 1, "6": this.player.min - 1, "7": this.player.min - 1 }
             this.startTriangle = starters[this.numberOfVerticalTris]
         }
+
+        this.edgeOfTriangle =
+            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
+        Triangle.edgeOfTriangle = this.edgeOfTriangle
+        this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
+        this.numberOfHorizontalTris =
+            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
+        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
     }
 
     drawTriangles() {
