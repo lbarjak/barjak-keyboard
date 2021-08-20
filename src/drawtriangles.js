@@ -68,34 +68,11 @@ export default class DrawTriangles {
         )
         let color
 
-        const noteNames = [
-            'C',
-            'C#',
-            'D',
-            'D#',
-            'E',
-            'F',
-            'F#',
-            'G',
-            'G#',
-            'A',
-            'A#',
-            'B'
-        ]
-        const noteColors = [
-            'white',
-            'black',
-            'white',
-            'black',
-            'white',
-            'white',
-            'black',
-            'white',
-            'black',
-            'white',
-            'black',
-            'white'
-        ]
+        const noteProperties = {
+            "noteColors": ['white', 'black', 'white', 'black', 'white', 'white', 'black', 'white', 'black', 'white', 'black', 'white'],
+            "noteNames": ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+        }
+        console.log(noteProperties.noteColors[6])
 
         let pitch,
             triangleCenterX,
@@ -124,7 +101,7 @@ export default class DrawTriangles {
                     (column * this.edgeOfTriangle) / 2
 
                 indexOfNote = pitch % 12
-                color = noteColors[indexOfNote]
+                color = noteProperties.noteColors[indexOfNote]
                 if (
                     (this.instrument != 'midi' &&
                         (pitch == this.startTriangle || pitch > this.player.max)) ||
@@ -137,7 +114,7 @@ export default class DrawTriangles {
                     triangleCenterX,
                     triangleCenterY,
                     mirroring,
-                    noteNames[indexOfNote],
+                    noteProperties.noteNames[indexOfNote],
                     color,
                     pitch,
                     countOfTriangles++
