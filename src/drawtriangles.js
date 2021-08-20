@@ -48,7 +48,7 @@ export default class DrawTriangles {
         if (this.instrument == "harpsichord2") {
             this.numberOfVerticalTris =
                 this.numberOfVerticalTris > 7 ? 7 : this.numberOfVerticalTris
-            let starters = { "4": this.player.min - 1, "5": this.player.min - 1, "6": this.player.min - 1, "7": this.player.min - 1 }
+            let starters = { "4": this.player.min - 1 + 24, "5": this.player.min - 1 + 12, "6": this.player.min - 1 + 7, "7": this.player.min - 1 }
             this.startTriangle = starters[this.numberOfVerticalTris]
         }
 
