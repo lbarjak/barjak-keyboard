@@ -7,13 +7,16 @@ export default class DrawTriangles {
         this.instrument = instrument
         this.player = player
         this.startTriangle = 0
-        this.numberOfHorizontalTris = 0
+        this.numberOfHorizontalTris = 2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
         this.settings()
     }
 
     settings() {
+
+        let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
+        console.log(countOfTriangles)
 
         let mobile = false
         if (
@@ -58,7 +61,7 @@ export default class DrawTriangles {
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris =
             2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
-        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
+        this.numberOfHorizontalTris = 2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
     }
 
     drawTriangles() {
