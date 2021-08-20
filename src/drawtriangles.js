@@ -31,33 +31,34 @@ export default class DrawTriangles {
             this.startTriangle = 45
         }
 
-        switch (this.instrument) {
-            case 'piano':
-                this.startTriangle =
-                    this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
-                break
-            case 'harpsichord':
-                this.numberOfVerticalTris =
-                    this.numberOfVerticalTris > 6 ? 6 : this.numberOfVerticalTris
-                this.startTriangle = this.player.min - 1
-                break
-            case 'harpsichord2':
-                this.numberOfVerticalTris =
-                    this.numberOfVerticalTris > 7 ? 7 : this.numberOfVerticalTris
-                this.startTriangle = this.player.min - 1
-                break
-            case 'midi':
-                this.startTriangle = this.numberOfVerticalTris > 8 ? 11 : 23
-        }
-
         this.edgeOfTriangle =
             (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         Triangle.edgeOfTriangle = this.edgeOfTriangle
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris =
             2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
-        console.log("countOfTriangles =", this.numberOfVerticalTris * this.numberOfHorizontalTris)
+        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
 
+        if (this.instrument == "midi") {
+            let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }
+            this.startTriangle = starters[this.numberOfVerticalTris]
+        }
+        if (this.instrument == "piano") {
+            this.startTriangle =
+                this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
+        }
+        if (this.instrument == "harpsichord") {
+            this.numberOfVerticalTris =
+                this.numberOfVerticalTris > 6 ? 6 : this.numberOfVerticalTris
+            let starters = { "4": this.player.min - 1 + 12, "5": this.player.min - 1 + 12, "6": this.player.min - 1 }
+            this.startTriangle = starters[this.numberOfVerticalTris]
+        }
+        if (this.instrument == "harpsichord2") {
+            this.numberOfVerticalTris =
+                this.numberOfVerticalTris > 7 ? 7 : this.numberOfVerticalTris
+            let starters = { "4": this.player.min - 1, "5": this.player.min - 1, "6": this.player.min - 1, "7": this.player.min - 1 }
+            this.startTriangle = starters[this.numberOfVerticalTris]
+        }
     }
 
     drawTriangles() {
