@@ -1,20 +1,24 @@
 import Triangle from './triangle.js'
 
 export default class DrawTriangles {
-    constructor(instrument, numberOfVerticalTris, player) {
-        this.numberOfVerticalTris = numberOfVerticalTris
-        this.numberOfHorizontalTris =
-            2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+    constructor() {
+        this.numberOfVerticalTris = 0
+        this.numberOfHorizontalTris = 0
         this.triangles = []
-        this.instrument = instrument
-        this.player = player
+        this.instrument = ""
+        this.player = null
         this.startTriangle = 0
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
-        this.settings()
+        //this.settings()
     }
 
-    settings() {
+    settings(instrument, numberOfVerticalTris, player) {
+        this.instrument = instrument
+        this.numberOfVerticalTris = numberOfVerticalTris
+        this.player = player
+        this.numberOfHorizontalTris =
+            2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
 
         //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
         let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6

@@ -34,10 +34,14 @@ export default class Index {
             }
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(
+                // self.selectedInst,
+                // self.selectedValue,
+                // self.player
+            )
+            self.drawTriangles.settings(
                 self.selectedInst,
                 self.selectedValue,
-                self.player
-            )
+                self.player)
             self.load()
         }
     }
