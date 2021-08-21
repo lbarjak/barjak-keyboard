@@ -12,6 +12,9 @@ export default class Index {
         this.menu()
     }
     menu() {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            document.getElementById("esc").style.display = "none"
+        }
         const btn = document.querySelector('#btn')
         self = this
         btn.onclick = function () {

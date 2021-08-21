@@ -19,22 +19,23 @@ export default class DrawTriangles {
         //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
         let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
         console.log("hangok száma:", countOfPitches)
+        console.log(this.player.max, this.player.min, this.player.max - this.player.min + 1)
 
-        let mobile = false
-        if (
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
-        ) {
-            mobile = true
-        }
-        if (mobile && window.screen.orientation.angle == 0) {
-            this.numberOfVerticalTris = 9
-            this.startTriangle = 33
-        }
-        if (mobile && window.screen.orientation.angle > 0) {
-            this.numberOfVerticalTris = 4
-            this.startTriangle = 45
-        }
+        // let mobile = false
+        // if (
+        //     /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ||
+        //     /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)
+        // ) {
+        //     mobile = true
+        // }
+        // if (mobile && window.screen.orientation.angle == 0) {
+        //     this.numberOfVerticalTris = 9
+        //     this.startTriangle = 33
+        // }
+        // if (mobile && window.screen.orientation.angle > 0) {
+        //     this.numberOfVerticalTris = 4
+        //     this.startTriangle = 45
+        // }
 
         if (this.instrument == "midi") {
             let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }
