@@ -2,15 +2,10 @@ import Triangle from './triangle.js'
 
 export default class DrawTriangles {
     constructor() {
-        this.numberOfVerticalTris = 0
-        this.numberOfHorizontalTris = 0
         this.triangles = []
-        this.instrument = ""
-        this.player = null
         this.startTriangle = 0
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
-        //this.settings()
     }
 
     settings(instrument, numberOfVerticalTris, player) {
