@@ -9,16 +9,31 @@ export default class DrawTriangles {
     }
 
     settings(instrument, numberOfVerticalTris, player) {
+        let self = this
         this.instrument = instrument
         this.numberOfVerticalTris = numberOfVerticalTris
         this.player = player
-        this.numberOfHorizontalTris =
-            2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+        this.numberOfHorizontalTris = numberOfHorizontalTris()
 
         //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
-        let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
-        console.log("hangok száma:", countOfPitches)
-        console.log(this.player.max, this.player.min, this.player.max - this.player.min + 1)
+
+        //let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
+        let countOfPitches = countOfPitchesF()
+        if (countOfPitches > (this.player.max - this.player.min + 1)) {
+            while (countOfPitches > (this.player.max - this.player.min + 1)) {
+                this.numberOfVerticalTris--
+                this.numberOfHorizontalTris = numberOfHorizontalTris()
+                countOfPitches = countOfPitchesF()
+            }
+            this.numberOfVerticalTris++
+            this.numberOfHorizontalTris = numberOfHorizontalTris()
+        }
+        function numberOfHorizontalTris() {
+            return 2 + 2 * Math.round(self.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+        }
+        function countOfPitchesF() {
+            return self.numberOfHorizontalTris - 1 + (self.numberOfVerticalTris - 1) * 6
+        }
 
         // let mobile = false
         // if (
@@ -42,7 +57,7 @@ export default class DrawTriangles {
         }
         if (this.instrument == "piano") {
             this.startTriangle = this.player.min - 1
-                //this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
+            //this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
         }
         if (this.instrument == "harpsichord") {
             // this.numberOfVerticalTris =
