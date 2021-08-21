@@ -3,11 +3,12 @@ import Triangle from './triangle.js'
 export default class DrawTriangles {
     constructor(instrument, numberOfVerticalTris, player) {
         this.numberOfVerticalTris = numberOfVerticalTris
+        this.numberOfHorizontalTris =
+            2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
         this.triangles = []
         this.instrument = instrument
         this.player = player
         this.startTriangle = 0
-        this.numberOfHorizontalTris = 2 + 2 * Math.round(this.numberOfVerticalTris * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
         this.settings()
@@ -15,8 +16,9 @@ export default class DrawTriangles {
 
     settings() {
 
-        let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
-        console.log(countOfTriangles)
+        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
+        let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
+        console.log("hangok száma:", countOfPitches)
 
         let mobile = false
         if (
@@ -85,7 +87,6 @@ export default class DrawTriangles {
             countOfTriangles = 0
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
             pitch = this.startTriangle + row * noteOffsetAlwaysSix
-
             triangleCenterY =
                 heightOfKeyboard -
                 //(this.heightOfTriangle / 2 + row * this.heightOfTriangle)
@@ -125,6 +126,7 @@ export default class DrawTriangles {
                 pitch++
             }
         }
+        console.log("countOfTriangles", countOfTriangles, "pitch", pitch)
         return this.triangles
     }
 }
