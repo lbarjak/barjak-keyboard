@@ -38,24 +38,24 @@ export default class DrawTriangles {
         // }
 
         if (this.instrument == "midi") {
-            let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }
-            this.startTriangle = starters[this.numberOfVerticalTris]
+            //let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }
+            this.startTriangle = this.player.min - 1//starters[this.numberOfVerticalTris]
         }
         if (this.instrument == "piano") {
-            this.startTriangle =
-                this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
+            this.startTriangle = this.player.min - 1
+                //this.numberOfVerticalTris > 6 ? this.player.min - 1 : this.player.min + 12 - 1
         }
         if (this.instrument == "harpsichord") {
-            this.numberOfVerticalTris =
-                this.numberOfVerticalTris > 6 ? 6 : this.numberOfVerticalTris
-            let starters = { "4": this.player.min - 1 + 12, "5": this.player.min - 1 + 12, "6": this.player.min - 1 }
-            this.startTriangle = starters[this.numberOfVerticalTris]
+            // this.numberOfVerticalTris =
+            //     this.numberOfVerticalTris > 6 ? 6 : this.numberOfVerticalTris
+            //let starters = { "4": this.player.min - 1 + 12, "5": this.player.min - 1 + 12, "6": this.player.min - 1 }
+            this.startTriangle = this.player.min - 1//starters[this.numberOfVerticalTris]
         }
         if (this.instrument == "harpsichord2") {
-            this.numberOfVerticalTris =
-                this.numberOfVerticalTris > 7 ? 7 : this.numberOfVerticalTris
-            let starters = { "4": this.player.min - 1 + 24, "5": this.player.min - 1 + 12, "6": this.player.min - 1 + 7, "7": this.player.min - 1 }
-            this.startTriangle = starters[this.numberOfVerticalTris]
+            // this.numberOfVerticalTris =
+            //     this.numberOfVerticalTris > 7 ? 7 : this.numberOfVerticalTris
+            //let starters = { "4": this.player.min - 1 + 24, "5": this.player.min - 1 + 12, "6": this.player.min - 1 + 7, "7": this.player.min - 1 }
+            this.startTriangle = this.player.min - 1//starters[this.numberOfVerticalTris]
         }
 
         this.edgeOfTriangle =
@@ -107,11 +107,12 @@ export default class DrawTriangles {
 
                 indexOfNote = pitch % 12
                 color = noteProperties.noteColors[indexOfNote]
-                if (
-                    (this.instrument != 'midi' &&
-                        (pitch == this.startTriangle || pitch > this.player.max)) ||
-                    (this.instrument == 'midi' && pitch == this.startTriangle)
-                )
+                // if (
+                //     (this.instrument != 'midi' &&
+                //         (pitch == this.startTriangle || pitch > this.player.max)) ||
+                //     (this.instrument == 'midi' && pitch == this.startTriangle)
+                // )
+                if (pitch == this.startTriangle || pitch > this.player.max)
                     color = 'gray'
 
                 mirroring = 2 * (column % 2 ^ row % 2) - 1

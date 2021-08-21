@@ -26,20 +26,22 @@ export default class Events {
     midi(onoff, serNumOfTri) {
         let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
-        console.log(
-            "output:",
-            this.midiOutput.name,
-            '-',
-            'midiEvent:',
-            onoff.toString(16)[0],
-            ' midiChannel:',
-            this.midiChannel,
-            ' midiKey:',
-            pitch,
-            'midiVelocity:',
-            127
-        )
+        if (pitch < 128) {
+            this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+            console.log(
+                "output:",
+                this.midiOutput.name,
+                '-',
+                'midiEvent:',
+                onoff.toString(16)[0],
+                ' midiChannel:',
+                this.midiChannel,
+                ' midiKey:',
+                pitch,
+                'midiVelocity:',
+                127
+            )
+        }
     }
     soundSwitch(onOff, serNumOfTri, allOff = false) {
         let pitch
