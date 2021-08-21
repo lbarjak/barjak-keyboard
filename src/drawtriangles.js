@@ -19,8 +19,8 @@ export default class DrawTriangles {
 
         //let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
         let countOfPitches = countOfPitchesF()
-        if (countOfPitches > (this.player.max - this.player.min + 1)) {
-            while (countOfPitches > (this.player.max - this.player.min + 1)) {
+        if (countOfPitches > (this.player.max - this.player.min + 1 - 1)) {
+            while (countOfPitches > (this.player.max - this.player.min + 1 - 1)) {
                 this.numberOfVerticalTris--
                 this.numberOfHorizontalTris = numberOfHorizontalTris()
                 countOfPitches = countOfPitchesF()
