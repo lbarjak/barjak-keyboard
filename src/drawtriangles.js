@@ -37,7 +37,8 @@ export default class DrawTriangles {
     }
 
     settings(numberOfVerticalTris = 16) {
-        this.numberOfVerticalTris = this.numberOfVerticalTrisMax
+        this.numberOfVerticalTris = numberOfVerticalTris
+        //this.numberOfVerticalTris = this.numberOfVerticalTrisMax
 
         if (this.instrument == "midi") {
             //let starters = { "4": 47, "5": 47, "6": 35, "7": 23, "8": 23, "9": 11, "10": 11 }

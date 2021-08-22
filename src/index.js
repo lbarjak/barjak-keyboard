@@ -15,6 +15,24 @@ export default class Index {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             document.getElementById("esc").style.display = "none"
         }
+        
+        function insertRows() {
+            let rows = document.getElementById("rows")
+            let sp = String.fromCharCode(160)
+            for (let i = 4; i <= 16; i++) {
+                let input = document.createElement('input')
+                rows.append(input)
+                input.type = "radio"
+                input.name = "rows"
+                input.value = i
+                let label = document.createElement("label")
+                label.textContent = i + sp + sp + sp
+                rows.append(label)
+            }
+        }
+        insertRows()
+
+
         const btn = document.querySelector('#btn')
         self = this
         btn.onclick = function () {
@@ -34,8 +52,8 @@ export default class Index {
             }
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
-            //self.drawTriangles.settings(self.selectedValue)
-            self.drawTriangles.settings()
+            self.drawTriangles.settings(self.selectedValue)
+            //self.drawTriangles.settings()
 
             self.load()
         }
