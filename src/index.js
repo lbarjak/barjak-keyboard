@@ -74,10 +74,7 @@ export default class Index {
             const rbs = document.querySelectorAll('input[name="rows"]')
             for (const rb of rbs) {
                 rb.onchange = () => {
-                    console.log(rb.value)
                     self.selectedValue = rb.value
-                    console.log(self.selectedValue)
-                    //self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
                     self.load()
                 }
             }
