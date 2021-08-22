@@ -9,8 +9,34 @@ export default class Index {
         this.selectedInst = "piano"
         this.selectedValue = 6
         this.drawTriangles = null
+        this.numberOfVerticalTrisMax = 16
         this.menu()
     }
+
+    precalc(instrument) {  
+        let numberOfVerticalTrisMax = 16
+        let numberOfHorizontalTris = numberOfHorizontalTrisF()
+        let countOfPitches = countOfPitchesF()
+        let soundsOfInst = BufferPlayer.instruments[instrument].max - BufferPlayer.instruments[instrument].min + 1
+        if (countOfPitches > (soundsOfInst - 1)) {
+            while (countOfPitches > (soundsOfInst - 1)) {
+                numberOfVerticalTrisMax--
+                numberOfHorizontalTris = numberOfHorizontalTrisF()
+                countOfPitches = countOfPitchesF()
+            }
+            numberOfVerticalTrisMax++
+            numberOfHorizontalTris = numberOfHorizontalTrisF()
+        }
+        function numberOfHorizontalTrisF() {
+            return 2 + 2 * Math.round(numberOfVerticalTrisMax * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+        }
+        function countOfPitchesF() {
+            return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
+        }
+        this.numberOfVerticalTrisMax = numberOfVerticalTrisMax
+        console.log("numberOfVerticalTrisMax", numberOfVerticalTrisMax)
+    }
+
     menu() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             document.getElementById("esc").style.display = "none"
@@ -24,6 +50,7 @@ export default class Index {
                 rows.append(input)
                 input.type = "radio"
                 input.name = "rows"
+                //if (i == 6) input.checked = "checked"
                 input.value = i
                 let label = document.createElement("label")
                 label.textContent = i + sp + sp + sp
@@ -52,9 +79,7 @@ export default class Index {
             }
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
-            self.drawTriangles.settings(self.selectedValue)
-            //self.drawTriangles.settings()
-
+            self.precalc(self.selectedInst)
             self.load()
         }
     }
@@ -102,7 +127,7 @@ export default class Index {
     }
 
     kbd() {
-        let triangles = this.drawTriangles.drawTriangles()
+        let triangles = this.drawTriangles.drawTriangles(this.numberOfVerticalTrisMax)
         new Events(
             triangles,
             this.player,

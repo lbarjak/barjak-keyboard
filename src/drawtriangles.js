@@ -10,34 +10,35 @@ export default class DrawTriangles {
         this.startTriangle = 0
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
-        this.precalc()
+        //this.precalc()
+        this.settings()
     }
 
-    precalc() {  
-        let numberOfVerticalTrisMax = 16
-        let numberOfHorizontalTris = numberOfHorizontalTrisF()
-        let countOfPitches = countOfPitchesF()
-        let soundsOfInst = this.player.max - this.player.min + 1
-        if (countOfPitches > (soundsOfInst - 1)) {
-            while (countOfPitches > (soundsOfInst - 1)) {
-                numberOfVerticalTrisMax--
-                numberOfHorizontalTris = numberOfHorizontalTrisF()
-                countOfPitches = countOfPitchesF()
-            }
-            numberOfVerticalTrisMax++
-            numberOfHorizontalTris = numberOfHorizontalTrisF()
-        }
-        function numberOfHorizontalTrisF() {
-            return 2 + 2 * Math.round(numberOfVerticalTrisMax * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
-        }
-        function countOfPitchesF() {
-            return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
-        }
-        this.numberOfVerticalTrisMax = numberOfVerticalTrisMax
-    }
+    // precalc() {  
+    //     let numberOfVerticalTrisMax = 16
+    //     let numberOfHorizontalTris = numberOfHorizontalTrisF()
+    //     let countOfPitches = countOfPitchesF()
+    //     let soundsOfInst = this.player.max - this.player.min + 1
+    //     if (countOfPitches > (soundsOfInst - 1)) {
+    //         while (countOfPitches > (soundsOfInst - 1)) {
+    //             numberOfVerticalTrisMax--
+    //             numberOfHorizontalTris = numberOfHorizontalTrisF()
+    //             countOfPitches = countOfPitchesF()
+    //         }
+    //         numberOfVerticalTrisMax++
+    //         numberOfHorizontalTris = numberOfHorizontalTrisF()
+    //     }
+    //     function numberOfHorizontalTrisF() {
+    //         return 2 + 2 * Math.round(numberOfVerticalTrisMax * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+    //     }
+    //     function countOfPitchesF() {
+    //         return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
+    //     }
+    //     this.numberOfVerticalTrisMax = numberOfVerticalTrisMax
+    // }
 
-    settings(numberOfVerticalTris = 16) {
-        this.numberOfVerticalTris = numberOfVerticalTris
+    settings() {
+        //this.numberOfVerticalTris = numberOfVerticalTris
         //this.numberOfVerticalTris = this.numberOfVerticalTrisMax
 
         if (this.instrument == "midi") {
@@ -60,14 +61,16 @@ export default class DrawTriangles {
             //let starters = { "4": this.player.min - 1 + 24, "5": this.player.min - 1 + 12, "6": this.player.min - 1 + 7, "7": this.player.min - 1 }
             this.startTriangle = this.player.min - 1//starters[this.numberOfVerticalTris]
         }
+    }
+
+    drawTriangles(numberOfVerticalTris) {
+        this.numberOfVerticalTris = numberOfVerticalTris
 
         this.edgeOfTriangle = (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         Triangle.edgeOfTriangle = this.edgeOfTriangle
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris = 2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
-    }
 
-    drawTriangles() {
         const noteOffsetAlwaysSix = 6
         let heightOfKeyboard = Math.round(
             this.heightOfTriangle * this.numberOfVerticalTris

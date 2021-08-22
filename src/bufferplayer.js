@@ -4,12 +4,20 @@ export default class BufferPlayer {
     static getInstance(instrument) {
         if (!BufferPlayer.instance) {
             BufferPlayer.instance = new BufferPlayer(instrument)
-        } else if (BufferPlayer.instance.instrument != instrument){
+        } else if (BufferPlayer.instance.instrument != instrument) {
             console.log("else if ág ", BufferPlayer.instance.instrument, instrument)
             BufferPlayer.instance = new BufferPlayer(instrument)
         }
         return BufferPlayer.instance
     }
+
+    static instruments =
+        {
+            "piano": { "min": 24, "max": 108, "initInstrument": './piano/'},//C1 - C8
+            "harpsichord": { "min": 36, "max": 86, "initInstrument": './zell_1737_8_i/' },//C2 - D6
+            "harpsichord2": { "min": 29, "max": 88, "initInstrument": './pjcohen/' },//F1 - E6
+            "midi": { "min": 12, "max": 127}//C0 - G9
+        }
 
     constructor(instrument = 'piano') {
         this.audioContext = new (window.AudioContext ||
@@ -22,34 +30,42 @@ export default class BufferPlayer {
         this.gains = []
         this.delay = .0
         this.min = 12
-        this.max = 119
+        this.max = 127
         this.loading = 0
         this.instrument = instrument
 
-        if (this.instrument == 'piano') {
-            //midi 24 C1 - 108 C8
-            this.min = 24
-            this.max = 108
-            this.initInstrument('./piano/')
-        }
-        if (this.instrument == 'harpsichord') {
-            //midi 36 C2 - 86 D6
-            this.min = 36
-            this.max = 86
-            this.initInstrument('./zell_1737_8_i/')
-        }
-        if (this.instrument == 'harpsichord2') {
-            //midi 29 F1 - 88 E6
-            this.min = 29
-            this.max = 88
-            this.initInstrument('./pjcohen/')
-        }
+        this.min = BufferPlayer.instruments[this.instrument].min
+        this.max = BufferPlayer.instruments[this.instrument].max
         if (this.instrument == 'midi') {
-            //midi 12 C0 - 127 G9
-            this.min = 12
-            this.max = 127
             this.loading = 116
+        } else {
+            this.initInstrument(BufferPlayer.instruments[this.instrument].initInstrument)
         }
+
+        // if (this.instrument == 'piano') {
+        //     //midi 24 C1 - 108 C8
+        //     this.min = 24
+        //     this.max = 108
+        //     this.initInstrument('./piano/')
+        // }
+        // if (this.instrument == 'harpsichord') {
+        //     //midi 36 C2 - 86 D6
+        //     this.min = 36
+        //     this.max = 86
+        //     this.initInstrument('./zell_1737_8_i/')
+        // }
+        // if (this.instrument == 'harpsichord2') {
+        //     //midi 29 F1 - 88 E6
+        //     this.min = 29
+        //     this.max = 88
+        //     this.initInstrument('./pjcohen/')
+        // }
+        // if (this.instrument == 'midi') {
+        //     //midi 12 C0 - 127 G9
+        //     this.min = 12
+        //     this.max = 127
+        //     this.loading = 116
+        // }
 
         this.midiInit()
     }
