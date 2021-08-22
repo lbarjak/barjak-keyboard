@@ -34,7 +34,6 @@ export default class Index {
             return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
         }
         this.numberOfVerticalTrisMax = numberOfVerticalTrisMax
-        console.log("numberOfVerticalTrisMax", numberOfVerticalTrisMax)
     }
 
     menu() {
@@ -50,7 +49,7 @@ export default class Index {
                 rows.append(input)
                 input.type = "radio"
                 input.name = "rows"
-                //if (i == 6) input.checked = "checked"
+                if (i == 6) input.checked = "checked"
                 input.value = i
                 let label = document.createElement("label")
                 label.textContent = i + sp + sp + sp
@@ -58,7 +57,6 @@ export default class Index {
             }
         }
         insertRows()
-
 
         const btn = document.querySelector('#btn')
         self = this
@@ -80,6 +78,7 @@ export default class Index {
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
             self.precalc(self.selectedInst)
+            self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
             self.load()
         }
     }
@@ -127,7 +126,7 @@ export default class Index {
     }
 
     kbd() {
-        let triangles = this.drawTriangles.drawTriangles(this.numberOfVerticalTrisMax)
+        let triangles = this.drawTriangles.drawTriangles(this.selectedValue)
         new Events(
             triangles,
             this.player,
