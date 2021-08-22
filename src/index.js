@@ -13,7 +13,7 @@ export default class Index {
         this.menu()
     }
 
-    precalc(instrument) {  
+    precalc(instrument) {
         let numberOfVerticalTrisMax = 16
         let numberOfHorizontalTris = numberOfHorizontalTrisF()
         let countOfPitches = countOfPitchesF()
@@ -40,53 +40,54 @@ export default class Index {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             document.getElementById("esc").style.display = "none"
         }
-        
+
         function insertRows() {
             let rows = document.getElementById("rows")
             let sp = String.fromCharCode(160)
-            for (let i = 4; i <= 16; i++) {
+            for (let i = 4; i <= self.numberOfVerticalTrisMax; i++) {
                 let input = document.createElement('input')
                 rows.append(input)
                 input.type = "radio"
                 input.name = "rows"
-                if (i == 6) input.checked = "checked"
+                //if (i == 6) input.checked = "checked"
                 input.value = i
                 let label = document.createElement("label")
                 label.textContent = i + sp + sp + sp
                 rows.append(label)
             }
         }
-        insertRows()
 
-        const btn = document.querySelector('#btn')
-        self = this
-        btn.onclick = function () {
-            const inst = document.querySelectorAll('input[name="instrument"]')
-            for (const ins of inst) {
-                if (ins.checked) {
-                    self.selectedInst = ins.value
-                    break
-                }
+        let self = this
+        const inst = document.querySelectorAll('input[name="instrument"]')
+        for (const ins of inst) {
+            ins.onchange = () => {
+                self.selectedInst = ins.value
+                instances()
             }
-            const rbs = document.querySelectorAll('input[name="rows"]')
-            for (const rb of rbs) {
-                if (rb.checked) {
-                    self.selectedValue = rb.value
-                    break
-                }
-            }
+        }
+        function instances() {
             self.player = BufferPlayer.getInstance(self.selectedInst)
             self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
             self.precalc(self.selectedInst)
             self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
-            self.load()
+            insertRows()
+            const rbs = document.querySelectorAll('input[name="rows"]')
+            for (const rb of rbs) {
+                rb.onchange = () => {
+                    console.log(rb.value)
+                    self.selectedValue = rb.value
+                    console.log(self.selectedValue)
+                    //self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
+                    self.load()
+                }
+            }
         }
     }
 
     load() {
+        let self = this
         this.keyboard.style.display = "block"
         this.page1.style.display = "none"
-        let self = this
         window.ctx = this.keyboard.getContext('2d')
         this.keyboard.width = window.innerWidth
         this.keyboard.height = window.innerHeight
