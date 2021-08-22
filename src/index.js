@@ -33,15 +33,10 @@ export default class Index {
                 }
             }
             self.player = BufferPlayer.getInstance(self.selectedInst)
-            self.drawTriangles = new DrawTriangles(
-                // self.selectedInst,
-                // self.selectedValue,
-                // self.player
-            )
-            self.drawTriangles.settings(
-                self.selectedInst,
-                self.selectedValue,
-                self.player)
+            self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
+            //self.drawTriangles.settings(self.selectedValue)
+            self.drawTriangles.settings()
+
             self.load()
         }
     }
@@ -89,8 +84,6 @@ export default class Index {
     }
 
     kbd() {
-        //let self = this
-        //self.keyboard.style.display = "block"
         let triangles = this.drawTriangles.drawTriangles()
         new Events(
             triangles,
@@ -101,7 +94,6 @@ export default class Index {
         document.addEventListener('keydown', logKey);
         function logKey(e) {
             if (e.key === "Escape") {
-                //self.keyboard.style.display = "none"
                 let oAjax = new XMLHttpRequest;
                 oAjax.open('get', '');
                 oAjax.setRequestHeader('Pragma', 'no-cache');

@@ -1,26 +1,30 @@
 import Triangle from './triangle.js'
 
 export default class DrawTriangles {
-    constructor() {
+    constructor(instrument, player) {
+        this.instrument = instrument
+        this.player = player
         this.triangles = []
         this.startTriangle = 0
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
     }
 
-    settings(instrument, numberOfVerticalTris, player) {
+    // precalc() {
+
+    // }
+
+    settings(numberOfVerticalTris = 16) {
         let self = this
-        this.instrument = instrument
+        
         this.numberOfVerticalTris = numberOfVerticalTris
-        this.player = player
+        
         this.numberOfHorizontalTris = numberOfHorizontalTris()
 
-        //let countOfTriangles = this.numberOfVerticalTris * this.numberOfHorizontalTris
-
-        //let countOfPitches = this.numberOfHorizontalTris - 1 + (this.numberOfVerticalTris - 1) * 6
         let countOfPitches = countOfPitchesF()
-        if (countOfPitches > (this.player.max - this.player.min + 1 - 1)) {
-            while (countOfPitches > (this.player.max - this.player.min + 1 - 1)) {
+        let soundsOfInst = this.player.max - this.player.min + 1
+        if (countOfPitches > (soundsOfInst - 1)) {
+            while (countOfPitches > (soundsOfInst - 1)) {
                 this.numberOfVerticalTris--
                 this.numberOfHorizontalTris = numberOfHorizontalTris()
                 countOfPitches = countOfPitchesF()
@@ -72,12 +76,9 @@ export default class DrawTriangles {
             this.startTriangle = this.player.min - 1//starters[this.numberOfVerticalTris]
         }
 
-        this.edgeOfTriangle =
-            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
+        this.edgeOfTriangle = (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         Triangle.edgeOfTriangle = this.edgeOfTriangle
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
-        this.numberOfHorizontalTris =
-            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
         this.numberOfHorizontalTris = 2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
     }
 
@@ -121,11 +122,6 @@ export default class DrawTriangles {
 
                 indexOfNote = pitch % 12
                 color = noteProperties.noteColors[indexOfNote]
-                // if (
-                //     (this.instrument != 'midi' &&
-                //         (pitch == this.startTriangle || pitch > this.player.max)) ||
-                //     (this.instrument == 'midi' && pitch == this.startTriangle)
-                // )
                 if (pitch == this.startTriangle || pitch > this.player.max)
                     color = 'gray'
 
