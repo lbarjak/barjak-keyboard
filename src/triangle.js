@@ -1,5 +1,4 @@
 export default class Triangle {
-    //static drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, pitch, x,  y, pos) {
     static drawTriangle(triangle, color, noteName, pitch, x,  y, pos) {
         ctx.beginPath()
         ctx.moveTo(triangle.x1, triangle.y1)
@@ -9,17 +8,11 @@ export default class Triangle {
         ctx.fillStyle = color
         ctx.fill()
         ctx.lineWidth = 2
-        // color == 'gray' 
-        //     ? ctx.strokeStyle = '#999999' 
-        //     : ctx.strokeStyle = '#808080'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
         ctx.font = (triangle.x2 - triangle.x1) * 0.4 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        // color == 'gray'
-        //     ? ctx.strokeStyle = '#999999'
-        //     : ctx.strokeStyle = '#808080'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.lineWidth = 1
         let shift = (pos * (triangle.x2 - triangle.x1)) / 5
