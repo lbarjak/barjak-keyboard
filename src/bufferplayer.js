@@ -16,11 +16,8 @@ export default class BufferPlayer {
         }
 
     constructor(instrument = 'piano') {
-        this.audioContext = new (window.AudioContext ||
-            window.webkitAudioContext ||
-            window.mozAudioContext ||
-            window.oAudioContext ||
-            window.msAudioContext)()
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext ||
+            window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
         this.buffers = []
         this.channels = []
         this.gains = []
@@ -104,7 +101,6 @@ export default class BufferPlayer {
                 connect(event.port)
             }
         }
-
         function connect(port) {
             console.log('BufferPlayer connected:', port.type, port.name)
             port.onmidimessage = midiMessage
@@ -117,26 +113,14 @@ export default class BufferPlayer {
             midiChannel = midiStatusByte.substring(1)
             midiKey = event.data[1]
             midiVelocity = self.instrument == 'piano' ? event.data[2] : 127
-            console.log(
-                "input:",
-                event.currentTarget.name,
-                '-',
-                'midiEvent:',
-                midiEvent,
-                ' midiChannel:',
-                midiChannel,
-                ' midiKey:',
-                midiKey,
-                'midiVelocity:',
-                midiVelocity
-            )
+            console.log("input:", event.currentTarget.name, '-', 'midiEvent:', midiEvent,
+                ' midiChannel:', midiChannel, ' midiKey:', midiKey, 'midiVelocity:', midiVelocity)
             if (midiEvent == '9') {
                 self.play(midiKey, midiChannel, midiVelocity)
             } else {
                 self.stop(midiKey, midiChannel)
             }
         }
-
         navigator.requestMIDIAccess().then(midi)
     }
 }
