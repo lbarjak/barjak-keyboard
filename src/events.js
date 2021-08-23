@@ -75,7 +75,7 @@ export default class Events {
     init() {
         const keyboard = document.getElementsByTagName('canvas')[0]
 
-        window.addEventListener('orientationchange', function (e) {
+        window.onorientationchange = function (e) {
             let oAjax = new XMLHttpRequest;
             oAjax.open('get', '');
             oAjax.setRequestHeader('Pragma', 'no-cache');
@@ -93,7 +93,7 @@ export default class Events {
             // keyboard.removeEventListener('mousedown', handleMouse, false)
             // keyboard.removeEventListener('mousemove', handleMouse, false)
             // keyboard.removeEventListener('mouseup', handleMouse, false)
-        })
+        }
 
         let self = this
         keyboard.addEventListener('mouseout', handleMouse, false)
