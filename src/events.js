@@ -43,20 +43,9 @@ export default class Events {
             )
         }
     }
-    soundSwitch(onOff, serNumOfTri, allOff = false) {
+
+    soundSwitch(onOff, serNumOfTri) {
         let pitch
-        if (allOff) {
-            for (serNumOfTri in this.triangles) {
-                pitch = this.triangles[serNumOfTri].getSound()
-                if (this.sounds[pitch]) {
-                    this.instrument == 'midi'
-                        ? this.midi(128, serNumOfTri)
-                        : this.player.stop(pitch, serNumOfTri)
-                    this.triangles[serNumOfTri].setSignOff()
-                }
-            }
-            this.sounds = []
-        }
         pitch = this.triangles[serNumOfTri].getSound()
         if (onOff) {
             if (!this.sounds[pitch]) {
@@ -85,7 +74,7 @@ export default class Events {
     init() {
         const keyboard = document.getElementsByTagName('canvas')[0]
 
-        window.addEventListener('orientationchange', function (e) {
+        window.onorientationchange = function (e) {
             let oAjax = new XMLHttpRequest;
             oAjax.open('get', '');
             oAjax.setRequestHeader('Pragma', 'no-cache');
@@ -103,7 +92,7 @@ export default class Events {
             // keyboard.removeEventListener('mousedown', handleMouse, false)
             // keyboard.removeEventListener('mousemove', handleMouse, false)
             // keyboard.removeEventListener('mouseup', handleMouse, false)
-        })
+        }
 
         let self = this
         keyboard.addEventListener('mouseout', handleMouse, false)
@@ -131,7 +120,6 @@ export default class Events {
                     false,
                     prevTriangleSerNum
                 )
-                if (!isMouseDown) self.soundSwitch(false, 0, true)
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
