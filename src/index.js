@@ -58,11 +58,18 @@ export default class Index {
         }
 
         let self = this
-        const inst = document.querySelectorAll('input[name="instrument"]')
+        let inst = document.querySelectorAll('input[name="instrument"]')
+        let rows = document.getElementById("rows")
         for (const ins of inst) {
             ins.onchange = () => {
                 self.selectedInst = ins.value
+                removeAllChildNodes(rows)
                 instances()
+            }
+        }
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
             }
         }
         function instances() {
