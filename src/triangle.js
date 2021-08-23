@@ -1,9 +1,10 @@
 export default class Triangle {
-    static drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, pitch, x,  y, pos) {
+    //static drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, pitch, x,  y, pos) {
+    static drawTriangle(triangle, color, noteName, pitch, x,  y, pos) {
         ctx.beginPath()
-        ctx.moveTo(x1, y1)
-        ctx.lineTo(x2, y2)
-        ctx.lineTo(x3, y3)
+        ctx.moveTo(triangle.x1, triangle.y1)
+        ctx.lineTo(triangle.x2, triangle.y2)
+        ctx.lineTo(triangle.x3, triangle.y3)
         ctx.closePath()
         ctx.fillStyle = color
         ctx.fill()
@@ -13,7 +14,7 @@ export default class Triangle {
         //     : ctx.strokeStyle = '#808080'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
-        ctx.font = (x2 - x1) * 0.4 + 'px Arial'
+        ctx.font = (triangle.x2 - triangle.x1) * 0.4 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         // color == 'gray'
@@ -21,7 +22,7 @@ export default class Triangle {
         //     : ctx.strokeStyle = '#808080'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.lineWidth = 1
-        let shift = (pos * (x2 - x1)) / 5
+        let shift = (pos * (triangle.x2 - triangle.x1)) / 5
         ctx.strokeText(
             noteName + ((pitch - (pitch % 12)) / 12 - 1),
             x,
@@ -30,17 +31,17 @@ export default class Triangle {
         ctx.fillStyle = color
         ctx.fillText(noteName + ((pitch - (pitch % 12)) / 12 - 1), x, y + shift)
     }
-    static drawTriangleSign(x1, y1, x2, y2, x3, y3, color, noteName, n, x, y, pos) {
+    static drawTriangleSign(triangle, color, noteName, n, x, y, pos) {
         if (color != 'gray') {
             color = color == 'white' ? '#ffcccc' : '#660000'
-            Triangle.drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, n, x, y, pos)
+            Triangle.drawTriangle(triangle, color, noteName, n, x, y, pos)
         }
     }
-    static isPointInTriangle(x1, y1, x2, y2, x3, y3, pointerX, pointerY) {
+    static isPointInTriangle(triangle, pointerX, pointerY) {
         ctx.beginPath()
-        ctx.moveTo(x1, y1)
-        ctx.lineTo(x2, y2)
-        ctx.lineTo(x3, y3)
+        ctx.moveTo(triangle.x1, triangle.y1)
+        ctx.lineTo(triangle.x2, triangle.y2)
+        ctx.lineTo(triangle.x3, triangle.y3)
         ctx.closePath()
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
@@ -69,12 +70,13 @@ export default class Triangle {
         this.y1 = Math.round(centerY + (mirroring * height) / 2)
         this.y2 = Math.round(centerY - (mirroring * height) / 2)
         this.y3 = this.y1
-        Triangle.drawTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
+        this.triangle = {"x1": this.x1, "x2": this.x2, "x3": this.x3, "y1": this.y1, "y2": this.y2, "y3": this.y3}
+        Triangle.drawTriangle(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
     getCurrentTriangle(x, y) {
         if (
-            Triangle.isPointInTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, x, y)
+            Triangle.isPointInTriangle(this.triangle, x, y)
         ) {
             return this.serNumOfTri
         }
@@ -86,10 +88,10 @@ export default class Triangle {
     }
 
     setSignOn() {
-        Triangle.drawTriangleSign(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
+        Triangle.drawTriangleSign(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
     setSignOff() {
-        Triangle.drawTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
+        Triangle.drawTriangle(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 }
