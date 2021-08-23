@@ -83,7 +83,7 @@ export default class Index {
                 rb.onchange = () => {
                     self.selectedValue = rb.value
                     self.player = BufferPlayer.getInstance(self.selectedInst)
-                    self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
+                    self.drawTriangles = new DrawTriangles(self.player)
                     self.load()
                 }
             }
