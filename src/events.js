@@ -6,8 +6,8 @@ export default class Events {
         this.instrument = instrument
         this.numberOfHorizontalTris = numberOfHorizontalTris
         this.midiOutputs = []
-        this.midiOutput
-        this.midiChannel
+        this.midiOutput = null
+        this.midiChannel = 0
         this.init()
         this.midiInit()
     }
@@ -20,17 +20,45 @@ export default class Events {
                 self.midiOutputs.push(output)
             }
             if (self.midiOutputs[0]) self.midiOutput = self.midiOutputs[0]
+            console.log('event.js/Events connected:', self.midiOutputs[0].type, self.midiOutputs[0].name)
         })
     }
     midi(onoff, serNumOfTri) {
         let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        console.log(pitch)
-        this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+        if (pitch < 128) {
+            this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+            console.log(
+                "output:",
+                this.midiOutput.name,
+                '-',
+                'midiEvent:',
+                onoff.toString(16)[0],
+                ' midiChannel:',
+                this.midiChannel,
+                ' midiKey:',
+                pitch,
+                'midiVelocity:',
+                127
+            )
+        }
     }
-    soundSwitch(onoff, serNumOfTri) {
-        let pitch = this.triangles[serNumOfTri].getSound()
-        if (onoff == 1) {
+    soundSwitch(onOff, serNumOfTri, allOff = false) {
+        let pitch
+        if (allOff) {
+            for (serNumOfTri in this.triangles) {
+                pitch = this.triangles[serNumOfTri].getSound()
+                if (this.sounds[pitch]) {
+                    this.instrument == 'midi'
+                        ? this.midi(128, serNumOfTri)
+                        : this.player.stop(pitch, serNumOfTri)
+                    this.triangles[serNumOfTri].setSignOff()
+                }
+            }
+            this.sounds = []
+        }
+        pitch = this.triangles[serNumOfTri].getSound()
+        if (onOff) {
             if (!this.sounds[pitch]) {
                 this.sounds[pitch] = {}
                 this.sounds[pitch][serNumOfTri] = false
@@ -43,7 +71,7 @@ export default class Events {
                 this.triangles[serNumOfTri].setSignOn()
             }
         }
-        if (onoff == 0) {
+        if (!onOff) {
             if (this.sounds[pitch]) {
                 this.instrument == 'midi'
                     ? this.midi(128, serNumOfTri)
@@ -56,6 +84,27 @@ export default class Events {
 
     init() {
         const keyboard = document.getElementsByTagName('canvas')[0]
+
+        window.addEventListener('orientationchange', function (e) {
+            let oAjax = new XMLHttpRequest;
+            oAjax.open('get', '');
+            oAjax.setRequestHeader('Pragma', 'no-cache');
+            oAjax.send();
+            oAjax.onreadystatechange = function () {
+                if (oAjax.readyState === 4) {
+                    location.reload();
+                }
+            }
+            // keyboard.removeEventListener('touchstart', handleTouch, false)
+            // keyboard.removeEventListener('touchmove', handleTouch, false)
+            // keyboard.removeEventListener('touchend', handleTouch, false)
+            // keyboard.removeEventListener('touchcancel', handleTouch, false)
+            // keyboard.removeEventListener('mouseout', handleMouse, false)
+            // keyboard.removeEventListener('mousedown', handleMouse, false)
+            // keyboard.removeEventListener('mousemove', handleMouse, false)
+            // keyboard.removeEventListener('mouseup', handleMouse, false)
+        })
+
         let self = this
         keyboard.addEventListener('mouseout', handleMouse, false)
         keyboard.addEventListener('mousedown', handleMouse, false)
@@ -70,18 +119,19 @@ export default class Events {
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
                 self.soundSwitch(
-                    1,
+                    true,
                     currentTriangleSerNum
                 )
                 if (prevTriangleSerNum == currentTriangleSerNum) {
                     prevTriangleSerNum = null
                 }
             }
-            if (prevTriangleSerNum) {
+            if (prevTriangleSerNum && (self.sounds.length > 0)) {
                 self.soundSwitch(
-                    0,
+                    false,
                     prevTriangleSerNum
                 )
+                if (!isMouseDown) self.soundSwitch(false, 0, true)
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
@@ -94,17 +144,18 @@ export default class Events {
         function handleTouch(e) {
             e.preventDefault()
             let currentTriangles = []
-            for (let touch = 0; touch < e.touches.length; touch++) {
-                let currentTriangleSerNum = getCurrentTriangle(
+            for (let touch in e.touches) {
+                currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX,
                     e.touches[touch].clientY
                 )
                 if (currentTriangleSerNum) {
                     self.soundSwitch(
-                        1,
+                        true,
                         currentTriangleSerNum
                     )
-                    for (let serNumOfTri in prevTriangles) {
+                    let serNumOfTri = 0
+                    for (serNumOfTri in prevTriangles) {
                         if (
                             prevTriangles[serNumOfTri] == currentTriangleSerNum
                         ) {
@@ -116,7 +167,7 @@ export default class Events {
             }
             for (let serNumOfTri in prevTriangles) {
                 self.soundSwitch(
-                    0,
+                    false,
                     prevTriangles[serNumOfTri]
                 )
             }

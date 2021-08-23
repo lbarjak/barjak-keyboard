@@ -14,63 +14,58 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="stylesheet" type="text/css" href="./src/main.css" />
     <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            border: 0;
+            overflow: hidden;
+            /*  Disable scrollbars */
+            display: block;
+            /* No floating content on sides */
+        }
         body {
             background-image: url('background.png');
             font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
         }
-
-        .container {
-            height: 50vh;
+        canvas {
+            display: none;
+        }
+        #page1 {
+            height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
         }
     </style>
     <script type="module">
-        import IndexJS from './src/index.js'
+        import Index from './src/index.js'
         window.onload = function (e) {
-            new IndexJS()
+            new Index()
         }
     </script>
 </head>
 
 <body>
-    <div class="container">
-        <div>
-            <h2>Barjak-keyboard</h2>
-        </div>
-        <div>
-            <form style="text-align: center">
-                <h3 style="text-align: center">Instrument:</h3>
-                <input
-                    type="radio"
-                    name="instrument"
-                    value="piano"
-                    checked="checked"
-                />
-                Piano
-                <input type="radio" name="instrument" value="harpsichord" />
-                Harpsichord
-                <input type="radio" name="instrument" value="harpsichord2" />
-                Harpsichord II. <br /><br />
-                <input type="radio" name="instrument" value="midi" /> MIDI out
-                (sounds off)
-                <h3 style="text-align: center">Rows of keyboard:</h3>
-                <input type="radio" name="rows" value="4" /> 4
-                <input type="radio" name="rows" value="5" /> 5
-                <input type="radio" name="rows" value="6" checked="checked" />
-                6&nbsp; <input type="radio" name="rows" value="7" /> 7
-                <input type="radio" name="rows" value="8" /> 8
-                <input type="radio" name="rows" value="9" /> 9
-                <input type="radio" name="rows" value="10" /> 10
-                <div style="text-align: center">
-                    <br />
-                    <input type="button" id="btn" value="PLAY" />
-                </div>
-            </form>
-        </div>
+    <canvas></canvas>
+    <div id="page1">
+        <h3>Barjak-keyboard</h3>
+        <form>
+            <input type="radio" name="instrument" value="piano" />
+            Piano
+            <input type="radio" name="instrument" value="harpsichord" />
+            Harpsichord
+            <input type="radio" name="instrument" value="harpsichord2" />
+            Harpsichord II. <br /><br />
+            <input type="radio" name="instrument" value="midi" /> MIDI out
+            (sounds off)
+            <h3>Rows of keyboard:</h3>
+            <span id="rows"> </span>
+            <br /><br />
+            <p id="esc">esc: back to this menu</p>
+        </form>
     </div>
 </body>

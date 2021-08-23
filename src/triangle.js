@@ -21,16 +21,18 @@ export default class Triangle {
         ctx.fillStyle = color
         ctx.fill()
         ctx.lineWidth = 2
-        color == 'gray'
-            ? (ctx.strokeStyle = '#999999')
-            : (ctx.strokeStyle = '#808080')
+        // color == 'gray' 
+        //     ? ctx.strokeStyle = '#999999' 
+        //     : ctx.strokeStyle = '#808080'
+        ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
         ctx.font = (x2 - x1) * 0.4 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        color == 'gray'
-            ? (ctx.strokeStyle = '#999999')
-            : (ctx.strokeStyle = '#808080')
+        // color == 'gray'
+        //     ? ctx.strokeStyle = '#999999'
+        //     : ctx.strokeStyle = '#808080'
+        ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.lineWidth = 1
         let shift = (pos * (x2 - x1)) / 5
         ctx.strokeText(
