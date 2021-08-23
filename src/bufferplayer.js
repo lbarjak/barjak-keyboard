@@ -2,11 +2,8 @@ export default class BufferPlayer {
 
     static instance
     static getInstance(instrument) {
-        if (!BufferPlayer.instance) {
+        if (!BufferPlayer.instance || (BufferPlayer.instance.instrument != instrument))
             BufferPlayer.instance = new BufferPlayer(instrument)
-        } else if (BufferPlayer.instance.instrument != instrument) {
-            BufferPlayer.instance = new BufferPlayer(instrument);
-        }
         return BufferPlayer.instance
     }
 
