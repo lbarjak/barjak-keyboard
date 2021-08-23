@@ -17,7 +17,8 @@ export default class Index {
         let numberOfVerticalTrisMax = 16
         let numberOfHorizontalTris = numberOfHorizontalTrisF()
         let countOfPitches = countOfPitchesF()
-        let soundsOfInst = BufferPlayer.instruments[instrument].max - BufferPlayer.instruments[instrument].min + 1
+        let soundsOfInst =
+            BufferPlayer.instruments[instrument].max - BufferPlayer.instruments[instrument].min + 1
         if (countOfPitches > (soundsOfInst - 1)) {
             while (countOfPitches > (soundsOfInst - 1)) {
                 numberOfVerticalTrisMax--
@@ -73,7 +74,9 @@ export default class Index {
         }
         function instances() {
             self.precalc(self.selectedInst)
-            self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
+            // self.selectedValue =
+            //     self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
+            if(self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
             insertRows()
             const rbs = document.querySelectorAll('input[name="rows"]')
             for (const rb of rbs) {
