@@ -7,7 +7,7 @@ export default class Index {
         this.page1 = document.getElementById("page1")
         this.player = null
         this.selectedInst = "piano"
-        this.selectedValue = 6
+        this.selectedValue = 0
         this.drawTriangles = null
         this.numberOfVerticalTrisMax = 16
         this.menu()
@@ -37,19 +37,21 @@ export default class Index {
     }
 
     menu() {
+        let self = this
+        let inst = document.querySelectorAll('input[name="instrument"]')
+        let rows = document.getElementById("rows")
+
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             document.getElementById("esc").style.display = "none"
         }
 
         function insertRows() {
-            let rows = document.getElementById("rows")
             let sp = String.fromCharCode(160)
             for (let i = 4; i <= self.numberOfVerticalTrisMax; i++) {
                 let input = document.createElement('input')
                 rows.append(input)
                 input.type = "radio"
                 input.name = "rows"
-                //if (i == 6) input.checked = "checked"
                 input.value = i
                 let label = document.createElement("label")
                 label.textContent = i + sp + sp + sp
@@ -57,9 +59,6 @@ export default class Index {
             }
         }
 
-        let self = this
-        let inst = document.querySelectorAll('input[name="instrument"]')
-        let rows = document.getElementById("rows")
         for (const ins of inst) {
             ins.onchange = () => {
                 self.selectedInst = ins.value
@@ -73,8 +72,6 @@ export default class Index {
             }
         }
         function instances() {
-            self.player = BufferPlayer.getInstance(self.selectedInst)
-            self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
             self.precalc(self.selectedInst)
             self.selectedValue = self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
             insertRows()
@@ -82,6 +79,8 @@ export default class Index {
             for (const rb of rbs) {
                 rb.onchange = () => {
                     self.selectedValue = rb.value
+                    self.player = BufferPlayer.getInstance(self.selectedInst)
+                    self.drawTriangles = new DrawTriangles(self.selectedInst, self.player)
                     self.load()
                 }
             }
