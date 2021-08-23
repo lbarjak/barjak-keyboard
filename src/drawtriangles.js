@@ -38,22 +38,16 @@ export default class DrawTriangles {
             countOfTriangles = 0
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
             pitch = this.startTriangle + row * noteOffsetAlwaysSix
-            triangleCenterY =
-                heightOfKeyboard -
-                //(this.heightOfTriangle / 2 + row * this.heightOfTriangle)
-                this.heightOfTriangle * (0.5 + row)
+            triangleCenterY = heightOfKeyboard - this.heightOfTriangle * (0.5 + row)
             for (
                 let column = 0;
                 column < this.numberOfHorizontalTris;
                 column++
             ) {
                 triangleCenterX =
-                    (window.innerWidth -
-                        (this.numberOfHorizontalTris / 2 + 0.5) *
-                        this.edgeOfTriangle) /
-                    2 +
-                    this.edgeOfTriangle / 2 +
-                    (column * this.edgeOfTriangle) / 2
+                    (window.innerWidth - (this.numberOfHorizontalTris / 2 + 0.5) * this.edgeOfTriangle) / 2
+                    + this.edgeOfTriangle / 2
+                    + (column * this.edgeOfTriangle) / 2
 
                 indexOfNote = pitch % 12
                 color = noteProperties.noteColors[indexOfNote]

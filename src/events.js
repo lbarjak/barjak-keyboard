@@ -44,7 +44,6 @@ export default class Events {
         }
     }
 
-
     soundSwitch(onOff, serNumOfTri) {
         let pitch
         pitch = this.triangles[serNumOfTri].getSound()
