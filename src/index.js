@@ -74,8 +74,6 @@ export default class Index {
         }
         function instances() {
             self.precalc(self.selectedInst)
-            // self.selectedValue =
-            //     self.selectedValue > self.numberOfVerticalTrisMax ? self.numberOfVerticalTrisMax : self.selectedValue
             if(self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
             insertRows()
             const rbs = document.querySelectorAll('input[name="rows"]')

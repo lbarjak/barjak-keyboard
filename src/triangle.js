@@ -1,18 +1,5 @@
 export default class Triangle {
-    static drawTriangle(
-        x1,
-        y1,
-        x2,
-        y2,
-        x3,
-        y3,
-        color,
-        noteName,
-        pitch,
-        x,
-        y,
-        pos
-    ) {
+    static drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, pitch, x,  y, pos) {
         ctx.beginPath()
         ctx.moveTo(x1, y1)
         ctx.lineTo(x2, y2)
@@ -43,36 +30,10 @@ export default class Triangle {
         ctx.fillStyle = color
         ctx.fillText(noteName + ((pitch - (pitch % 12)) / 12 - 1), x, y + shift)
     }
-    static drawTriangleSign(
-        x1,
-        y1,
-        x2,
-        y2,
-        x3,
-        y3,
-        color,
-        noteName,
-        n,
-        x,
-        y,
-        pos
-    ) {
+    static drawTriangleSign(x1, y1, x2, y2, x3, y3, color, noteName, n, x, y, pos) {
         if (color != 'gray') {
             color = color == 'white' ? '#ffcccc' : '#660000'
-            Triangle.drawTriangle(
-                x1,
-                y1,
-                x2,
-                y2,
-                x3,
-                y3,
-                color,
-                noteName,
-                n,
-                x,
-                y,
-                pos
-            )
+            Triangle.drawTriangle(x1, y1, x2, y2, x3, y3, color, noteName, n, x, y, pos)
         }
     }
     static isPointInTriangle(x1, y1, x2, y2, x3, y3, pointerX, pointerY) {
@@ -88,35 +49,11 @@ export default class Triangle {
     }
     static edgeOfTriangle
 
-    static getTriangle(
-        triangleCenterX,
-        triangleCenterY,
-        mirroring,
-        noteName,
-        color,
-        pitch,
-        countOfTriangles
-    ) {
-        return new Triangle(
-            triangleCenterX,
-            triangleCenterY,
-            mirroring,
-            noteName,
-            color,
-            pitch,
-            countOfTriangles
-        )
+    static getTriangle(triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles) {
+        return new Triangle(triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles)
     }
 
-    constructor(
-        centerX,
-        centerY,
-        mirroring,
-        noteName,
-        color,
-        pitch,
-        countOfTris
-    ) {
+    constructor(centerX, centerY, mirroring, noteName, color, pitch, countOfTris) {
         this.x = Math.round(centerX)
         this.y = Math.round(centerY)
         this.edge = Math.round(Triangle.edgeOfTriangle)
@@ -132,72 +69,27 @@ export default class Triangle {
         this.y1 = Math.round(centerY + (mirroring * height) / 2)
         this.y2 = Math.round(centerY - (mirroring * height) / 2)
         this.y3 = this.y1
-        Triangle.drawTriangle(
-            this.x1,
-            this.y1,
-            this.x2,
-            this.y2,
-            this.x3,
-            this.y3,
-            this.color,
-            this.noteName,
-            this.pitch,
-            this.x,
-            this.y,
-            this.position
-        )
+        Triangle.drawTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
     getCurrentTriangle(x, y) {
         if (
-            Triangle.isPointInTriangle(
-                this.x1,
-                this.y1,
-                this.x2,
-                this.y2,
-                this.x3,
-                this.y3,
-                x,
-                y
-            )
+            Triangle.isPointInTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, x, y)
         ) {
             return this.serNumOfTri
         }
         return -1
     }
+
     getSound() {
         return this.pitch
     }
+
     setSignOn() {
-        Triangle.drawTriangleSign(
-            this.x1,
-            this.y1,
-            this.x2,
-            this.y2,
-            this.x3,
-            this.y3,
-            this.color,
-            this.noteName,
-            this.pitch,
-            this.x,
-            this.y,
-            this.position
-        )
+        Triangle.drawTriangleSign(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
+
     setSignOff() {
-        Triangle.drawTriangle(
-            this.x1,
-            this.y1,
-            this.x2,
-            this.y2,
-            this.x3,
-            this.y3,
-            this.color,
-            this.noteName,
-            this.pitch,
-            this.x,
-            this.y,
-            this.position
-        )
+        Triangle.drawTriangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 }
