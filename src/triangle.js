@@ -56,14 +56,14 @@ export default class Triangle {
         this.color = color
         this.pitch = pitch
         this.serNumOfTri = countOfTris
-        this.x1 = Math.round(centerX - Triangle.edgeOfTriangle / 2)
-        this.x2 = Math.round(centerX)
-        this.x3 = Math.round(centerX + Triangle.edgeOfTriangle / 2)
+        this.triangle = {}
+        this.triangle.x1 = Math.round(centerX - Triangle.edgeOfTriangle / 2)
+        this.triangle.x2 = Math.round(centerX)
+        this.triangle.x3 = Math.round(centerX + Triangle.edgeOfTriangle / 2)
         let height = Math.round((Triangle.edgeOfTriangle * Math.sqrt(3)) / 2)
-        this.y1 = Math.round(centerY + (mirroring * height) / 2)
-        this.y2 = Math.round(centerY - (mirroring * height) / 2)
-        this.y3 = this.y1
-        this.triangle = {"x1": this.x1, "x2": this.x2, "x3": this.x3, "y1": this.y1, "y2": this.y2, "y3": this.y3}
+        this.triangle.y1 = Math.round(centerY + (mirroring * height) / 2)
+        this.triangle.y2 = Math.round(centerY - (mirroring * height) / 2)
+        this.triangle.y3 = this.triangle.y1
         Triangle.drawTriangle(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
