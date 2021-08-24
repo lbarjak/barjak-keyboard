@@ -12,7 +12,8 @@ export default class Index {
         this.numberOfVerticalTrisMax = 16
         this.mobile = false
         
-        window.onorientationchange = function (e) {
+        window.onresize = reload
+        function reload (e) {
             let oAjax = new XMLHttpRequest;
             oAjax.open('get', '');
             oAjax.setRequestHeader('Pragma', 'no-cache');
@@ -24,7 +25,7 @@ export default class Index {
                 }
             }
         }
-        
+
         this.menu()
     }
 
