@@ -10,6 +10,21 @@ export default class Index {
         this.selectedValue = 0
         this.drawTriangles = null
         this.numberOfVerticalTrisMax = 16
+        this.mobile = false
+        
+        window.onorientationchange = function (e) {
+            let oAjax = new XMLHttpRequest;
+            oAjax.open('get', '');
+            oAjax.setRequestHeader('Pragma', 'no-cache');
+            oAjax.send();
+            oAjax.onreadystatechange = function () {
+                console.log(oAjax.readyState)
+                if (oAjax.readyState === 4) {
+                    location.reload();
+                }
+            }
+        }
+        
         this.menu()
     }
 
@@ -43,11 +58,11 @@ export default class Index {
         let rows = document.getElementById("rows")
 
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-            document.getElementById("esc").style.display = "none"
+            this.mobile = true
         }
 
         function insertRows() {
-            let sp = String.fromCharCode(160)
+            rows.innerHTML += "<p><b>Rows of keyboard:</b></p>"
             for (let i = 4; i <= self.numberOfVerticalTrisMax; i++) {
                 let input = document.createElement('input')
                 rows.append(input)
@@ -55,9 +70,10 @@ export default class Index {
                 input.name = "rows"
                 input.value = i
                 let label = document.createElement("label")
-                label.textContent = i + sp + sp + sp
+                label.textContent = i + " "
                 rows.append(label)
             }
+            if(!self.mobile) rows.innerHTML += "<p><b>esc: back to this menu</b></p>"
         }
 
         for (const ins of inst) {
