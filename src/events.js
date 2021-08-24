@@ -72,29 +72,8 @@ export default class Events {
     }
 
     init() {
-        const keyboard = document.getElementsByTagName('canvas')[0]
-
-        window.onorientationchange = function (e) {
-            let oAjax = new XMLHttpRequest;
-            oAjax.open('get', '');
-            oAjax.setRequestHeader('Pragma', 'no-cache');
-            oAjax.send();
-            oAjax.onreadystatechange = function () {
-                if (oAjax.readyState === 4) {
-                    location.reload();
-                }
-            }
-            // keyboard.removeEventListener('touchstart', handleTouch, false)
-            // keyboard.removeEventListener('touchmove', handleTouch, false)
-            // keyboard.removeEventListener('touchend', handleTouch, false)
-            // keyboard.removeEventListener('touchcancel', handleTouch, false)
-            // keyboard.removeEventListener('mouseout', handleMouse, false)
-            // keyboard.removeEventListener('mousedown', handleMouse, false)
-            // keyboard.removeEventListener('mousemove', handleMouse, false)
-            // keyboard.removeEventListener('mouseup', handleMouse, false)
-        }
-
         let self = this
+        const keyboard = document.getElementsByTagName('canvas')[0]
         keyboard.addEventListener('mouseout', handleMouse, false)
         keyboard.addEventListener('mousedown', handleMouse, false)
         keyboard.addEventListener('mousemove', handleMouse, false)
