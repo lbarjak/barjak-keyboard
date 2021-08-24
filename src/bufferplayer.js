@@ -1,9 +1,11 @@
 export default class BufferPlayer {
 
     static instance
-    static getInstance(instrument) {
-        if (!BufferPlayer.instance || (BufferPlayer.instance.instrument != instrument))
-            BufferPlayer.instance = new BufferPlayer(instrument)
+    static getInstance(instrument, octave) {
+        if (!BufferPlayer.instance ||
+            (BufferPlayer.instance.instrument != instrument) ||
+            (BufferPlayer.instance.octave != octave))
+            BufferPlayer.instance = new BufferPlayer(instrument, octave)
         return BufferPlayer.instance
     }
 
@@ -15,7 +17,7 @@ export default class BufferPlayer {
             "midi": { "min": 12, "max": 127 }//C0 - G9
         }
 
-    constructor(instrument = 'piano') {
+    constructor(instrument = 'piano', octave = 0) {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext ||
             window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
         this.buffers = []
@@ -26,11 +28,11 @@ export default class BufferPlayer {
         this.max = 127
         this.loading = 0
         this.instrument = instrument
-
-        this.min = BufferPlayer.instruments[this.instrument].min
+        this.min = BufferPlayer.instruments[this.instrument].min + 12 * octave
+        console.log(BufferPlayer.instruments[this.instrument].min, "this.min", this.min)
         this.max = BufferPlayer.instruments[this.instrument].max
         if (this.instrument == 'midi') {
-            this.loading = 116
+            this.loading = 116 - 12 * octave
         } else {
             this.initInstrument(BufferPlayer.instruments[this.instrument].initInstrument)
         }

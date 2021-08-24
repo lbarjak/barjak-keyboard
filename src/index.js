@@ -8,6 +8,7 @@ export default class Index {
         this.player = null
         this.selectedInst = "piano"
         this.selectedValue = 0
+        this.selectedOctave = 0
         this.drawTriangles = null
         this.numberOfVerticalTrisMax = 16
         this.mobile = false
@@ -27,12 +28,13 @@ export default class Index {
         }
     }
 
-    precalc(instrument) {
+    precalc() {
         let numberOfVerticalTrisMax = 16
         let numberOfHorizontalTris = numberOfHorizontalTrisF()
         let countOfPitches = countOfPitchesF()
         let soundsOfInst =
-            BufferPlayer.instruments[instrument].max - BufferPlayer.instruments[instrument].min + 1
+            BufferPlayer.instruments[this.selectedInst].max - BufferPlayer.instruments[this.selectedInst].min
+            + 1 - 12 * this.selectedOctave
         if (countOfPitches > (soundsOfInst - 1)) {
             while (countOfPitches > (soundsOfInst - 1)) {
                 numberOfVerticalTrisMax--
@@ -52,57 +54,75 @@ export default class Index {
     }
 
     menu() {
-        let self = this
-        let inst = document.querySelectorAll('input[name="instrument"]')
-        let rows = document.getElementById("rows")
-
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             this.mobile = true
         }
 
-        function insertRows() {
-            rows.innerHTML += "<p><b>Rows of keyboard:</b></p>"
-            for (let i = 4; i <= self.numberOfVerticalTrisMax; i++) {
-                let input = document.createElement('input')
-                rows.append(input)
-                input.type = "radio"
-                input.name = "rows"
-                input.value = i
-                let label = document.createElement("label")
-                label.textContent = i + " "
-                rows.append(label)
-            }
-            if (!self.mobile) rows.innerHTML += "<p><b>esc: back to this menu</b></p>"
-        }
+        let self = this
+        let section = document.getElementById("section")
+        setInstruments()
 
-        for (const ins of inst) {
-            ins.onchange = () => {
-                self.selectedInst = ins.value
-                removeAllChildNodes(rows)
-                instances()
-            }
-        }
         function removeAllChildNodes(parent) {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
         }
-        function instances() {
-            self.precalc(self.selectedInst)
-            if (self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
-            insertRows()
-            const rbs = document.querySelectorAll('input[name="rows"]')
-            for (const rb of rbs) {
-                rb.onchange = () => {
-                    self.selectedValue = rb.value
-                    self.player = BufferPlayer.getInstance(self.selectedInst)
-                    self.drawTriangles = new DrawTriangles(self.player)
-                    self.load()
+        function insertForm(sect, title, name, min, max){
+            sect.innerHTML += "<p><b>"+ title +"</b></p>"
+            for (let i = min; i < max; i++) {
+                let input = document.createElement('input')
+                sect.append(input)
+                input.type = "radio"
+                input.name = name
+                input.value = i
+                let label = document.createElement("label")
+                label.textContent = i + " "
+                sect.append(label)
+            }
+        }
+        function setInstruments() {
+            section.innerHTML += "<span id='section1'></span>"
+            let instruments = document.querySelectorAll('input[name="instruments"]')
+            for (const instrument of instruments) {
+                instrument.onchange = () => {
+                    self.selectedInst = instrument.value
+                    removeAllChildNodes(section1)
+                    insertForm(section1, "Octave shift:", "octaves", 0, 3)
+                    setOctaves()
                 }
             }
         }
+        function setOctaves() {
+            section1.innerHTML += "<span id='section2'></span>"
+            let octaves = document.querySelectorAll('input[name="octaves"]')
+            for (const octave of octaves) {
+                octave.onchange = () => {
+                    self.selectedOctave = octave.value
+                    removeAllChildNodes(section2)
+                    self.precalc()
+                    insertForm(section2, "Rows of keyboard:", "rows", 4, self.numberOfVerticalTrisMax + 1)
+                    setRows()
+                }
+            }
+        }
+        function setRows() {
+            if (!self.mobile) section2.innerHTML += "<p><b>esc: back to this menu</b></p>"
+            let rows = document.querySelectorAll('input[name="rows"]')
+            for (const row of rows) {
+                row.onchange = () => {
+                    self.selectedValue = row.value
+                    instances()
+                }
+            }
+        }
+        function instances() {
+            if (self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
+            self.player = BufferPlayer.getInstance(self.selectedInst, self.selectedOctave)
+            self.drawTriangles = new DrawTriangles(self.player)
+            self.load()
+        }
     }
-
+    
     load() {
         let self = this
         this.keyboard.style.display = "block"
