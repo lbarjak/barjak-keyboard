@@ -11,22 +11,20 @@ export default class Index {
         this.drawTriangles = null
         this.numberOfVerticalTrisMax = 16
         this.mobile = false
-        
-        window.onresize = reload
-        function reload (e) {
-            let oAjax = new XMLHttpRequest;
-            oAjax.open('get', '');
-            oAjax.setRequestHeader('Pragma', 'no-cache');
-            oAjax.send();
-            oAjax.onreadystatechange = function () {
-                console.log(oAjax.readyState)
-                if (oAjax.readyState === 4) {
-                    location.reload();
-                }
+        window.onresize = this.reload
+        this.menu()
+    }
+
+    reload(e) {
+        let oAjax = new XMLHttpRequest;
+        oAjax.open('get', '');
+        oAjax.setRequestHeader('Pragma', 'no-cache');
+        oAjax.send();
+        oAjax.onreadystatechange = function () {
+            if (oAjax.readyState === 4) {
+                location.reload();
             }
         }
-
-        this.menu()
     }
 
     precalc(instrument) {
@@ -74,7 +72,7 @@ export default class Index {
                 label.textContent = i + " "
                 rows.append(label)
             }
-            if(!self.mobile) rows.innerHTML += "<p><b>esc: back to this menu</b></p>"
+            if (!self.mobile) rows.innerHTML += "<p><b>esc: back to this menu</b></p>"
         }
 
         for (const ins of inst) {
@@ -91,7 +89,7 @@ export default class Index {
         }
         function instances() {
             self.precalc(self.selectedInst)
-            if(self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
+            if (self.selectedValue > self.numberOfVerticalTrisMax) self.selectedValue = self.numberOfVerticalTrisMax
             insertRows()
             const rbs = document.querySelectorAll('input[name="rows"]')
             for (const rb of rbs) {
@@ -148,25 +146,14 @@ export default class Index {
     }
 
     kbd() {
+        let self = this
         let triangles = this.drawTriangles.drawTriangles(this.selectedValue)
-        new Events(
-            triangles,
-            this.player,
-            this.selectedInst,
-            this.drawTriangles.numberOfHorizontalTris
-        )
-        document.addEventListener('keydown', logKey);
-        function logKey(e) {
+        console.log(
+            new Events(triangles, this.player, this.selectedInst, this.drawTriangles.numberOfHorizontalTris)
+                .instrument)
+        document.onkeydown = (e) => {
             if (e.key === "Escape") {
-                let oAjax = new XMLHttpRequest;
-                oAjax.open('get', '');
-                oAjax.setRequestHeader('Pragma', 'no-cache');
-                oAjax.send();
-                oAjax.onreadystatechange = function () {
-                    if (oAjax.readyState === 4) {
-                        location.reload();
-                    }
-                }
+                self.reload()
             }
         }
     }
