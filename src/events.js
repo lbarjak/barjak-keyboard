@@ -71,6 +71,23 @@ export default class Events {
         }
     }
 
+    allOff() {
+        if (this.sounds.length) {
+            let pitch
+            for (let snOfTri = 0; snOfTri < this.triangles.length; snOfTri++) {
+                pitch = this.triangles[snOfTri].getSound()
+                this.triangles[snOfTri].setSignOff()
+                if (this.sounds[pitch]) {
+                    this.instrument == 'midi'
+                        ? this.midi(128, snOfTri)
+                        : this.player.stop(pitch, snOfTri)
+                    this.player.stop(pitch, snOfTri)
+                }
+                this.sounds = []
+            }
+        }
+    }
+
     init() {
         let self = this
         const keyboard = document.getElementsByTagName('canvas')[0]
@@ -99,6 +116,7 @@ export default class Events {
                     false,
                     prevTriangleSerNum
                 )
+                if (!isMouseDown) self.allOff()
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
