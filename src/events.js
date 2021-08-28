@@ -12,18 +12,17 @@ export default class Events {
         this.midiInit()
     }
 
-    midiInit() {
-        let self = this
-        navigator.requestMIDIAccess().then(function (response) {
+    midiInit = () => {
+        navigator.requestMIDIAccess().then((response) => {
             const outputs = response.outputs.values()
             for (const output of outputs) {
-                self.midiOutputs.push(output)
+                this.midiOutputs.push(output)
             }
-            if (self.midiOutputs[0]) self.midiOutput = self.midiOutputs[0]
-            console.log('event.js/Events connected:', self.midiOutputs[0].type, self.midiOutputs[0].name)
+            if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
+            console.log('event.js/Events connected:', this.midiOutputs[0].type, this.midiOutputs[0].name)
         })
     }
-    midi(onoff, serNumOfTri) {
+    midi = (onoff, serNumOfTri) => {
         let pitch = this.triangles[serNumOfTri].getSound()
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
         if (pitch < 128) {
@@ -44,7 +43,7 @@ export default class Events {
         }
     }
 
-    soundSwitch(onOff, serNumOfTri) {
+    soundSwitch = (onOff, serNumOfTri) => {
         let pitch
         pitch = this.triangles[serNumOfTri].getSound()
         if (onOff) {
@@ -71,7 +70,7 @@ export default class Events {
         }
     }
 
-    allOff() {
+    allOff = () => {
         if (this.sounds.length) {
             let pitch
             for (let snOfTri = 0; snOfTri < this.triangles.length; snOfTri++) {
@@ -88,22 +87,17 @@ export default class Events {
         }
     }
 
-    init() {
-        let self = this
+    init = () => {
         const keyboard = document.getElementsByTagName('canvas')[0]
-        keyboard.addEventListener('mouseout', handleMouse, false)
-        keyboard.addEventListener('mousedown', handleMouse, false)
-        keyboard.addEventListener('mousemove', handleMouse, false)
-        keyboard.addEventListener('mouseup', handleMouse, false)
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
-        function handleMouse(e) {
+        let handleMouse = (e) => {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
-                self.soundSwitch(
+                this.soundSwitch(
                     true,
                     currentTriangleSerNum
                 )
@@ -111,22 +105,22 @@ export default class Events {
                     prevTriangleSerNum = null
                 }
             }
-            if (prevTriangleSerNum && (self.sounds.length > 0)) {
-                self.soundSwitch(
+            if (prevTriangleSerNum && (this.sounds.length > 0)) {
+                this.soundSwitch(
                     false,
                     prevTriangleSerNum
                 )
-                if (!isMouseDown) self.allOff()
+                if (!isMouseDown) this.allOff()
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
+        keyboard.addEventListener('mouseout', handleMouse, false)
+        keyboard.addEventListener('mousedown', handleMouse, false)
+        keyboard.addEventListener('mousemove', handleMouse, false)
+        keyboard.addEventListener('mouseup', handleMouse, false)
 
-        keyboard.addEventListener('touchstart', handleTouch, false)
-        keyboard.addEventListener('touchmove', handleTouch, false)
-        keyboard.addEventListener('touchend', handleTouch, false)
-        keyboard.addEventListener('touchcancel', handleTouch, false)
         let prevTriangles = []
-        function handleTouch(e) {
+        let handleTouch = (e) => {
             e.preventDefault()
             let currentTriangles = []
             for (let touch in e.touches) {
@@ -135,7 +129,7 @@ export default class Events {
                     e.touches[touch].clientY
                 )
                 if (currentTriangleSerNum) {
-                    self.soundSwitch(
+                    this.soundSwitch(
                         true,
                         currentTriangleSerNum
                     )
@@ -151,16 +145,20 @@ export default class Events {
                 }
             }
             for (let serNumOfTri in prevTriangles) {
-                self.soundSwitch(
+                this.soundSwitch(
                     false,
                     prevTriangles[serNumOfTri]
                 )
             }
             prevTriangles = currentTriangles
         }
+        keyboard.addEventListener('touchstart', handleTouch, false)
+        keyboard.addEventListener('touchmove', handleTouch, false)
+        keyboard.addEventListener('touchend', handleTouch, false)
+        keyboard.addEventListener('touchcancel', handleTouch, false)
 
-        function getCurrentTriangle(x, y) {
-            let findIt = self.triangles.find(
+        let getCurrentTriangle = (x, y) => {
+            let findIt = this.triangles.find(
                 (triangle) => triangle.getCurrentTriangle(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
