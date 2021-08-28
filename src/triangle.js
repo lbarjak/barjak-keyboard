@@ -1,5 +1,5 @@
 export default class Triangle {
-    static drawTriangle(triangle, color, noteName, pitch, x,  y, pos) {
+    static drawTriangle = (triangle, color, noteName, pitch, x,  y, pos) => {
         ctx.beginPath()
         ctx.moveTo(triangle.x1, triangle.y1)
         ctx.lineTo(triangle.x2, triangle.y2)
@@ -24,13 +24,13 @@ export default class Triangle {
         ctx.fillStyle = color
         ctx.fillText(noteName + ((pitch - (pitch % 12)) / 12 - 1), x, y + shift)
     }
-    static drawTriangleSign(triangle, color, noteName, n, x, y, pos) {
+    static drawTriangleSign = (triangle, color, noteName, n, x, y, pos) => {
         if (color != 'gray') {
             color = color == 'white' ? '#ffcccc' : '#660000'
             Triangle.drawTriangle(triangle, color, noteName, n, x, y, pos)
         }
     }
-    static isPointInTriangle(triangle, pointerX, pointerY) {
+    static isPointInTriangle = (triangle, pointerX, pointerY) => {
         ctx.beginPath()
         ctx.moveTo(triangle.x1, triangle.y1)
         ctx.lineTo(triangle.x2, triangle.y2)
@@ -43,7 +43,7 @@ export default class Triangle {
     }
     static edgeOfTriangle
 
-    static getTriangle(triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles) {
+    static getTriangle = (triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles) => {
         return new Triangle(triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles)
     }
 
@@ -67,7 +67,7 @@ export default class Triangle {
         Triangle.drawTriangle(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
-    getCurrentTriangle(x, y) {
+    getCurrentTriangle = (x, y) => {
         if (
             Triangle.isPointInTriangle(this.triangle, x, y)
         ) {
@@ -76,15 +76,15 @@ export default class Triangle {
         return -1
     }
 
-    getSound() {
+    getSound = () => {
         return this.pitch
     }
 
-    setSignOn() {
+    setSignOn = () => {
         Triangle.drawTriangleSign(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 
-    setSignOff() {
+    setSignOff = () => {
         Triangle.drawTriangle(this.triangle, this.color, this.noteName, this.pitch, this.x, this.y, this.position)
     }
 }
