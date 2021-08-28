@@ -16,7 +16,7 @@ export default class Index {
         this.menu()
     }
 
-    reload(e) {
+    reload = () => {
         let oAjax = new XMLHttpRequest;
         oAjax.open('get', '');
         oAjax.setRequestHeader('Pragma', 'no-cache');
