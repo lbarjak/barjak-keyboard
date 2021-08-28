@@ -1,7 +1,7 @@
 export default class BufferPlayer {
 
     static instance
-    static getInstance(instrument, octave) {
+    static getInstance = (instrument, octave) => {
         if (!BufferPlayer.instance ||
             (BufferPlayer.instance.instrument != instrument) ||
             (BufferPlayer.instance.octave != octave))
@@ -37,7 +37,7 @@ export default class BufferPlayer {
         }
         this.midiInit()
     }
-    initInstrument(name) {
+    initInstrument = (name) => {
         for (let i = this.min; i <= this.max; i++) {
             window
                 .fetch(name + i + '.ogg')
@@ -52,7 +52,7 @@ export default class BufferPlayer {
         }
     }
 
-    play(note, serNumOfTri, midiVelocity = 127) {
+    play = (note, serNumOfTri, midiVelocity = 127) => {
         if (!this.channels[note]) {
             this.channels[note] = {}
             this.channels[note][serNumOfTri] = false
@@ -74,7 +74,7 @@ export default class BufferPlayer {
             this.channels[note][serNumOfTri].start()
         }
     }
-    stop(note, serNumOfTri) {
+    stop = (note, serNumOfTri) => {
         if (this.gains[note][serNumOfTri]) {
             this.delay = 0.1 + (this.max - note - 2) / 300
             this.gains[note][serNumOfTri].gain.setTargetAtTime(
@@ -86,14 +86,14 @@ export default class BufferPlayer {
         }
     }
 
-    midiInit() {
-        function midi(response) {
+    midiInit = () => {
+        let midi = (response) => {
             for (let inputPort of response.inputs.values()) {
                 connect(inputPort)
             }
             response.onstatechange = midiOnStateChange
         }
-        function midiOnStateChange(event) {
+        let midiOnStateChange = (event) => {
             if (
                 event.port.type == 'input' &&
                 event.port.state == 'connected' &&
@@ -102,24 +102,23 @@ export default class BufferPlayer {
                 connect(event.port)
             }
         }
-        function connect(port) {
+        let connect = (port) => {
             console.log('BufferPlayer connected:', port.type, port.name)
             port.onmidimessage = midiMessage
         }
-        let self = this
         let midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity
-        function midiMessage(event) {
+        let midiMessage = (event) => {
             midiStatusByte = event.data[0].toString(16)
             midiEvent = midiStatusByte.substring(0, 1)
             midiChannel = midiStatusByte.substring(1)
             midiKey = event.data[1]
-            midiVelocity = self.instrument == 'piano' ? event.data[2] : 127
+            midiVelocity = this.instrument == 'piano' ? event.data[2] : 127
             console.log("input:", event.currentTarget.name, '-', 'midiEvent:', midiEvent,
                 ' midiChannel:', midiChannel, ' midiKey:', midiKey, 'midiVelocity:', midiVelocity)
             if (midiEvent == '9') {
-                self.play(midiKey, midiChannel, midiVelocity)
+                this.play(midiKey, midiChannel, midiVelocity)
             } else {
-                self.stop(midiKey, midiChannel)
+                this.stop(midiKey, midiChannel)
             }
         }
         navigator.requestMIDIAccess().then(midi)
