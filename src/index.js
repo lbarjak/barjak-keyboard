@@ -30,12 +30,14 @@ export default class Index {
 
     precalc = () => {
         let numberOfVerticalTrisMax = 16
-        let numberOfHorizontalTris = () => {
+        let numberOfHorizontalTrisF = () => {
             return 2 + 2 * Math.round(numberOfVerticalTrisMax * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
         }
-        let countOfPitches = () => {
+        let numberOfHorizontalTris = numberOfHorizontalTrisF()
+        let countOfPitchesF = () => {
             return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
         }
+        let countOfPitches = countOfPitchesF()
         let soundsOfInst =
             BufferPlayer.instruments[this.selectedInst].max - BufferPlayer.instruments[this.selectedInst].min
             + 1 - 12 * this.selectedOctave
