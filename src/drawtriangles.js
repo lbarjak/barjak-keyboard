@@ -14,7 +14,6 @@ export default class DrawTriangles {
     drawTriangles = (numberOfVerticalTris) => {
         this.numberOfVerticalTris = numberOfVerticalTris
         this.edgeOfTriangle = (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
-        Triangle.edgeOfTriangle = this.edgeOfTriangle
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris = 2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
         const noteOffsetAlwaysSix = 6
@@ -37,9 +36,9 @@ export default class DrawTriangles {
                 color = noteProperties.noteColors[indexOfNote]
                 if (pitch == this.startTriangle || pitch > this.player.max) color = 'gray'
                 mirroring = 2 * (column % 2 ^ row % 2) - 1
-                this.triangles[countOfTriangles] = Triangle.getTriangle(
-                    triangleCenterX, triangleCenterY, mirroring,
-                    noteProperties.noteNames[indexOfNote], color, pitch, countOfTriangles++
+                this.triangles[countOfTriangles] = new Triangle(
+                    triangleCenterX, triangleCenterY, mirroring, noteProperties.noteNames[indexOfNote], 
+                    color, pitch, countOfTriangles++, this.edgeOfTriangle
                 )
                 pitch++
             }
