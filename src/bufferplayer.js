@@ -2,9 +2,7 @@ export default class BufferPlayer {
 
     static instance
     static getInstance = (instrument, octave) => {
-        if (!BufferPlayer.instance ||
-            (BufferPlayer.instance.instrument != instrument) ||
-            (BufferPlayer.instance.octave != octave))
+        if (!BufferPlayer.instance)
             BufferPlayer.instance = new BufferPlayer(instrument, octave)
         return BufferPlayer.instance
     }
