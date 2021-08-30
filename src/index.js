@@ -121,7 +121,7 @@ export default class Index {
 
         let instances = () => {
             if (this.selectedValue > this.numberOfVerticalTrisMax) this.selectedValue = this.numberOfVerticalTrisMax
-            this.player = BufferPlayer.getInstance(this.selectedInst, this.selectedOctave)
+            this.player = new BufferPlayer(this.selectedInst, this.selectedOctave)
             this.drawTriangles = new DrawTriangles(this.player)
             this.load()
         }
