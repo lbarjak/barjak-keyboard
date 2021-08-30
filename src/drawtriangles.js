@@ -22,36 +22,28 @@ export default class DrawTriangles {
             "noteColors": ['white', 'black', 'white', 'black', 'white', 'white', 'black', 'white', 'black', 'white', 'black', 'white'],
             "noteNames": ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
         }
-        let triangleCenterX, triangleCenterY, mirroring, noteName, color, pitch, countOfTriangles = 0
-        let indexOfNote
+        let indexOfNote, pitch
         let triangleParams = {
             "triangleCenterX": 0, "triangleCenterY": 0, "mirroring": 0, "noteName": "", 
             "color": "", "pitch": 0, "countOfTriangles": 0, "edgeOfTriangle": 0
         }
-
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
             pitch = this.startTriangle + row * noteOffsetAlwaysSix
-            triangleCenterY = heightOfKeyboard - this.heightOfTriangle * (0.5 + row)
+            triangleParams.triangleCenterY = heightOfKeyboard - this.heightOfTriangle * (0.5 + row)
             for (let column = 0; column < this.numberOfHorizontalTris; column++) {
-                triangleCenterX =
+                triangleParams.triangleCenterX =
                     (window.innerWidth - (this.numberOfHorizontalTris / 2 + 0.5) * this.edgeOfTriangle) / 2
                     + this.edgeOfTriangle / 2
                     + (column * this.edgeOfTriangle) / 2
                 indexOfNote = pitch % 12
-                noteName = noteProperties.noteNames[indexOfNote]
-                color = noteProperties.noteColors[indexOfNote]
-                if (pitch == this.startTriangle || pitch > this.player.max) color = 'gray'
-                mirroring = 2 * (column % 2 ^ row % 2) - 1
-                triangleParams.triangleCenterX = triangleCenterX
-                triangleParams.triangleCenterY = triangleCenterY
-                triangleParams.mirroring = mirroring
-                triangleParams.noteName = noteName
-                triangleParams.color = color
+                triangleParams.noteName = noteProperties.noteNames[indexOfNote]
+                triangleParams.color = noteProperties.noteColors[indexOfNote]
+                if (pitch == this.startTriangle || pitch > this.player.max) triangleParams.color = 'gray'
+                triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
-                triangleParams.countOfTriangles = countOfTriangles
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                this.triangles[countOfTriangles++] = new Triangle(triangleParams)
-                //pitch++
+                this.triangles[triangleParams.countOfTriangles] = new Triangle(triangleParams)
+                triangleParams.countOfTriangles++
             }
         }
         return this.triangles
