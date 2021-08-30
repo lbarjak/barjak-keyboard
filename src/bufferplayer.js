@@ -1,12 +1,5 @@
 export default class BufferPlayer {
 
-    static instance
-    static getInstance = (instrument, octave) => {
-        if (!BufferPlayer.instance)
-            BufferPlayer.instance = new BufferPlayer(instrument, octave)
-        return BufferPlayer.instance
-    }
-
     static instruments =
         {
             "piano": { "min": 24, "max": 108, "initInstrument": './piano/' },//C1 - C8
