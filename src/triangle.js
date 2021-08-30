@@ -1,21 +1,26 @@
 export default class Triangle {
 
-    constructor(centerX, centerY, mirroring, noteName, color, pitch, countOfTris, edgeOfTriangle) {
-        this.x = Math.round(centerX)
-        this.y = Math.round(centerY)
-        this.edge = Math.round(edgeOfTriangle)
-        this.position = mirroring
-        this.noteName = noteName
-        this.color = color
-        this.pitch = pitch
-        this.serNumOfTri = countOfTris
+    // let triangleParams = {
+    //     "triangleCenterX": 0, "triangleCenterY": 0, "mirroring": 0, "noteName": "", 
+    //     "color": "", "pitch": 0, "countOfTriangles": 0, "edgeOfTriangle": 0
+    // }
+    constructor(triangleParams) {
+    //constructor(centerX, centerY, mirroring, noteName, color, pitch, countOfTris, edgeOfTriangle) {
+        this.x = Math.round(triangleParams.triangleCenterX)
+        this.y = Math.round(triangleParams.triangleCenterY)
+        this.edge = Math.round(triangleParams.edgeOfTriangle)
+        this.position = triangleParams.mirroring
+        this.noteName = triangleParams.noteName
+        this.color = triangleParams.color
+        this.pitch = triangleParams.pitch
+        this.serNumOfTri = triangleParams.countOfTriangles
         this.triangle = {}
-        this.triangle.x1 = Math.round(centerX - edgeOfTriangle / 2)
-        this.triangle.x2 = Math.round(centerX)
-        this.triangle.x3 = Math.round(centerX + edgeOfTriangle / 2)
-        let height = Math.round((edgeOfTriangle * Math.sqrt(3)) / 2)
-        this.triangle.y1 = Math.round(centerY + (mirroring * height) / 2)
-        this.triangle.y2 = Math.round(centerY - (mirroring * height) / 2)
+        this.triangle.x1 = Math.round(triangleParams.triangleCenterX - triangleParams.edgeOfTriangle / 2)
+        this.triangle.x2 = Math.round(triangleParams.triangleCenterX)
+        this.triangle.x3 = Math.round(triangleParams.triangleCenterX + triangleParams.edgeOfTriangle / 2)
+        let height = Math.round((triangleParams.edgeOfTriangle * Math.sqrt(3)) / 2)
+        this.triangle.y1 = Math.round(triangleParams.triangleCenterY + (triangleParams.mirroring * height) / 2)
+        this.triangle.y2 = Math.round(triangleParams.triangleCenterY - (triangleParams.mirroring * height) / 2)
         this.triangle.y3 = this.triangle.y1
         this.drawTriangle()
     }
