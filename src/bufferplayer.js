@@ -31,8 +31,7 @@ export default class BufferPlayer {
     }
     initInstrument = (name) => {
         for (let i = this.min; i <= this.max; i++) {
-            window
-                .fetch(name + i + '.ogg')
+            fetch(name + i + '.mp3')
                 .then((response) => response.arrayBuffer())
                 .then((arrayBuffer) =>
                     this.audioContext.decodeAudioData(arrayBuffer)
@@ -40,6 +39,9 @@ export default class BufferPlayer {
                 .then((audioBuffer) => {
                     this.buffers[i] = audioBuffer
                     this.loading++
+                })
+                .catch((error) => {
+                    console.log(error)
                 })
         }
     }
