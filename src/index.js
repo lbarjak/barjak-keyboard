@@ -58,7 +58,7 @@ export default class Index {
             this.mobile = true
         }
         if (/Chrome/i.test(navigator.userAgent))
-            (document.getElementById("midi")).style.display="block"
+            (document.getElementById("midi")).style.display = "block"
 
         let section = document.getElementById("section")
 
@@ -66,12 +66,12 @@ export default class Index {
             section.innerHTML += "<span id='section1'></span>"
             let instruments = document.querySelectorAll('input[name="instruments"]')
             for (const instrument of instruments) {
-                instrument.onchange = () => {
+                instrument.addEventListener("change", (event) => {
                     this.selectedInst = instrument.value
                     removeAllChildNodes(section1)
                     insertForm(section1, "Octave shift:", "octaves", 0, 3)
                     setOctaves()
-                }
+                })
             }
         }
         setInstruments()
@@ -100,13 +100,13 @@ export default class Index {
             section1.innerHTML += "<span id='section2'></span>"
             let octaves = document.querySelectorAll('input[name="octaves"]')
             for (const octave of octaves) {
-                octave.onchange = () => {
+                octave.addEventListener("change", (event) => {
                     this.selectedOctave = octave.value
                     removeAllChildNodes(section2)
                     this.precalc()
                     insertForm(section2, "Rows of keyboard:", "rows", 4, this.numberOfVerticalTrisMax + 1)
                     setRows()
-                }
+                })
             }
         }
 
@@ -114,10 +114,10 @@ export default class Index {
             if (!this.mobile) section2.innerHTML += "<p><b>esc: back to this menu</b></p>"
             let rows = document.querySelectorAll('input[name="rows"]')
             for (const row of rows) {
-                row.onchange = () => {
+                row.addEventListener("change", (event) => {
                     this.selectedValue = row.value
                     instances()
-                }
+                })
             }
         }
 
