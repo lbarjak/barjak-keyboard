@@ -26,7 +26,8 @@ export default class BufferPlayer {
         } else {
             this.initInstrument(BufferPlayer.instruments[this.instrument].initInstrument)
         }
-        this.midiInit()
+        if (/Chrome/i.test(navigator.userAgent))
+            this.midiInit()
     }
     initInstrument = (name) => {
         for (let i = this.min; i <= this.max; i++) {
