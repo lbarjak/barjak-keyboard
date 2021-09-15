@@ -11,7 +11,7 @@ export default class DrawTriangles {
         this.heightOfTriangle = 0
     }
 
-    drawTriangles = (numberOfVerticalTris) => {
+    drawTriangles = numberOfVerticalTris => {
         this.numberOfVerticalTris = numberOfVerticalTris
         this.edgeOfTriangle = (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2

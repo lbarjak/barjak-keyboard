@@ -15,7 +15,7 @@ export default class Events {
 
     midiInit = () => {
         navigator.requestMIDIAccess()
-            .then((response) => {
+            .then(response => {
                 const outputs = response.outputs.values()
                 for (const output of outputs) {
                     this.midiOutputs.push(output)
@@ -95,7 +95,7 @@ export default class Events {
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
-        let handleMouse = (e) => {
+        let handleMouse = e => {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
@@ -123,7 +123,7 @@ export default class Events {
         keyboard.addEventListener('mouseup', handleMouse, false)
 
         let prevTriangles = []
-        let handleTouch = (e) => {
+        let handleTouch = e => {
             e.preventDefault()
             let currentTriangles = []
             for (let touch in e.touches) {
@@ -162,7 +162,7 @@ export default class Events {
 
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
-                (triangle) => triangle.getCurrentTriangle(x, y) > -1
+                triangle => triangle.getCurrentTriangle(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
         }

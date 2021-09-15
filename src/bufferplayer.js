@@ -81,7 +81,7 @@ export default class BufferPlayer {
     }
 
     midiInit = () => {
-        let midi = (response) => {
+        let midi = response => {
             for (let inputPort of response.inputs.values()) {
                 connect(inputPort)
             }
