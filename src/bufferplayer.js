@@ -26,7 +26,7 @@ export default class BufferPlayer {
         } else {
             this.initInstrument(BufferPlayer.instruments[this.instrument].initInstrument)
         }
-        if (/Chrome/i.test(navigator.userAgent))
+        if (navigator.requestMIDIAccess)
             this.midiInit()
     }
     initInstrument = name => {
@@ -87,7 +87,7 @@ export default class BufferPlayer {
             }
             response.onstatechange = midiOnStateChange
         }
-        let midiOnStateChange = (event) => {
+        let midiOnStateChange = event => {
             if (
                 event.port.type == 'input' &&
                 event.port.state == 'connected' &&
@@ -96,12 +96,12 @@ export default class BufferPlayer {
                 connect(event.port)
             }
         }
-        let connect = (port) => {
+        let connect = port => {
             console.log('BufferPlayer connected:', port.type, port.name)
             port.onmidimessage = midiMessage
         }
         let midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity
-        let midiMessage = (event) => {
+        let midiMessage = event => {
             midiStatusByte = event.data[0].toString(16)
             midiEvent = midiStatusByte.substring(0, 1)
             midiChannel = midiStatusByte.substring(1)

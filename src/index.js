@@ -53,7 +53,7 @@ export default class Index {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             this.mobile = true
         }
-        if (/Chrome/i.test(navigator.userAgent))
+        if (navigator.requestMIDIAccess)
             (document.getElementById("midi")).style.display = "block"
 
         let section = document.getElementById("section")

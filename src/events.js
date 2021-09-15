@@ -9,7 +9,7 @@ export default class Events {
         this.midiOutput = null
         this.midiChannel = 0
         this.init()
-        if (/Chrome/i.test(navigator.userAgent))
+        if (navigator.requestMIDIAccess)
             this.midiInit()
     }
 
