@@ -21,6 +21,7 @@ export default class Index {
             'Cache-Control': 'no-cache'
         })
         .then(location.reload())
+        .catch(err => console.warn(err))
     }
 
     precalc = () => {
