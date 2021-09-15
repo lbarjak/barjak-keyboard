@@ -29,18 +29,18 @@ export default class BufferPlayer {
         if (/Chrome/i.test(navigator.userAgent))
             this.midiInit()
     }
-    initInstrument = (name) => {
+    initInstrument = name => {
         for (let i = this.min; i <= this.max; i++) {
             fetch(name + i + '.mp3')
-                .then((response) => response.arrayBuffer())
-                .then((arrayBuffer) =>
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer =>
                     this.audioContext.decodeAudioData(arrayBuffer)
                 )
-                .then((audioBuffer) => {
+                .then(audioBuffer => {
                     this.buffers[i] = audioBuffer
                     this.loading++
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log(error)
                 })
         }

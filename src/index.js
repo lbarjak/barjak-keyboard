@@ -17,15 +17,10 @@ export default class Index {
     }
 
     reload = () => {
-        let oAjax = new XMLHttpRequest;
-        oAjax.open('get', '');
-        oAjax.setRequestHeader('Pragma', 'no-cache');
-        oAjax.send();
-        oAjax.onreadystatechange = () => {
-            if (oAjax.readyState === 4) {
-                location.reload();
-            }
-        }
+        fetch('', {
+            'Cache-Control': 'no-cache'
+        })
+        .then(location.reload())
     }
 
     precalc = () => {
