@@ -14,14 +14,16 @@ export default class Events {
     }
 
     midiInit = () => {
-        navigator.requestMIDIAccess().then((response) => {
-            const outputs = response.outputs.values()
-            for (const output of outputs) {
-                this.midiOutputs.push(output)
-            }
-            if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
-            console.log('event.js/Events connected:', this.midiOutputs[0].type, this.midiOutputs[0].name)
-        })
+        navigator.requestMIDIAccess()
+            .then((response) => {
+                const outputs = response.outputs.values()
+                for (const output of outputs) {
+                    this.midiOutputs.push(output)
+                }
+                if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
+                console.log('event.js/Events connected:', this.midiOutputs[0].type, this.midiOutputs[0].name)
+            })
+            .catch(error => console.warn(error))
     }
     midi = (onoff, serNumOfTri) => {
         let pitch = this.triangles[serNumOfTri].getSound()

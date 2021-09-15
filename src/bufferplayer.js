@@ -41,7 +41,7 @@ export default class BufferPlayer {
                     this.loading++
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.warn(error)
                 })
         }
     }
@@ -115,6 +115,8 @@ export default class BufferPlayer {
                 this.stop(midiKey, midiChannel)
             }
         }
-        navigator.requestMIDIAccess().then(midi)
+        navigator.requestMIDIAccess()
+            .then(midi)
+            .catch(error => console.warn(error))
     }
 }
