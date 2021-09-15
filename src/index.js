@@ -17,15 +17,11 @@ export default class Index {
     }
 
     reload = () => {
-        let oAjax = new XMLHttpRequest;
-        oAjax.open('get', '');
-        oAjax.setRequestHeader('Pragma', 'no-cache');
-        oAjax.send();
-        oAjax.onreadystatechange = () => {
-            if (oAjax.readyState === 4) {
-                location.reload();
-            }
-        }
+        fetch('', {
+            'Cache-Control': 'no-cache'
+        })
+            .then(() => location.reload())
+            .catch(error => console.warn(error))
     }
 
     precalc = () => {
@@ -66,7 +62,7 @@ export default class Index {
             section.innerHTML += "<span id='section1'></span>"
             let instruments = document.querySelectorAll('input[name="instruments"]')
             for (const instrument of instruments) {
-                instrument.addEventListener("change", (event) => {
+                instrument.addEventListener("change", event => {
                     this.selectedInst = instrument.value
                     removeAllChildNodes(section1)
                     insertForm(section1, "Octave shift:", "octaves", 0, 3)
@@ -76,7 +72,7 @@ export default class Index {
         }
         setInstruments()
 
-        let removeAllChildNodes = (parent) => {
+        let removeAllChildNodes = parent => {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
@@ -114,7 +110,7 @@ export default class Index {
             if (!this.mobile) section2.innerHTML += "<p><b>esc: back to this menu</b></p>"
             let rows = document.querySelectorAll('input[name="rows"]')
             for (const row of rows) {
-                row.addEventListener("change", (event) => {
+                row.addEventListener("change", event => {
                     this.selectedValue = row.value
                     instances()
                 })
@@ -138,7 +134,7 @@ export default class Index {
         ctx.fillStyle = '#4d4d4d'
         ctx.fillRect(0, 0, this.keyboard.width, this.keyboard.height)
         //no right click
-        this.keyboard.oncontextmenu = (e) => {
+        this.keyboard.oncontextmenu = e => {
             e.preventDefault()
             e.stopPropagation()
         }
@@ -176,7 +172,7 @@ export default class Index {
         console.log(
             new Events(triangles, this.player, this.selectedInst, this.drawTriangles.numberOfHorizontalTris)
                 .instrument)
-        document.onkeydown = (e) => {
+        document.onkeydown = e => {
             if (e.key === "Escape") {
                 this.reload()
             }

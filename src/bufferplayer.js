@@ -29,19 +29,19 @@ export default class BufferPlayer {
         if (/Chrome/i.test(navigator.userAgent))
             this.midiInit()
     }
-    initInstrument = (name) => {
+    initInstrument = name => {
         for (let i = this.min; i <= this.max; i++) {
             fetch(name + i + '.mp3')
-                .then((response) => response.arrayBuffer())
-                .then((arrayBuffer) =>
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer =>
                     this.audioContext.decodeAudioData(arrayBuffer)
                 )
-                .then((audioBuffer) => {
+                .then(audioBuffer => {
                     this.buffers[i] = audioBuffer
                     this.loading++
                 })
-                .catch((error) => {
-                    console.log(error)
+                .catch(error => {
+                    console.warn(error)
                 })
         }
     }
@@ -81,7 +81,7 @@ export default class BufferPlayer {
     }
 
     midiInit = () => {
-        let midi = (response) => {
+        let midi = response => {
             for (let inputPort of response.inputs.values()) {
                 connect(inputPort)
             }
@@ -115,6 +115,8 @@ export default class BufferPlayer {
                 this.stop(midiKey, midiChannel)
             }
         }
-        navigator.requestMIDIAccess().then(midi)
+        navigator.requestMIDIAccess()
+            .then(midi)
+            .catch(error => console.warn(error))
     }
 }
