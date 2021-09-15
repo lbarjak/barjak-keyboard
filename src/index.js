@@ -20,8 +20,8 @@ export default class Index {
         fetch('', {
             'Cache-Control': 'no-cache'
         })
-        .then(() => location.reload())
-        .catch(err => console.warn(err))
+            .then(() => location.reload())
+            .catch(err => console.warn(err))
     }
 
     precalc = () => {
