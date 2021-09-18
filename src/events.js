@@ -56,17 +56,13 @@ export default class Events {
             }
             if (!this.sounds[pitch][serNumOfTri]) {
                 this.sounds[pitch][serNumOfTri] = true
-                this.instrument == 'midi'
-                    ? this.midi(144, serNumOfTri)
-                    : this.player.play(pitch, serNumOfTri)
+                this.instrument == 'midi'? this.midi(144, serNumOfTri) : this.player.play(pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOn()
             }
         }
         if (!onOff) {
             if (this.sounds[pitch]) {
-                this.instrument == 'midi'
-                    ? this.midi(128, serNumOfTri)
-                    : this.player.stop(pitch, serNumOfTri)
+                this.instrument == 'midi'? this.midi(128, serNumOfTri) : this.player.stop(pitch, serNumOfTri)
                 this.triangles[serNumOfTri].setSignOff()
                 this.sounds[pitch][serNumOfTri] = false
             }
@@ -80,9 +76,7 @@ export default class Events {
                 pitch = this.triangles[snOfTri].getSound()
                 this.triangles[snOfTri].setSignOff()
                 if (this.sounds[pitch]) {
-                    this.instrument == 'midi'
-                        ? this.midi(128, snOfTri)
-                        : this.player.stop(pitch, snOfTri)
+                    this.instrument == 'midi'? this.midi(128, snOfTri) : this.player.stop(pitch, snOfTri)
                     this.player.stop(pitch, snOfTri)
                 }
                 this.sounds = []
@@ -100,19 +94,12 @@ export default class Events {
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
-                this.soundSwitch(
-                    true,
-                    currentTriangleSerNum
-                )
-                if (prevTriangleSerNum == currentTriangleSerNum) {
+                this.soundSwitch(true, currentTriangleSerNum)
+                if (prevTriangleSerNum == currentTriangleSerNum)
                     prevTriangleSerNum = null
-                }
             }
             if (prevTriangleSerNum && (this.sounds.length > 0)) {
-                this.soundSwitch(
-                    false,
-                    prevTriangleSerNum
-                )
+                this.soundSwitch(false, prevTriangleSerNum)
                 if (!isMouseDown) this.allOff()
             }
             prevTriangleSerNum = currentTriangleSerNum
@@ -127,31 +114,19 @@ export default class Events {
             e.preventDefault()
             let currentTriangles = []
             for (let touch in e.touches) {
-                currentTriangleSerNum = getCurrentTriangle(
-                    e.touches[touch].clientX,
-                    e.touches[touch].clientY
-                )
+                currentTriangleSerNum = getCurrentTriangle(e.touches[touch].clientX, e.touches[touch].clientY)
                 if (currentTriangleSerNum) {
-                    this.soundSwitch(
-                        true,
-                        currentTriangleSerNum
-                    )
+                    this.soundSwitch(true, currentTriangleSerNum)
                     let serNumOfTri = 0
                     for (serNumOfTri in prevTriangles) {
-                        if (
-                            prevTriangles[serNumOfTri] == currentTriangleSerNum
-                        ) {
+                        if (prevTriangles[serNumOfTri] == currentTriangleSerNum)
                             prevTriangles.splice(serNumOfTri, 1)
-                        }
                     }
                     currentTriangles.push(currentTriangleSerNum)
                 }
             }
             for (let serNumOfTri in prevTriangles) {
-                this.soundSwitch(
-                    false,
-                    prevTriangles[serNumOfTri]
-                )
+                this.soundSwitch(false, prevTriangles[serNumOfTri])
             }
             prevTriangles = currentTriangles
         }
@@ -161,9 +136,7 @@ export default class Events {
         keyboard.addEventListener('touchcancel', handleTouch, false)
 
         let getCurrentTriangle = (x, y) => {
-            let findIt = this.triangles.find(
-                triangle => triangle.getCurrentTriangle(x, y) > -1
-            )
+            let findIt = this.triangles.find(triangle => triangle.getCurrentTriangle(x, y) > -1)
             return findIt ? findIt.serNumOfTri : null
         }
     }
