@@ -69,6 +69,7 @@ export default class Triangle {
     }
 
     isPointInTriangle = (pointerX, pointerY) => {
+        this.isPointInCircleInTriangle(pointerX, pointerY)
         ctx.beginPath()
         ctx.moveTo(this.triangle.x1, this.triangle.y1)
         ctx.lineTo(this.triangle.x2, this.triangle.y2)
@@ -80,8 +81,30 @@ export default class Triangle {
         return false
     }
 
+    isPointInCircleInTriangle = (pointerX, pointerY) => {
+        let m = parseInt((this.edge * Math.sqrt(3)) / 2)
+        let rMax = parseInt(m / 3)
+        let d = m / 2 - rMax
+        ctx.beginPath()
+        ctx.arc(this.x, this.y + d * this.position, rMax, 0, 2 * Math.PI, false)
+        ctx.closePath()
+        //ctx.fillStyle = 'red'
+        //ctx.fill()
+        if (ctx.isPointInPath(pointerX, pointerY)) {
+            return true
+        }
+        return false
+    }
+
     getCurrentTriangle = (x, y) => {
         if (this.isPointInTriangle(x, y)) {
+            return this.serNumOfTri
+        }
+        return -1
+    }
+
+    getCurrentTriangleTouch = (x, y) => {
+        if (this.isPointInCircleInTriangle(x, y)) {
             return this.serNumOfTri
         }
         return -1

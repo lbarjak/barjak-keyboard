@@ -126,7 +126,7 @@ export default class Events {
             e.preventDefault()
             let currentTriangles = []
             for (let touch in e.touches) {
-                currentTriangleSerNum = getCurrentTriangle(
+                currentTriangleSerNum = getCurrentTriangleTouch(
                     e.touches[touch].clientX,
                     e.touches[touch].clientY
                 )
@@ -153,6 +153,13 @@ export default class Events {
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
                 (triangle) => triangle.getCurrentTriangle(x, y) > -1
+            )
+            return findIt ? findIt.serNumOfTri : null
+        }
+
+        let getCurrentTriangleTouch = (x, y) => {
+            let findIt = this.triangles.find(
+                (triangle) => triangle.getCurrentTriangleTouch(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
         }
