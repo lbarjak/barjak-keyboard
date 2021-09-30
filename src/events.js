@@ -104,7 +104,10 @@ export default class Events {
         let handleMouse = (e) => {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
-            currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
+            currentTriangleSerNum = getCurrentTriangleTouch(
+                e.clientX,
+                e.clientY
+            )
             if (currentTriangleSerNum && isMouseDown) {
                 //this.soundSwitch(true, currentTriangleSerNum)
                 if (prevTriangleSerNum == currentTriangleSerNum)

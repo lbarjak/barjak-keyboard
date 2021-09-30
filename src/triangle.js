@@ -82,14 +82,24 @@ export default class Triangle {
     }
 
     isPointInCircleInTriangle = (pointerX, pointerY) => {
-        let m = parseInt((this.edge * Math.sqrt(3)) / 2)
-        let rMax = parseInt(m / 3)
-        let d = m / 2 - rMax
+        let reducer = 0.98
+        let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
+        let radiusMax = parseInt(heightOfTriangle / 3)
+        let differenceOfCenterOfTriangle =
+            this.position * (heightOfTriangle / 2 - radiusMax)
+        let radius = radiusMax * reducer
         ctx.beginPath()
-        ctx.arc(this.x, this.y + d * this.position, rMax, 0, 2 * Math.PI, false)
+        ctx.arc(
+            this.x,
+            this.y + differenceOfCenterOfTriangle,
+            radius,
+            0,
+            2 * Math.PI,
+            false
+        )
         ctx.closePath()
-        //ctx.fillStyle = 'red'
-        //ctx.fill()
+        // ctx.fillStyle = 'red'
+        // ctx.fill()
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
         }
