@@ -106,12 +106,12 @@ export default class Events {
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
             currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
-                this.soundSwitch(true, currentTriangleSerNum)
+                //this.soundSwitch(true, currentTriangleSerNum)
                 if (prevTriangleSerNum == currentTriangleSerNum)
                     prevTriangleSerNum = null
             }
             if (prevTriangleSerNum && this.sounds.length > 0) {
-                this.soundSwitch(false, prevTriangleSerNum)
+                //this.soundSwitch(false, prevTriangleSerNum)
                 if (!isMouseDown) this.allOff()
             }
             prevTriangleSerNum = currentTriangleSerNum
