@@ -4,9 +4,9 @@ import DrawTriangles from './drawtriangles.js'
 export default class Index {
     constructor() {
         this.keyboard = document.getElementsByTagName('canvas')[0]
-        this.page1 = document.getElementById("page1")
+        this.page1 = document.getElementById('page1')
         this.player = null
-        this.selectedInst = "piano"
+        this.selectedInst = 'piano'
         this.selectedValue = 0
         this.selectedOctave = 0
         this.drawTriangles = null
@@ -21,24 +21,36 @@ export default class Index {
             'Cache-Control': 'no-cache'
         })
             .then(() => location.reload())
-            .catch(error => console.warn(error))
+            .catch((error) => console.warn(error))
     }
 
     precalc = () => {
         let numberOfVerticalTrisMax = 16
         let numberOfHorizontalTrisF = () => {
-            return 2 + 2 * Math.round(numberOfVerticalTrisMax * (Math.sqrt(3) / 2) * (window.innerWidth / window.innerHeight))
+            return (
+                2 +
+                2 *
+                    Math.round(
+                        numberOfVerticalTrisMax *
+                            (Math.sqrt(3) / 2) *
+                            (window.innerWidth / window.innerHeight)
+                    )
+            )
         }
         let numberOfHorizontalTris = numberOfHorizontalTrisF()
         let countOfPitchesF = () => {
-            return numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
+            return (
+                numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
+            )
         }
         let countOfPitches = countOfPitchesF()
         let soundsOfInst =
-            BufferPlayer.instruments[this.selectedInst].max - BufferPlayer.instruments[this.selectedInst].min
-            + 1 - 12 * this.selectedOctave
-        if (countOfPitches > (soundsOfInst - 1)) {
-            while (countOfPitches > (soundsOfInst - 1)) {
+            BufferPlayer.instruments[this.selectedInst].max -
+            BufferPlayer.instruments[this.selectedInst].min +
+            1 -
+            12 * this.selectedOctave
+        if (countOfPitches > soundsOfInst - 1) {
+            while (countOfPitches > soundsOfInst - 1) {
                 numberOfVerticalTrisMax--
                 numberOfHorizontalTris = numberOfHorizontalTrisF()
                 countOfPitches = countOfPitchesF()
@@ -50,44 +62,50 @@ export default class Index {
     }
 
     menu = () => {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
+                navigator.userAgent
+            )
+        ) {
             this.mobile = true
         }
         if (navigator.requestMIDIAccess)
-            (document.getElementById("midi")).style.display = "block"
+            document.getElementById('midi').style.display = 'block'
 
-        let section = document.getElementById("section")
+        let section = document.getElementById('section')
 
         let setInstruments = () => {
             section.innerHTML += "<span id='section1'></span>"
-            let instruments = document.querySelectorAll('input[name="instruments"]')
+            let instruments = document.querySelectorAll(
+                'input[name="instruments"]'
+            )
             for (const instrument of instruments) {
-                instrument.addEventListener("change", event => {
+                instrument.addEventListener('change', (event) => {
                     this.selectedInst = instrument.value
                     removeAllChildNodes(section1)
-                    insertForm(section1, "Octave shift:", "octaves", 0, 3)
+                    insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
                     setOctaves()
                 })
             }
         }
         setInstruments()
 
-        let removeAllChildNodes = parent => {
+        let removeAllChildNodes = (parent) => {
             while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
+                parent.removeChild(parent.firstChild)
             }
         }
 
         let insertForm = (sect, title, name, min, max) => {
-            sect.innerHTML += "<p><b>" + title + "</b></p>"
+            sect.innerHTML += '<p><b>' + title + '</b></p>'
             for (let i = min; i < max; i++) {
                 let input = document.createElement('input')
                 sect.append(input)
-                input.type = "radio"
+                input.type = 'radio'
                 input.name = name
                 input.value = i
-                let label = document.createElement("label")
-                label.textContent = i + " "
+                let label = document.createElement('label')
+                label.textContent = i + ' '
                 sect.append(label)
             }
         }
@@ -96,21 +114,28 @@ export default class Index {
             section1.innerHTML += "<span id='section2'></span>"
             let octaves = document.querySelectorAll('input[name="octaves"]')
             for (const octave of octaves) {
-                octave.addEventListener("change", (event) => {
+                octave.addEventListener('change', (event) => {
                     this.selectedOctave = octave.value
                     removeAllChildNodes(section2)
                     this.precalc()
-                    insertForm(section2, "Rows of keyboard:", "rows", 4, this.numberOfVerticalTrisMax + 1)
+                    insertForm(
+                        section2,
+                        'Rows of keyboard:',
+                        'rows',
+                        4,
+                        this.numberOfVerticalTrisMax + 1
+                    )
                     setRows()
                 })
             }
         }
 
         let setRows = () => {
-            if (!this.mobile) section2.innerHTML += "<p><b>esc: back to this menu</b></p>"
+            if (!this.mobile)
+                section2.innerHTML += '<p><b>esc: back to this menu</b></p>'
             let rows = document.querySelectorAll('input[name="rows"]')
             for (const row of rows) {
-                row.addEventListener("change", event => {
+                row.addEventListener('change', (event) => {
                     this.selectedValue = row.value
                     instances()
                 })
@@ -118,23 +143,27 @@ export default class Index {
         }
 
         let instances = () => {
-            if (this.selectedValue > this.numberOfVerticalTrisMax) this.selectedValue = this.numberOfVerticalTrisMax
-            this.player = new BufferPlayer(this.selectedInst, this.selectedOctave)
+            if (this.selectedValue > this.numberOfVerticalTrisMax)
+                this.selectedValue = this.numberOfVerticalTrisMax
+            this.player = new BufferPlayer(
+                this.selectedInst,
+                this.selectedOctave
+            )
             this.drawTriangles = new DrawTriangles(this.player)
             this.load()
         }
     }
 
     load = () => {
-        this.keyboard.style.display = "block"
-        this.page1.style.display = "none"
+        this.keyboard.style.display = 'block'
+        this.page1.style.display = 'none'
         window.ctx = this.keyboard.getContext('2d')
         this.keyboard.width = window.innerWidth
         this.keyboard.height = window.innerHeight
         ctx.fillStyle = '#4d4d4d'
         ctx.fillRect(0, 0, this.keyboard.width, this.keyboard.height)
         //no right click
-        this.keyboard.oncontextmenu = e => {
+        this.keyboard.oncontextmenu = (e) => {
             e.preventDefault()
             e.stopPropagation()
         }
@@ -157,7 +186,11 @@ export default class Index {
                 (this.player.max - this.player.min + 1) +
                 '...'
             ctx.fillStyle = 'white'
-            ctx.fillText(message, this.keyboard.width * 0.5, this.keyboard.height * 0.3)
+            ctx.fillText(
+                message,
+                this.keyboard.width * 0.5,
+                this.keyboard.height * 0.3
+            )
             t = setTimeout(timer, 10)
             if (this.player.loading == this.player.max - this.player.min + 1) {
                 clearTimeout(t)
@@ -170,10 +203,15 @@ export default class Index {
     kbd = () => {
         let triangles = this.drawTriangles.drawTriangles(this.selectedValue)
         console.log(
-            new Events(triangles, this.player, this.selectedInst, this.drawTriangles.numberOfHorizontalTris)
-                .instrument)
-        document.onkeydown = e => {
-            if (e.key === "Escape") {
+            new Events(
+                triangles,
+                this.player,
+                this.selectedInst,
+                this.drawTriangles.numberOfHorizontalTris
+            ).instrument
+        )
+        document.onkeydown = (e) => {
+            if (e.key === 'Escape') {
                 this.reload()
             }
         }

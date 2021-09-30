@@ -11,38 +11,85 @@ export default class DrawTriangles {
         this.heightOfTriangle = 0
     }
 
-    drawTriangles = numberOfVerticalTris => {
+    drawTriangles = (numberOfVerticalTris) => {
         this.numberOfVerticalTris = numberOfVerticalTris
-        this.edgeOfTriangle = (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
+        this.edgeOfTriangle =
+            (window.innerHeight / this.numberOfVerticalTris / Math.sqrt(3)) * 2
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
-        this.numberOfHorizontalTris = 2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
+        this.numberOfHorizontalTris =
+            2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
         const noteOffsetAlwaysSix = 6
-        let heightOfKeyboard = Math.round(this.heightOfTriangle * this.numberOfVerticalTris)
+        let heightOfKeyboard = Math.round(
+            this.heightOfTriangle * this.numberOfVerticalTris
+        )
         const noteProperties = {
-            "noteColors": ['white', 'black', 'white', 'black', 'white', 'white', 'black', 'white', 'black', 'white', 'black', 'white'],
-            "noteNames": ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+            noteColors: [
+                'white',
+                'black',
+                'white',
+                'black',
+                'white',
+                'white',
+                'black',
+                'white',
+                'black',
+                'white',
+                'black',
+                'white'
+            ],
+            noteNames: [
+                'C',
+                'C#',
+                'D',
+                'D#',
+                'E',
+                'F',
+                'F#',
+                'G',
+                'G#',
+                'A',
+                'A#',
+                'B'
+            ]
         }
         let indexOfNote, pitch
         let triangleParams = {
-            "triangleCenterX": 0, "triangleCenterY": 0, "mirroring": 0, "noteName": "", 
-            "color": "", "pitch": 0, "countOfTriangles": 0, "edgeOfTriangle": 0
+            triangleCenterX: 0,
+            triangleCenterY: 0,
+            mirroring: 0,
+            noteName: '',
+            color: '',
+            pitch: 0,
+            countOfTriangles: 0,
+            edgeOfTriangle: 0
         }
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
             pitch = this.startTriangle + row * noteOffsetAlwaysSix
-            triangleParams.triangleCenterY = heightOfKeyboard - this.heightOfTriangle * (0.5 + row)
-            for (let column = 0; column < this.numberOfHorizontalTris; column++) {
+            triangleParams.triangleCenterY =
+                heightOfKeyboard - this.heightOfTriangle * (0.5 + row)
+            for (
+                let column = 0;
+                column < this.numberOfHorizontalTris;
+                column++
+            ) {
                 triangleParams.triangleCenterX =
-                    (window.innerWidth - (this.numberOfHorizontalTris / 2 + 0.5) * this.edgeOfTriangle) / 2
-                    + this.edgeOfTriangle / 2
-                    + (column * this.edgeOfTriangle) / 2
+                    (window.innerWidth -
+                        (this.numberOfHorizontalTris / 2 + 0.5) *
+                            this.edgeOfTriangle) /
+                        2 +
+                    this.edgeOfTriangle / 2 +
+                    (column * this.edgeOfTriangle) / 2
                 indexOfNote = pitch % 12
                 triangleParams.noteName = noteProperties.noteNames[indexOfNote]
                 triangleParams.color = noteProperties.noteColors[indexOfNote]
-                if (pitch == this.startTriangle || pitch > this.player.max) triangleParams.color = 'gray'
+                if (pitch == this.startTriangle || pitch > this.player.max)
+                    triangleParams.color = 'gray'
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                this.triangles[triangleParams.countOfTriangles] = new Triangle(triangleParams)
+                this.triangles[triangleParams.countOfTriangles] = new Triangle(
+                    triangleParams
+                )
                 triangleParams.countOfTriangles++
             }
         }

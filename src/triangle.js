@@ -1,5 +1,4 @@
 export default class Triangle {
-
     constructor(triangleParams) {
         this.x = Math.round(triangleParams.triangleCenterX)
         this.y = Math.round(triangleParams.triangleCenterY)
@@ -10,12 +9,24 @@ export default class Triangle {
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.countOfTriangles
         this.triangle = {}
-        this.triangle.x1 = Math.round(triangleParams.triangleCenterX - triangleParams.edgeOfTriangle / 2)
+        this.triangle.x1 = Math.round(
+            triangleParams.triangleCenterX - triangleParams.edgeOfTriangle / 2
+        )
         this.triangle.x2 = this.x
-        this.triangle.x3 = Math.round(triangleParams.triangleCenterX + triangleParams.edgeOfTriangle / 2)
-        let height = Math.round((triangleParams.edgeOfTriangle * Math.sqrt(3)) / 2)
-        this.triangle.y1 = Math.round(triangleParams.triangleCenterY + (triangleParams.mirroring * height) / 2)
-        this.triangle.y2 = Math.round(triangleParams.triangleCenterY - (triangleParams.mirroring * height) / 2)
+        this.triangle.x3 = Math.round(
+            triangleParams.triangleCenterX + triangleParams.edgeOfTriangle / 2
+        )
+        let height = Math.round(
+            (triangleParams.edgeOfTriangle * Math.sqrt(3)) / 2
+        )
+        this.triangle.y1 = Math.round(
+            triangleParams.triangleCenterY +
+                (triangleParams.mirroring * height) / 2
+        )
+        this.triangle.y2 = Math.round(
+            triangleParams.triangleCenterY -
+                (triangleParams.mirroring * height) / 2
+        )
         this.triangle.y3 = this.triangle.y1
         this.drawTriangle()
     }
@@ -43,7 +54,11 @@ export default class Triangle {
             this.y + shift
         )
         ctx.fillStyle = color
-        ctx.fillText(this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1), this.x, this.y + shift)
+        ctx.fillText(
+            this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1),
+            this.x,
+            this.y + shift
+        )
     }
     drawTriangleSign = () => {
         let color
@@ -66,9 +81,7 @@ export default class Triangle {
     }
 
     getCurrentTriangle = (x, y) => {
-        if (
-            this.isPointInTriangle(x, y)
-        ) {
+        if (this.isPointInTriangle(x, y)) {
             return this.serNumOfTri
         }
         return -1
