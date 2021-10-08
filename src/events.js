@@ -109,12 +109,12 @@ export default class Events {
                 e.clientY
             )
             if (currentTriangleSerNum && isMouseDown) {
-                //this.soundSwitch(true, currentTriangleSerNum)
+                this.soundSwitch(true, currentTriangleSerNum)
                 if (prevTriangleSerNum == currentTriangleSerNum)
                     prevTriangleSerNum = null
             }
             if (prevTriangleSerNum && this.sounds.length > 0) {
-                //this.soundSwitch(false, prevTriangleSerNum)
+                this.soundSwitch(false, prevTriangleSerNum)
                 if (!isMouseDown) this.allOff()
             }
             prevTriangleSerNum = currentTriangleSerNum
