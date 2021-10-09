@@ -98,8 +98,6 @@ export default class Triangle {
             false
         )
         ctx.closePath()
-        // ctx.fillStyle = 'red'
-        // ctx.fill()
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
         }
@@ -113,7 +111,7 @@ export default class Triangle {
         return -1
     }
 
-    getCurrentTriangleTouch = (x, y) => {
+    getCurrentTriangleCircle = (x, y) => {
         if (this.isPointInCircleInTriangle(x, y)) {
             return this.serNumOfTri
         }

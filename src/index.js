@@ -4,7 +4,7 @@ import DrawTriangles from './drawtriangles.js'
 export default class Index {
     constructor() {
         this.keyboard = document.getElementsByTagName('canvas')[0]
-        this.page1 = document.getElementById('page1')
+        this.root = document.getElementById('root')
         this.player = null
         this.selectedInst = 'piano'
         this.selectedValue = 0
@@ -72,21 +72,16 @@ export default class Index {
         if (navigator.requestMIDIAccess)
             document.getElementById('midi').style.display = 'block'
 
-        let section = document.getElementById('section')
+        let section1 = document.getElementById('section1')
 
         let setInstruments = () => {
-            section.innerHTML += "<span id='section1'></span>"
-            let instruments = document.querySelectorAll(
-                'input[name="instruments"]'
-            )
-            for (const instrument of instruments) {
-                instrument.addEventListener('change', (event) => {
-                    this.selectedInst = instrument.value
-                    removeAllChildNodes(section1)
-                    insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
-                    setOctaves()
-                })
-            }
+            let instruments = document.getElementById('instruments')
+            instruments.addEventListener('change', (event) => {
+                this.selectedInst = event.target.value
+                removeAllChildNodes(section1)
+                insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
+                setOctaves()
+            })
         }
         setInstruments()
 
@@ -98,36 +93,37 @@ export default class Index {
 
         let insertForm = (sect, title, name, min, max) => {
             sect.innerHTML += '<p><b>' + title + '</b></p>'
+            let f = document.createElement('form')
+            f.setAttribute('id', name)
             for (let i = min; i < max; i++) {
                 let input = document.createElement('input')
-                sect.append(input)
+                f.append(input)
                 input.type = 'radio'
                 input.name = name
                 input.value = i
                 let label = document.createElement('label')
                 label.textContent = i + ' '
-                sect.append(label)
+                f.append(label)
             }
+            sect.append(f)
         }
 
         let setOctaves = () => {
             section1.innerHTML += "<span id='section2'></span>"
-            let octaves = document.querySelectorAll('input[name="octaves"]')
-            for (const octave of octaves) {
-                octave.addEventListener('change', (event) => {
-                    this.selectedOctave = octave.value
-                    removeAllChildNodes(section2)
-                    this.precalc()
-                    insertForm(
-                        section2,
-                        'Rows of keyboard:',
-                        'rows',
-                        4,
-                        this.numberOfVerticalTrisMax + 1
-                    )
-                    setRows()
-                })
-            }
+            let octaves = document.getElementById('octaves')
+            octaves.addEventListener('change', (event) => {
+                this.selectedOctave = event.target.value
+                removeAllChildNodes(section2)
+                this.precalc()
+                insertForm(
+                    section2,
+                    'Rows of keyboard:',
+                    'rows',
+                    4,
+                    this.numberOfVerticalTrisMax + 1
+                )
+                setRows()
+            })
         }
 
         let setRows = () => {
@@ -156,7 +152,7 @@ export default class Index {
 
     load = () => {
         this.keyboard.style.display = 'block'
-        this.page1.style.display = 'none'
+        this.root.style.display = 'none'
         window.ctx = this.keyboard.getContext('2d')
         this.keyboard.width = window.innerWidth
         this.keyboard.height = window.innerHeight

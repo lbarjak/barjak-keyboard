@@ -104,10 +104,7 @@ export default class Events {
         let handleMouse = (e) => {
             if (e.type == 'mousedown') isMouseDown = true
             if (e.type == 'mouseup' || e.type == 'mouseout') isMouseDown = false
-            currentTriangleSerNum = getCurrentTriangleTouch(
-                e.clientX,
-                e.clientY
-            )
+            currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
                 this.soundSwitch(true, currentTriangleSerNum)
                 if (prevTriangleSerNum == currentTriangleSerNum)
@@ -129,7 +126,7 @@ export default class Events {
             e.preventDefault()
             let currentTriangles = []
             for (let touch in e.touches) {
-                currentTriangleSerNum = getCurrentTriangleTouch(
+                currentTriangleSerNum = getCurrentTriangle(
                     e.touches[touch].clientX,
                     e.touches[touch].clientY
                 )
@@ -155,14 +152,7 @@ export default class Events {
 
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
-                (triangle) => triangle.getCurrentTriangle(x, y) > -1
-            )
-            return findIt ? findIt.serNumOfTri : null
-        }
-
-        let getCurrentTriangleTouch = (x, y) => {
-            let findIt = this.triangles.find(
-                (triangle) => triangle.getCurrentTriangleTouch(x, y) > -1
+                (triangle) => triangle.getCurrentTriangleCircle(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
         }
