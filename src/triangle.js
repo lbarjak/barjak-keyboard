@@ -28,6 +28,7 @@ export default class Triangle {
                 (triangleParams.mirroring * height) / 2
         )
         this.triangle.y3 = this.triangle.y1
+        this.shape = 'hexagon'
         this.draw()
     }
 
@@ -57,10 +58,12 @@ export default class Triangle {
             this.y + shift
         )
 
-        // this.drawCircle()
-        // ctx.lineWidth = 1
-        // ctx.strokeStyle = 'gray'
-        // ctx.stroke()
+        if (this.shape == 'triangle') this.drawTriangle()
+        if (this.shape == 'circle') this.drawCircle()
+        if (this.shape == 'hexagon') this.drawHexagon()
+        ctx.lineWidth = 1
+        ctx.strokeStyle = 'red'
+        ctx.stroke()
     }
     drawTriangleSign = () => {
         let color
@@ -70,24 +73,17 @@ export default class Triangle {
         }
     }
 
-    isPointInTriangle = (pointerX, pointerY) => {
-        this.isPointInCircleInTriangle(pointerX, pointerY)
-        this.drawTriangle
+    isPointInShape = (pointerX, pointerY) => {
+        if (this.shape == 'triangle') this.drawTriangle()
+        if (this.shape == 'circle') this.drawCircle()
+        if (this.shape == 'hexagon') this.drawHexagon()
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
         }
         return false
     }
 
-    isPointInCircleInTriangle = (pointerX, pointerY) => {
-        this.drawCircle()
-        if (ctx.isPointInPath(pointerX, pointerY)) {
-            return true
-        }
-        return false
-    }
-
-    drawTriangle() {
+    drawTriangle = () => {
         ctx.beginPath()
         ctx.moveTo(this.triangle.x1, this.triangle.y1)
         ctx.lineTo(this.triangle.x2, this.triangle.y2)
@@ -95,7 +91,7 @@ export default class Triangle {
         ctx.closePath()
     }
 
-    drawCircle() {
+    drawCircle = () => {
         let reducer = 0.98
         let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
         let radiusMax = parseInt(heightOfTriangle / 3)
@@ -114,15 +110,25 @@ export default class Triangle {
         ctx.closePath()
     }
 
-    getCurrentTriangle = (x, y) => {
-        if (this.isPointInTriangle(x, y)) {
-            return this.serNumOfTri
+    drawHexagon = () => {
+        let edge = this.edge * 0.98
+        let diff = ((Math.sqrt(3) / 2) * (this.position * this.edge)) / 6
+        let side = 0
+        let size = edge / 3
+        let y = this.y + diff
+        ctx.moveTo(this.x - size, y + size)
+        ctx.beginPath()
+        for (side; side <= 6; side++) {
+            ctx.lineTo(
+                this.x + size * Math.cos((side * 2 * Math.PI) / 6),
+                y + size * Math.sin((side * 2 * Math.PI) / 6)
+            )
         }
-        return -1
+        ctx.closePath()
     }
 
-    getCurrentTriangleCircle = (x, y) => {
-        if (this.isPointInCircleInTriangle(x, y)) {
+    getCurrentTriangle = (x, y) => {
+        if (this.isPointInShape(x, y)) {
             return this.serNumOfTri
         }
         return -1
