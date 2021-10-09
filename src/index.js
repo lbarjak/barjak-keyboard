@@ -129,13 +129,11 @@ export default class Index {
         let setRows = () => {
             if (!this.mobile)
                 section2.innerHTML += '<p><b>esc: back to this menu</b></p>'
-            let rows = document.querySelectorAll('input[name="rows"]')
-            for (const row of rows) {
-                row.addEventListener('change', (event) => {
-                    this.selectedValue = row.value
-                    instances()
-                })
-            }
+            let rows = document.getElementById('rows')
+            rows.addEventListener('change', (event) => {
+                this.selectedValue = event.target.value
+                instances()
+            })
         }
 
         let instances = () => {
