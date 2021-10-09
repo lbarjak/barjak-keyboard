@@ -153,6 +153,7 @@ export default class Events {
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
                 (triangle) => triangle.getCurrentTriangleCircle(x, y) > -1
+                //(triangle) => triangle.getCurrentTriangle(x, y) > -1
             )
             return findIt ? findIt.serNumOfTri : null
         }

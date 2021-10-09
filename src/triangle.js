@@ -28,20 +28,17 @@ export default class Triangle {
                 (triangleParams.mirroring * height) / 2
         )
         this.triangle.y3 = this.triangle.y1
-        this.drawTriangle()
+        this.draw()
     }
 
-    drawTriangle = (color = this.color) => {
-        ctx.beginPath()
-        ctx.moveTo(this.triangle.x1, this.triangle.y1)
-        ctx.lineTo(this.triangle.x2, this.triangle.y2)
-        ctx.lineTo(this.triangle.x3, this.triangle.y3)
-        ctx.closePath()
+    draw = (color = this.color) => {
+        this.drawTriangle()
         ctx.fillStyle = color
         ctx.fill()
         ctx.lineWidth = 2
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
+
         ctx.font = (this.triangle.x2 - this.triangle.x1) * 0.4 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
@@ -59,22 +56,23 @@ export default class Triangle {
             this.x,
             this.y + shift
         )
+
+        // this.drawCircle()
+        // ctx.lineWidth = 1
+        // ctx.strokeStyle = 'gray'
+        // ctx.stroke()
     }
     drawTriangleSign = () => {
         let color
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
-            this.drawTriangle(color)
+            this.draw(color)
         }
     }
 
     isPointInTriangle = (pointerX, pointerY) => {
         this.isPointInCircleInTriangle(pointerX, pointerY)
-        ctx.beginPath()
-        ctx.moveTo(this.triangle.x1, this.triangle.y1)
-        ctx.lineTo(this.triangle.x2, this.triangle.y2)
-        ctx.lineTo(this.triangle.x3, this.triangle.y3)
-        ctx.closePath()
+        this.drawTriangle
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
         }
@@ -82,6 +80,22 @@ export default class Triangle {
     }
 
     isPointInCircleInTriangle = (pointerX, pointerY) => {
+        this.drawCircle()
+        if (ctx.isPointInPath(pointerX, pointerY)) {
+            return true
+        }
+        return false
+    }
+
+    drawTriangle() {
+        ctx.beginPath()
+        ctx.moveTo(this.triangle.x1, this.triangle.y1)
+        ctx.lineTo(this.triangle.x2, this.triangle.y2)
+        ctx.lineTo(this.triangle.x3, this.triangle.y3)
+        ctx.closePath()
+    }
+
+    drawCircle() {
         let reducer = 0.98
         let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
         let radiusMax = parseInt(heightOfTriangle / 3)
@@ -98,10 +112,6 @@ export default class Triangle {
             false
         )
         ctx.closePath()
-        if (ctx.isPointInPath(pointerX, pointerY)) {
-            return true
-        }
-        return false
     }
 
     getCurrentTriangle = (x, y) => {
@@ -127,6 +137,6 @@ export default class Triangle {
     }
 
     setSignOff = () => {
-        this.drawTriangle()
+        this.draw()
     }
 }
