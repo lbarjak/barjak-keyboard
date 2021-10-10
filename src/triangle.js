@@ -28,6 +28,11 @@ export default class Triangle {
                 (triangleParams.mirroring * height) / 2
         )
         this.triangle.y3 = this.triangle.y1
+        this.shapes = {
+            triangle: this.drawTriangle,
+            circle: this.drawCircle,
+            hexagon: this.drawHexagon
+        }
         this.shape = 'hexagon'
         this.draw()
     }
@@ -57,13 +62,13 @@ export default class Triangle {
             this.x,
             this.y + shift
         )
-        //this.onlyDevelopDrawShape()
+        this.onlyDevelopDrawShape()
     }
 
-    onlyDevelopDrawShape() {
-        if (this.shape == 'triangle') this.drawTriangle()
-        if (this.shape == 'circle') this.drawCircle()
-        if (this.shape == 'hexagon') this.drawHexagon()
+    onlyDevelopDrawShape = () => {
+        console.log('this.shapes:', this.shapes)
+        console.log('this.shape:', this.shape)
+        this.shapes[this.shape]()
         ctx.lineWidth = 1
         ctx.strokeStyle = 'red'
         ctx.stroke()
@@ -78,9 +83,7 @@ export default class Triangle {
     }
 
     isPointInShape = (pointerX, pointerY) => {
-        if (this.shape == 'triangle') this.drawTriangle()
-        if (this.shape == 'circle') this.drawCircle()
-        if (this.shape == 'hexagon') this.drawHexagon()
+        this.shapes[this.shape]()
         if (ctx.isPointInPath(pointerX, pointerY)) {
             return true
         }
