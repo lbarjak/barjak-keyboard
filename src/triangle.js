@@ -57,7 +57,10 @@ export default class Triangle {
             this.x,
             this.y + shift
         )
+        //this.onlyDevelopDrawShape()
+    }
 
+    onlyDevelopDrawShape() {
         if (this.shape == 'triangle') this.drawTriangle()
         if (this.shape == 'circle') this.drawCircle()
         if (this.shape == 'hexagon') this.drawHexagon()
@@ -65,6 +68,7 @@ export default class Triangle {
         ctx.strokeStyle = 'red'
         ctx.stroke()
     }
+
     drawTriangleSign = () => {
         let color
         if (this.color != 'gray') {
