@@ -62,12 +62,10 @@ export default class Triangle {
             this.x,
             this.y + shift
         )
-        this.onlyDevelopDrawShape()
+        //this.onlyDevelopDrawShape()
     }
 
     onlyDevelopDrawShape = () => {
-        console.log('this.shapes:', this.shapes)
-        console.log('this.shape:', this.shape)
         this.shapes[this.shape]()
         ctx.lineWidth = 1
         ctx.strokeStyle = 'red'
