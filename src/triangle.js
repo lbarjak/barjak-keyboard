@@ -8,7 +8,6 @@ export default class Triangle {
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.countOfTriangles
-        //this.triangle = {}
         this.shapes = {
             triangle: this.drawTriangle,
             circle: this.drawCircle,
@@ -25,7 +24,6 @@ export default class Triangle {
         ctx.lineWidth = 2
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
-
         ctx.font = this.edge / 5 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
