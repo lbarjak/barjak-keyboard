@@ -8,34 +8,13 @@ export default class Triangle {
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.countOfTriangles
-        this.triangle = {}
-        this.triangle.x1 = Math.round(
-            triangleParams.triangleCenterX - triangleParams.edgeOfTriangle / 2
-        )
-        this.triangle.x2 = this.x
-        this.triangle.x3 = Math.round(
-            triangleParams.triangleCenterX + triangleParams.edgeOfTriangle / 2
-        )
-        let height = Math.round(
-            (triangleParams.edgeOfTriangle * Math.sqrt(3)) / 2
-        )
-        this.triangle.y1 = Math.round(
-            triangleParams.triangleCenterY +
-                (triangleParams.mirroring * height) / 2
-        )
-        this.triangle.y2 = Math.round(
-            triangleParams.triangleCenterY -
-                (triangleParams.mirroring * height) / 2
-        )
-        this.triangle.y3 = this.triangle.y1
+        //this.triangle = {}
         this.shapes = {
             triangle: this.drawTriangle,
             circle: this.drawCircle,
             hexagon: this.drawHexagon
         }
         this.shape = 'hexagon'
-        console.log(this.triangle.x2 - this.triangle.x1)
-        console.log(this.edge)
         this.draw()
     }
 
@@ -91,10 +70,17 @@ export default class Triangle {
     }
 
     drawTriangle = () => {
+        let x1 = Math.round(this.x - this.edge / 2)
+        let x2 = this.x
+        let x3 = Math.round(this.x + this.edge / 2)
+        let height = Math.round((this.edge * Math.sqrt(3)) / 2)
+        let y1 = Math.round(this.y + (this.position * height) / 2)
+        let y2 = Math.round(this.y - (this.position * height) / 2)
+        let y3 = y1
         ctx.beginPath()
-        ctx.moveTo(this.triangle.x1, this.triangle.y1)
-        ctx.lineTo(this.triangle.x2, this.triangle.y2)
-        ctx.lineTo(this.triangle.x3, this.triangle.y3)
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.lineTo(x3, y3)
         ctx.closePath()
     }
 
