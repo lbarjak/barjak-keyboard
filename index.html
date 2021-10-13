@@ -2,7 +2,10 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <title>Barjak Keyboard</title>
     <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -52,15 +55,25 @@
 
 <body>
     <canvas></canvas>
-    <div id="page1">
+    <div id="root">
         <h3>Barjak-keyboard</h3>
-        <form>
+        <form id="instruments">
             <input type="radio" name="instruments" value="piano" />Piano
-            <input type="radio" name="instruments" value="harpsichord" />Harpsichord
-            <input type="radio" name="instruments" value="harpsichord2" />Harpsichord II. <br /><br />
-            <span id="midi"><input type="radio" name="instruments" value="midi" />MIDI out
-            (sounds off)</span>
-            <span id="section"></span>
+            <input
+                type="radio"
+                name="instruments"
+                value="harpsichord"
+            />Harpsichord
+            <input
+                type="radio"
+                name="instruments"
+                value="harpsichord2"
+            />Harpsichord II. <br /><br />
+            <span id="midi"
+                ><input type="radio" name="instruments" value="midi" />MIDI out
+                (sounds off)</span
+            >
         </form>
+        <span id="section1"></span>
     </div>
 </body>
