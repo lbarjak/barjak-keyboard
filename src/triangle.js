@@ -34,6 +34,8 @@ export default class Triangle {
             hexagon: this.drawHexagon
         }
         this.shape = 'hexagon'
+        console.log(this.triangle.x2 - this.triangle.x1)
+        console.log(this.edge)
         this.draw()
     }
 
@@ -45,12 +47,12 @@ export default class Triangle {
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.stroke()
 
-        ctx.font = (this.triangle.x2 - this.triangle.x1) * 0.4 + 'px Arial'
+        ctx.font = this.edge / 5 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         ctx.lineWidth = 1
-        let shift = (this.position * (this.triangle.x2 - this.triangle.x1)) / 5
+        let shift = (this.position * this.edge) / 10
         ctx.strokeText(
             this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1),
             this.x,
