@@ -1,11 +1,14 @@
+import BufferPlayer from './bufferplayer.js'
+
 export default class Events {
-    constructor(triangles, player, instrument, numberOfHorizontalTris) {
-        ;[
-            this.triangles,
-            this.player,
-            this.instrument,
-            this.numberOfHorizontalTris
-        ] = [triangles, player, instrument, numberOfHorizontalTris]
+    constructor(triangles, instrument, numberOfHorizontalTris) {
+        ;[this.triangles, this.instrument, this.numberOfHorizontalTris] = [
+            triangles,
+            instrument,
+            numberOfHorizontalTris
+        ]
+        console.log('inst:', this.instrument)
+        this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midiOutputs = []
         this.midiOutput = null

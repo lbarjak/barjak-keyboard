@@ -99,8 +99,10 @@ export default class Menu {
             if (this.selectedValueOfRows > this.numberOfVerticalTrisMax)
                 this.selectedValueOfRows = this.numberOfVerticalTrisMax
             BufferPlayer.getPlayer(this.selectedInst, this.selectedOctave)
-            this.drawTriangles = new DrawTriangles()
-            new Canvas(this.drawTriangles, this.selectedValueOfRows).load()
+            new Canvas(
+                this.selectedValueOfRows,
+                this.selectedInst
+            ).loadSoundFiles()
         }
     }
 }

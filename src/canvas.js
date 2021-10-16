@@ -1,16 +1,18 @@
 import Events from './events.js'
 import BufferPlayer from './bufferplayer.js'
+import DrawTriangles from './drawtriangles.js'
 
 export default class Canvas {
-    constructor(drawTriangles, selectedValueOfRows) {
-        this.player = BufferPlayer.getPlayer()
-        this.drawTriangles = drawTriangles
+    constructor(selectedValueOfRows, selectedInst) {
         this.selectedValueofRows = selectedValueOfRows
+        this.selectedInst = selectedInst
+        this.drawTriangles = new DrawTriangles()
+        this.player = BufferPlayer.getPlayer()
         this.keyboard = document.getElementsByTagName('canvas')[0]
         this.root = document.getElementById('root')
     }
 
-    load = () => {
+    loadSoundFiles = () => {
         this.keyboard.style.display = 'block'
         this.root.style.display = 'none'
         window.ctx = this.keyboard.getContext('2d')
@@ -30,7 +32,7 @@ export default class Canvas {
         ctx.font = '16px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        let t
+        let time
         let message
         let timer = () => {
             ctx.fillStyle = '#4d4d4d'
@@ -47,22 +49,21 @@ export default class Canvas {
                 this.keyboard.width * 0.5,
                 this.keyboard.height * 0.3
             )
-            t = setTimeout(timer, 10)
+            time = setTimeout(timer, 10)
             if (this.player.loading == this.player.max - this.player.min + 1) {
-                clearTimeout(t)
-                this.kbd()
+                clearTimeout(time)
+                this.musicKeyboard()
             }
         }
         timer()
     }
 
-    kbd = () => {
+    musicKeyboard = () => {
         let triangles = this.drawTriangles.drawTriangles(
             this.selectedValueofRows
         )
         new Events(
             triangles,
-            this.player,
             this.selectedInst,
             this.drawTriangles.numberOfHorizontalTris
         )
