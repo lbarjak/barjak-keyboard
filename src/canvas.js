@@ -56,16 +56,12 @@ export default class Canvas {
     }
 
     kbd = () => {
-        console.log(this.selectedValue)
-        console.log(this.drawTriangles)
         let triangles = this.drawTriangles.drawTriangles(this.selectedValue)
-        console.log(
-            new Events(
-                triangles,
-                this.player,
-                this.selectedInst,
-                this.drawTriangles.numberOfHorizontalTris
-            ).instrument
+        new Events(
+            triangles,
+            this.player,
+            this.selectedInst,
+            this.drawTriangles.numberOfHorizontalTris
         )
         document.onkeydown = (e) => {
             if (e.key === 'Escape') {
