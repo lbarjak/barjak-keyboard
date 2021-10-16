@@ -11,11 +11,6 @@ export default class Canvas {
     }
 
     load = () => {
-        document.onkeydown = (e) => {
-            if (e.key === 'Escape') {
-                this.reload()
-            }
-        }
         this.keyboard.style.display = 'block'
         this.root.style.display = 'none'
         window.ctx = this.keyboard.getContext('2d')
@@ -71,13 +66,5 @@ export default class Canvas {
             this.selectedInst,
             this.drawTriangles.numberOfHorizontalTris
         )
-    }
-
-    reload = () => {
-        fetch('', {
-            'Cache-Control': 'no-cache'
-        })
-            .then(() => location.reload())
-            .catch((error) => console.warn(error))
     }
 }

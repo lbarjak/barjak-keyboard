@@ -71,7 +71,8 @@ export default class Menu {
                 this.selectedOctave = event.target.value
                 removeAllChildNodes(section2)
                 this.numberOfVerticalTrisMax = new Precalc().precalc(
-                    this.selectedOctave
+                    this.selectedOctave,
+                    this.selectedInst
                 )
                 insertForm(
                     section2,

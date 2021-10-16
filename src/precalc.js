@@ -1,8 +1,7 @@
 import BufferPlayer from './bufferplayer.js'
 
 export default class Precalc {
-    precalc = (selectedOctave) => {
-        let selectedInst = 'piano'
+    precalc = (selectedOctave, selectedInst) => {
         let numberOfVerticalTrisMax = 16
         let numberOfHorizontalTrisF = () => {
             return (
