@@ -1,8 +1,9 @@
 import Triangle from './triangle.js'
+import BufferPlayer from './bufferplayer.js'
 
 export default class DrawTriangles {
     constructor(player) {
-        this.player = player
+        this.player = BufferPlayer.getPlayer()
         this.startTriangle = this.player.min - 1
         this.numberOfVerticalTris = 16
         this.numberOfVerticalTrisMax = 16

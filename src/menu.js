@@ -1,16 +1,15 @@
+import Precalc from './precalc.js'
 import BufferPlayer from './bufferplayer.js'
 import DrawTriangles from './drawtriangles.js'
 import Canvas from './canvas.js'
-export default class Index {
+
+export default class Menu {
     constructor() {
-        //this.keyboard = document.getElementsByTagName('canvas')[0]
-        //this.root = document.getElementById('root')
-        this.player = null
-        this.selectedInst = 'piano'
-        this.selectedValue = 0
-        this.selectedOctave = 0
-        this.drawTriangles = null
-        this.numberOfVerticalTrisMax = 16
+        //this.selectedInst = 'piano'
+        //this.selectedValue = 0
+        //this.selectedOctave = 0
+        //this.drawTriangles = null
+        //this.numberOfVerticalTrisMax = 16
         this.mobile = false
         window.onresize = this.reload
         this.menu()
@@ -24,44 +23,13 @@ export default class Index {
             .catch((error) => console.warn(error))
     }
 
-    precalc = () => {
-        let numberOfVerticalTrisMax = 16
-        let numberOfHorizontalTrisF = () => {
-            return (
-                2 +
-                2 *
-                    Math.round(
-                        numberOfVerticalTrisMax *
-                            (Math.sqrt(3) / 2) *
-                            (window.innerWidth / window.innerHeight)
-                    )
-            )
-        }
-        let numberOfHorizontalTris = numberOfHorizontalTrisF()
-        let countOfPitchesF = () => {
-            return (
-                numberOfHorizontalTris - 1 + (numberOfVerticalTrisMax - 1) * 6
-            )
-        }
-        let countOfPitches = countOfPitchesF()
-        let soundsOfInst =
-            BufferPlayer.instruments[this.selectedInst].max -
-            BufferPlayer.instruments[this.selectedInst].min +
-            1 -
-            12 * this.selectedOctave
-        if (countOfPitches > soundsOfInst - 1) {
-            while (countOfPitches > soundsOfInst - 1) {
-                numberOfVerticalTrisMax--
-                numberOfHorizontalTris = numberOfHorizontalTrisF()
-                countOfPitches = countOfPitchesF()
-            }
-            numberOfVerticalTrisMax++
-            numberOfHorizontalTris = numberOfHorizontalTrisF()
-        }
-        this.numberOfVerticalTrisMax = numberOfVerticalTrisMax
-    }
-
     menu = () => {
+        document.onkeydown = (e) => {
+            if (e.key === 'Escape') {
+                this.reload()
+            }
+        }
+
         if (
             /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
                 navigator.userAgent
@@ -114,7 +82,9 @@ export default class Index {
             octaves.addEventListener('change', (event) => {
                 this.selectedOctave = event.target.value
                 removeAllChildNodes(section2)
-                this.precalc()
+                this.numberOfVerticalTrisMax = new Precalc().precalc(
+                    this.selectedOctave
+                )
                 insertForm(
                     section2,
                     'Rows of keyboard:',
@@ -139,16 +109,9 @@ export default class Index {
         let instances = () => {
             if (this.selectedValue > this.numberOfVerticalTrisMax)
                 this.selectedValue = this.numberOfVerticalTrisMax
-            this.player = new BufferPlayer(
-                this.selectedInst,
-                this.selectedOctave
-            )
-            this.drawTriangles = new DrawTriangles(this.player)
-            new Canvas(
-                this.player,
-                this.drawTriangles,
-                this.selectedValue
-            ).load()
+            BufferPlayer.getPlayer(this.selectedInst, this.selectedOctave)
+            this.drawTriangles = new DrawTriangles()
+            new Canvas(this.drawTriangles, this.selectedValue).load()
         }
     }
 }
