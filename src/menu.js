@@ -25,13 +25,6 @@ export default class Menu {
             }
         }
 
-        if (
-            /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(
-                navigator.userAgent
-            )
-        ) {
-            this.mobile = true
-        }
         if (navigator.requestMIDIAccess)
             document.getElementById('midi').style.display = 'block'
 
@@ -92,7 +85,7 @@ export default class Menu {
         }
 
         let setRows = () => {
-            if (!this.mobile)
+            if (!/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent))
                 section2.innerHTML += '<p><b>esc: back to this menu</b></p>'
             let rows = document.getElementById('rows')
             rows.addEventListener('change', (event) => {
