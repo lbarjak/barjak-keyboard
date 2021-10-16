@@ -7,7 +7,7 @@ export default class Triangle {
         this.noteName = triangleParams.noteName
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
-        this.serNumOfTri = triangleParams.countOfTriangles
+        this.serNumOfTri = triangleParams.serNumOfTri
         this.shapes = {
             triangle: this.drawTriangle,
             circle: this.drawCircle,
@@ -83,17 +83,15 @@ export default class Triangle {
     }
 
     drawCircle = () => {
-        let reducer = 0.98
-        let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
         let radiusMax = parseInt(heightOfTriangle / 3)
+        let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
         let differenceOfCenterOfTriangle =
             this.position * (heightOfTriangle / 2 - radiusMax)
-        let radius = radiusMax * reducer
         ctx.beginPath()
         ctx.arc(
             this.x,
             this.y + differenceOfCenterOfTriangle,
-            radius,
+            0.98 * radiusMax,
             0,
             2 * Math.PI,
             false

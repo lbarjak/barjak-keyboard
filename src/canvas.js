@@ -6,13 +6,12 @@ export default class Canvas {
     constructor(selectedValueOfRows, selectedInst) {
         this.selectedValueofRows = selectedValueOfRows
         this.selectedInst = selectedInst
-        this.drawTriangles = new DrawTriangles()
-        this.player = BufferPlayer.getPlayer()
         this.keyboard = document.getElementsByTagName('canvas')[0]
         this.root = document.getElementById('root')
     }
 
     loadSoundFiles = () => {
+        let player = BufferPlayer.getPlayer()
         this.keyboard.style.display = 'block'
         this.root.style.display = 'none'
         window.ctx = this.keyboard.getContext('2d')
@@ -39,9 +38,9 @@ export default class Canvas {
             ctx.fillRect(0, 0, this.keyboard.width, this.keyboard.height)
             message =
                 'Loading sounds ' +
-                this.player.loading +
+                player.loading +
                 ' out of ' +
-                (this.player.max - this.player.min + 1) +
+                (player.max - player.min + 1) +
                 '...'
             ctx.fillStyle = 'white'
             ctx.fillText(
@@ -50,22 +49,21 @@ export default class Canvas {
                 this.keyboard.height * 0.3
             )
             time = setTimeout(timer, 10)
-            if (this.player.loading == this.player.max - this.player.min + 1) {
+            if (player.loading == player.max - player.min + 1) {
                 clearTimeout(time)
-                this.musicKeyboard()
+                this.musicalKeyboard()
             }
         }
         timer()
     }
 
-    musicKeyboard = () => {
-        let triangles = this.drawTriangles.drawTriangles(
-            this.selectedValueofRows
-        )
+    musicalKeyboard = () => {
+        let drawTriangles = new DrawTriangles()
+        let triangles = drawTriangles.drawTriangles(this.selectedValueofRows)
         new Events(
             triangles,
             this.selectedInst,
-            this.drawTriangles.numberOfHorizontalTris
+            drawTriangles.numberOfHorizontalTris
         )
     }
 }

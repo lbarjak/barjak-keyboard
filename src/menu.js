@@ -1,6 +1,5 @@
 import Precalc from './precalc.js'
 import BufferPlayer from './bufferplayer.js'
-import DrawTriangles from './drawtriangles.js'
 import Canvas from './canvas.js'
 
 export default class Menu {

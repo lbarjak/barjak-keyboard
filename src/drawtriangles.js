@@ -61,7 +61,7 @@ export default class DrawTriangles {
             noteName: '',
             color: '',
             pitch: 0,
-            countOfTriangles: 0,
+            serNumOfTri: 0,
             edgeOfTriangle: 0
         }
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
@@ -88,10 +88,10 @@ export default class DrawTriangles {
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                this.triangles[triangleParams.countOfTriangles] = new Triangle(
+                this.triangles[triangleParams.serNumOfTri] = new Triangle(
                     triangleParams
                 )
-                triangleParams.countOfTriangles++
+                triangleParams.serNumOfTri++
             }
         }
         return this.triangles
