@@ -5,11 +5,6 @@ import Canvas from './canvas.js'
 
 export default class Menu {
     constructor() {
-        //this.selectedInst = 'piano'
-        //this.selectedValue = 0
-        //this.selectedOctave = 0
-        //this.drawTriangles = null
-        //this.numberOfVerticalTrisMax = 16
         this.mobile = false
         window.onresize = this.reload
         this.menu()
@@ -61,19 +56,19 @@ export default class Menu {
 
         let insertForm = (sect, title, name, min, max) => {
             sect.innerHTML += '<p><b>' + title + '</b></p>'
-            let f = document.createElement('form')
-            f.setAttribute('id', name)
+            let form = document.createElement('form')
+            form.setAttribute('id', name)
             for (let i = min; i < max; i++) {
                 let input = document.createElement('input')
-                f.append(input)
+                form.append(input)
                 input.type = 'radio'
                 input.name = name
                 input.value = i
                 let label = document.createElement('label')
                 label.textContent = i + ' '
-                f.append(label)
+                form.append(label)
             }
-            sect.append(f)
+            sect.append(form)
         }
 
         let setOctaves = () => {
@@ -101,17 +96,17 @@ export default class Menu {
                 section2.innerHTML += '<p><b>esc: back to this menu</b></p>'
             let rows = document.getElementById('rows')
             rows.addEventListener('change', (event) => {
-                this.selectedValue = event.target.value
+                this.selectedValueOfRows = event.target.value
                 instances()
             })
         }
 
         let instances = () => {
-            if (this.selectedValue > this.numberOfVerticalTrisMax)
-                this.selectedValue = this.numberOfVerticalTrisMax
+            if (this.selectedValueOfRows > this.numberOfVerticalTrisMax)
+                this.selectedValueOfRows = this.numberOfVerticalTrisMax
             BufferPlayer.getPlayer(this.selectedInst, this.selectedOctave)
             this.drawTriangles = new DrawTriangles()
-            new Canvas(this.drawTriangles, this.selectedValue).load()
+            new Canvas(this.drawTriangles, this.selectedValueOfRows).load()
         }
     }
 }

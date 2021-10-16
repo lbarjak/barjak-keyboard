@@ -2,10 +2,10 @@ import Events from './events.js'
 import BufferPlayer from './bufferplayer.js'
 
 export default class Canvas {
-    constructor(drawTriangles, selectedValue) {
+    constructor(drawTriangles, selectedValueOfRows) {
         this.player = BufferPlayer.getPlayer()
         this.drawTriangles = drawTriangles
-        this.selectedValue = selectedValue
+        this.selectedValueofRows = selectedValueOfRows
         this.keyboard = document.getElementsByTagName('canvas')[0]
         this.root = document.getElementById('root')
     }
@@ -62,7 +62,9 @@ export default class Canvas {
     }
 
     kbd = () => {
-        let triangles = this.drawTriangles.drawTriangles(this.selectedValue)
+        let triangles = this.drawTriangles.drawTriangles(
+            this.selectedValueofRows
+        )
         new Events(
             triangles,
             this.player,
