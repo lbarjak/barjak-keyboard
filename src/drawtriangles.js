@@ -1,8 +1,9 @@
 import Triangle from './triangle.js'
+import BufferPlayer from './bufferplayer.js'
 
 export default class DrawTriangles {
-    constructor(player) {
-        this.player = player
+    constructor() {
+        this.player = BufferPlayer.getPlayer()
         this.startTriangle = this.player.min - 1
         this.numberOfVerticalTris = 16
         this.numberOfVerticalTrisMax = 16
@@ -60,7 +61,7 @@ export default class DrawTriangles {
             noteName: '',
             color: '',
             pitch: 0,
-            countOfTriangles: 0,
+            serNumOfTri: 0,
             edgeOfTriangle: 0
         }
         for (let row = 0; row < this.numberOfVerticalTris; row++) {
@@ -87,10 +88,10 @@ export default class DrawTriangles {
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                this.triangles[triangleParams.countOfTriangles] = new Triangle(
+                this.triangles[triangleParams.serNumOfTri] = new Triangle(
                     triangleParams
                 )
-                triangleParams.countOfTriangles++
+                triangleParams.serNumOfTri++
             }
         }
         return this.triangles

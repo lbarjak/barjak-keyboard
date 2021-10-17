@@ -1,11 +1,14 @@
+import BufferPlayer from './bufferplayer.js'
+
 export default class Events {
-    constructor(triangles, player, instrument, numberOfHorizontalTris) {
-        ;[
-            this.triangles,
-            this.player,
-            this.instrument,
-            this.numberOfHorizontalTris
-        ] = [triangles, player, instrument, numberOfHorizontalTris]
+    constructor(triangles, instrument, numberOfHorizontalTris) {
+        ;[this.triangles, this.instrument, this.numberOfHorizontalTris] = [
+            triangles,
+            instrument,
+            numberOfHorizontalTris
+        ]
+        console.log('inst:', this.instrument)
+        this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midiOutputs = []
         this.midiOutput = null
@@ -97,7 +100,7 @@ export default class Events {
     }
 
     init = () => {
-        const keyboard = document.getElementsByTagName('canvas')[0]
+        const musicalKeyboard = document.getElementsByTagName('canvas')[0]
         let isMouseDown
         let prevTriangleSerNum
         let currentTriangleSerNum
@@ -116,10 +119,10 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-        keyboard.addEventListener('mouseout', handleMouse, false)
-        keyboard.addEventListener('mousedown', handleMouse, false)
-        keyboard.addEventListener('mousemove', handleMouse, false)
-        keyboard.addEventListener('mouseup', handleMouse, false)
+        musicalKeyboard.addEventListener('mouseout', handleMouse, false)
+        musicalKeyboard.addEventListener('mousedown', handleMouse, false)
+        musicalKeyboard.addEventListener('mousemove', handleMouse, false)
+        musicalKeyboard.addEventListener('mouseup', handleMouse, false)
 
         let prevTriangles = []
         let handleTouch = (e) => {
@@ -145,10 +148,10 @@ export default class Events {
             }
             prevTriangles = currentTriangles
         }
-        keyboard.addEventListener('touchstart', handleTouch, false)
-        keyboard.addEventListener('touchmove', handleTouch, false)
-        keyboard.addEventListener('touchend', handleTouch, false)
-        keyboard.addEventListener('touchcancel', handleTouch, false)
+        musicalKeyboard.addEventListener('touchstart', handleTouch, false)
+        musicalKeyboard.addEventListener('touchmove', handleTouch, false)
+        musicalKeyboard.addEventListener('touchend', handleTouch, false)
+        musicalKeyboard.addEventListener('touchcancel', handleTouch, false)
 
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
