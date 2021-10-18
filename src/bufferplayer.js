@@ -6,7 +6,7 @@ export default class BufferPlayer {
         midi: { min: 12, max: 127 } //C0 - G9
     }
     static player
-    static getPlayer(selectedInst = null, selectedOctave = null) {
+    static getPlayer(selectedInst, selectedOctave) {
         if (!BufferPlayer.player)
             BufferPlayer.player = new BufferPlayer(selectedInst, selectedOctave)
         return BufferPlayer.player

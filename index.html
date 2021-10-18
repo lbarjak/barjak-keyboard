@@ -51,7 +51,6 @@
     </style>
     <script type="module">
         import Menu from './src/menu.js'
-        //window.onload = () => new Menu()
         const image = 'background.png'
         fetch(image)
             .then(() => {
@@ -61,6 +60,9 @@
             })
             .then(() => {
                 new Menu()
+            })
+            .catch((error) => {
+                console.warn(error)
             })
     </script>
 </head>

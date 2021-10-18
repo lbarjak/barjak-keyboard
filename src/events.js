@@ -7,7 +7,6 @@ export default class Events {
             instrument,
             numberOfHorizontalTris
         ]
-        console.log('inst:', this.instrument)
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midiOutputs = []
