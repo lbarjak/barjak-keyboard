@@ -90,7 +90,7 @@ export default class Menu {
             let rows = document.getElementById('rows')
             rows.addEventListener('change', (event) => {
                 this.selectedValueOfRows = event.target.value
-                instances()
+                setTimeout(instances, 100)
             })
         }
 

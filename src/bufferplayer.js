@@ -37,9 +37,9 @@ export default class BufferPlayer {
         }
         if (navigator.requestMIDIAccess) this.midiInit()
     }
-    initInstrument = (name) => {
+    initInstrument = (path) => {
         for (let i = this.min; i <= this.max; i++) {
-            fetch(name + i + '.mp3')
+            fetch(path + i + '.mp3')
                 .then((response) => response.arrayBuffer())
                 .then((arrayBuffer) =>
                     this.audioContext.decodeAudioData(arrayBuffer)
