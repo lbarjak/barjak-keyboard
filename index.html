@@ -28,7 +28,7 @@
         }
 
         body {
-            background-image: url('background.png');
+            /* background-image: url('background.png'); */
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
         }
@@ -44,12 +44,26 @@
         #midi {
             display: none;
         }
+
+        #instruments {
+            pointer-events: none;
+        }
     </style>
     <script type="module">
-        import Index from './src/index.js'
-        window.onload = () => {
-            new Index()
-        }
+        import Menu from './src/menu.js'
+        const image = 'background.png'
+        fetch(image)
+            .then(() => {
+                document.body.style.backgroundImage = 'url(' + image + ')'
+                let form = document.getElementById('instruments')
+                form.style.pointerEvents = 'auto'
+            })
+            .then(() => {
+                new Menu()
+            })
+            .catch((error) => {
+                console.warn(error)
+            })
     </script>
 </head>
 

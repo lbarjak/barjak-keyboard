@@ -5,6 +5,12 @@ export default class BufferPlayer {
         harpsichord2: { min: 29, max: 88, initInstrument: './pjcohen/' }, //F1 - E6
         midi: { min: 12, max: 127 } //C0 - G9
     }
+    static player
+    static getPlayer(selectedInst, selectedOctave) {
+        if (!BufferPlayer.player)
+            BufferPlayer.player = new BufferPlayer(selectedInst, selectedOctave)
+        return BufferPlayer.player
+    }
 
     constructor(instrument = 'piano', octave = 0) {
         this.audioContext = new (window.AudioContext ||
@@ -31,9 +37,9 @@ export default class BufferPlayer {
         }
         if (navigator.requestMIDIAccess) this.midiInit()
     }
-    initInstrument = (name) => {
+    initInstrument = (path) => {
         for (let i = this.min; i <= this.max; i++) {
-            fetch(name + i + '.mp3')
+            fetch(path + i + '.mp3')
                 .then((response) => response.arrayBuffer())
                 .then((arrayBuffer) =>
                     this.audioContext.decodeAudioData(arrayBuffer)
