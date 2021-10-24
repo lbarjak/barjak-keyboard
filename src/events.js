@@ -1,4 +1,5 @@
 import BufferPlayer from './bufferplayer.js'
+import MidiHandler from './midihandler.js'
 
 export default class Events {
     constructor(triangles, instrument, numberOfHorizontalTris) {
@@ -9,50 +10,53 @@ export default class Events {
         ]
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
-        this.midiOutputs = []
-        this.midiOutput = null
-        this.midiChannel = 0
+        // this.midiOutputs = []
+        // this.midiOutput = null
+        // this.midiChannel = 0
+        this.midi = MidiHandler.getMidiHandler(
+            this.triangles,
+            this.numberOfHorizontalTris
+        ).midiOut
         this.init()
-        if (navigator.requestMIDIAccess) this.midiInit()
     }
 
-    midiInit = () => {
-        navigator
-            .requestMIDIAccess()
-            .then((response) => {
-                const outputs = response.outputs.values()
-                for (const output of outputs) {
-                    this.midiOutputs.push(output)
-                }
-                if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
-                console.log(
-                    'event.js/Events connected:',
-                    this.midiOutputs[0].type,
-                    this.midiOutputs[0].name
-                )
-            })
-            .catch((error) => console.warn(error))
-    }
-    midi = (onoff, serNumOfTri) => {
-        let pitch = this.triangles[serNumOfTri].getSound()
-        this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
-        if (pitch < 128) {
-            this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
-            console.log(
-                'output:',
-                this.midiOutput.name,
-                '-',
-                'midiEvent:',
-                onoff.toString(16)[0],
-                ' midiChannel:',
-                this.midiChannel,
-                ' midiKey:',
-                pitch,
-                'midiVelocity:',
-                127
-            )
-        }
-    }
+    // midiInit = () => {
+    //     navigator
+    //         .requestMIDIAccess()
+    //         .then((response) => {
+    //             const outputs = response.outputs.values()
+    //             for (const output of outputs) {
+    //                 this.midiOutputs.push(output)
+    //             }
+    //             if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
+    //             console.log(
+    //                 'event.js/Events connected:',
+    //                 this.midiOutputs[0].type,
+    //                 this.midiOutputs[0].name
+    //             )
+    //         })
+    //         .catch((error) => console.warn(error))
+    // }
+    // midi = (onoff, serNumOfTri) => {
+    //     let pitch = this.triangles[serNumOfTri].getSound()
+    //     this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
+    //     if (pitch < 128) {
+    //         this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+    //         console.log(
+    //             'output:',
+    //             this.midiOutput.name,
+    //             '-',
+    //             'midiEvent:',
+    //             onoff.toString(16)[0],
+    //             ' midiChannel:',
+    //             this.midiChannel,
+    //             ' midiKey:',
+    //             pitch,
+    //             'midiVelocity:',
+    //             127
+    //         )
+    //     }
+    // }
 
     soundSwitch = (onOff, serNumOfTri) => {
         let pitch

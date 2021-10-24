@@ -1,8 +1,60 @@
 export default class MidiHandler {
     static midiHandler
-    static getMidiHandler() {
-        if (!this.midiHandler) this.midiHandler = new MidiHandler()
+    static getMidiHandler(triangles, numberOfHorizontalTris) {
+        if (!this.midiHandler)
+            this.midiHandler = new MidiHandler(
+                triangles,
+                numberOfHorizontalTris
+            )
         return this.midiHandler
+    }
+
+    constructor(triangles, numberOfHorizontalTris) {
+        this.triangles = triangles
+        this.numberOfHorizontalTris = numberOfHorizontalTris
+        this.midiOutputs = []
+        this.midiOutput = null
+        this.midiChannel = 0
+        if (navigator.requestMIDIAccess) this.midiOutInit()
+    }
+
+    midiOutInit = () => {
+        navigator
+            .requestMIDIAccess()
+            .then((response) => {
+                const outputs = response.outputs.values()
+                for (const output of outputs) {
+                    this.midiOutputs.push(output)
+                }
+                if (this.midiOutputs[0]) this.midiOutput = this.midiOutputs[0]
+                console.log(
+                    'event.js/Events connected:',
+                    this.midiOutputs[0].type,
+                    this.midiOutputs[0].name
+                )
+            })
+            .catch((error) => console.warn(error))
+    }
+
+    midiOut = (onoff, serNumOfTri) => {
+        let pitch = this.triangles[serNumOfTri].getSound()
+        this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
+        if (pitch < 128) {
+            this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
+            console.log(
+                'output:',
+                this.midiOutput.name,
+                '-',
+                'midiEvent:',
+                onoff.toString(16)[0],
+                ' midiChannel:',
+                this.midiChannel,
+                ' midiKey:',
+                pitch,
+                'midiVelocity:',
+                127
+            )
+        }
     }
 
     midiInInit = (self) => {
