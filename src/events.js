@@ -11,7 +11,6 @@ export default class Events {
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
-            this.triangles,
             this.numberOfHorizontalTris
         ).midiOut
         this.init()
