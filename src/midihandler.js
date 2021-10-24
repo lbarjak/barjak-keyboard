@@ -36,8 +36,7 @@ export default class MidiHandler {
             .catch((error) => console.warn(error))
     }
 
-    midiOut = (onoff, serNumOfTri) => {
-        let pitch = this.triangles[serNumOfTri].getSound()
+    midiOut = (onoff, pitch, serNumOfTri) => {
         this.midiChannel = Math.floor(serNumOfTri / this.numberOfHorizontalTris)
         if (pitch < 128) {
             this.midiOutput.send([onoff + this.midiChannel, pitch, 127])
