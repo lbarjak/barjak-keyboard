@@ -14,7 +14,7 @@ export default class Triangle {
             hexagon: this.drawHexagon
         }
         this.shape = 'hexagon'
-        if (!/Android|webOS|iPhone/i.test(navigator.userAgent))
+        if (!/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
             this.shape = 'triangle'
         this.draw()
     }
