@@ -30,7 +30,7 @@ export default class BufferPlayer {
         this.instrument = instrument
         this.min = BufferPlayer.instruments[this.instrument].min + 12 * octave
         this.max = BufferPlayer.instruments[this.instrument].max
-        if (this.instrument == 'midi') {
+        if (this.instrument === 'midi') {
             this.loading = 116 - 12 * octave
         } else {
             this.initInstrument(

@@ -60,8 +60,8 @@ export default class MidiHandler {
         }
         let midiOnStateChange = (event) => {
             if (
-                event.port.type == 'input' &&
-                event.port.state == 'connected' &&
+                event.port.type === 'input' &&
+                event.port.state === 'connected' &&
                 !event.port.onmidimessage
             ) {
                 connect(event.port)
@@ -77,7 +77,7 @@ export default class MidiHandler {
             midiEvent = midiStatusByte.substring(0, 1)
             midiChannel = midiStatusByte.substring(1)
             midiKey = event.data[1]
-            midiVelocity = this.instrument == 'piano' ? event.data[2] : 127
+            midiVelocity = this.instrument === 'piano' ? event.data[2] : 127
             console.log(
                 'input:',
                 event.currentTarget.name,
@@ -91,7 +91,7 @@ export default class MidiHandler {
                 'midiVelocity:',
                 midiVelocity
             )
-            if (midiEvent == '9') {
+            if (midiEvent === '9') {
                 self.play(midiKey, midiChannel, midiVelocity)
             } else {
                 self.stop(midiKey, midiChannel)

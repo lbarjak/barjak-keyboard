@@ -83,7 +83,7 @@ export default class DrawTriangles {
                 indexOfNote = pitch % 12
                 triangleParams.noteName = noteProperties.noteNames[indexOfNote]
                 triangleParams.color = noteProperties.noteColors[indexOfNote]
-                if (pitch == this.startTriangle || pitch > this.player.max)
+                if (pitch === this.startTriangle || pitch > this.player.max)
                     triangleParams.color = 'gray'
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
