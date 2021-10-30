@@ -1,3 +1,5 @@
+import MidiHandler from './midihandler.js'
+
 export default class BufferPlayer {
     static instruments = {
         piano: { min: 24, max: 108, initInstrument: './piano/' }, //C1 - C8
@@ -28,15 +30,17 @@ export default class BufferPlayer {
         this.instrument = instrument
         this.min = BufferPlayer.instruments[this.instrument].min + 12 * octave
         this.max = BufferPlayer.instruments[this.instrument].max
-        if (this.instrument == 'midi') {
+        if (this.instrument === 'midi') {
             this.loading = 116 - 12 * octave
         } else {
             this.initInstrument(
                 BufferPlayer.instruments[this.instrument].initInstrument
             )
+            const midiHandler = MidiHandler.getMidiHandler()
+            if (navigator.requestMIDIAccess) midiHandler.midiInInit(this)
         }
-        if (navigator.requestMIDIAccess) this.midiInit()
     }
+
     initInstrument = (path) => {
         for (let i = this.min; i <= this.max; i++) {
             fetch(path + i + '.mp3')
@@ -86,57 +90,5 @@ export default class BufferPlayer {
             )
             this.channels[note][serNumOfTri] = false
         }
-    }
-
-    midiInit = () => {
-        let midi = (response) => {
-            for (let inputPort of response.inputs.values()) {
-                connect(inputPort)
-            }
-            response.onstatechange = midiOnStateChange
-        }
-        let midiOnStateChange = (event) => {
-            if (
-                event.port.type == 'input' &&
-                event.port.state == 'connected' &&
-                !event.port.onmidimessage
-            ) {
-                connect(event.port)
-            }
-        }
-        let connect = (port) => {
-            console.log('BufferPlayer connected:', port.type, port.name)
-            port.onmidimessage = midiMessage
-        }
-        let midiStatusByte, midiEvent, midiChannel, midiKey, midiVelocity
-        let midiMessage = (event) => {
-            midiStatusByte = event.data[0].toString(16)
-            midiEvent = midiStatusByte.substring(0, 1)
-            midiChannel = midiStatusByte.substring(1)
-            midiKey = event.data[1]
-            midiVelocity = this.instrument == 'piano' ? event.data[2] : 127
-            console.log(
-                'input:',
-                event.currentTarget.name,
-                '-',
-                'midiEvent:',
-                midiEvent,
-                ' midiChannel:',
-                midiChannel,
-                ' midiKey:',
-                midiKey,
-                'midiVelocity:',
-                midiVelocity
-            )
-            if (midiEvent == '9') {
-                this.play(midiKey, midiChannel, midiVelocity)
-            } else {
-                this.stop(midiKey, midiChannel)
-            }
-        }
-        navigator
-            .requestMIDIAccess()
-            .then(midi)
-            .catch((error) => console.warn(error))
     }
 }

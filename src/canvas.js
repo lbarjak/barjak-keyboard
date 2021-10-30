@@ -49,7 +49,7 @@ export default class Canvas {
                 this.keyboard.height * 0.3
             )
             time = setTimeout(timer, 10)
-            if (player.loading == player.max - player.min + 1) {
+            if (player.loading === player.max - player.min + 1) {
                 clearTimeout(time)
                 this.musicalKeyboard()
             }
