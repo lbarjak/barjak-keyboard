@@ -1,4 +1,5 @@
 export default class Shapes {
+    static serNumOfTri = 0
     constructor(triangleParams, drawing) {
         this.x = Math.round(triangleParams.triangleCenterX)
         this.y = Math.round(triangleParams.triangleCenterY)
@@ -7,7 +8,8 @@ export default class Shapes {
         this.noteName = triangleParams.noteName
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
-        this.serNumOfTri = triangleParams.serNumOfTri
+        //this.serNumOfTri = triangleParams.serNumOfTri
+        this.serNumOfTri = Shapes.serNumOfTri++
         this.shapes = {
             triangle: this.drawTriangle,
             circle: this.drawCircle,
@@ -23,16 +25,11 @@ export default class Shapes {
 
     draw = (color = this.color) => {
         this.drawTriangle()
-        this.poly.fill(color) //ctx.fillStyle = color
-        //ctx.fill()
+        this.poly.fill(color)
         this.poly.attr({
-            //"fill-opacity": 0.0001,
             stroke: color == 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
-        //ctx.lineWidth = 2
-        //ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
-        //ctx.stroke()
 
         /*         ctx.font = this.edge / 5 + 'px Arial'
         ctx.textAlign = 'center'
@@ -63,6 +60,7 @@ export default class Shapes {
     }
 
     drawTriangleSign = () => {
+        console.log('???')
         let color
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
@@ -71,10 +69,9 @@ export default class Shapes {
     }
 
     isPointInShape = (pointerX, pointerY) => {
-        this.shapes[this.shape]()
-        if (ctx.isPointInPath(pointerX, pointerY)) {
-            return true
-        }
+        let inside = false
+        inside = this.poly.inside(pointerX, pointerY)
+        if (inside) return true
         return false
     }
 
@@ -92,11 +89,6 @@ export default class Shapes {
             [x3, y3]
         ]
         this.poly = this.drawing.polygon(triangle())
-        // ctx.beginPath()
-        // ctx.moveTo(x1, y1)
-        // ctx.lineTo(x2, y2)
-        // ctx.lineTo(x3, y3)
-        // ctx.closePath()
     }
 
     drawCircle = () => {
