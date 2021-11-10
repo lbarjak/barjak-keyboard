@@ -85,10 +85,11 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-        musicalKeyboard.addEventListener('mouseout', handleMouse, false)
-        musicalKeyboard.addEventListener('mousedown', handleMouse, false)
-        musicalKeyboard.addEventListener('mousemove', handleMouse, false)
-        musicalKeyboard.addEventListener('mouseup', handleMouse, false)
+        'mouseout mousedown mousemove mouseup'
+            .split(' ')
+            .forEach((e) =>
+                musicalKeyboard.addEventListener(e, handleMouse, false)
+            )
 
         let prevTriangles = []
         let handleTouch = (e) => {
@@ -116,10 +117,11 @@ export default class Events {
             }
             prevTriangles = currentTriangles
         }
-        musicalKeyboard.addEventListener('touchstart', handleTouch, false)
-        musicalKeyboard.addEventListener('touchmove', handleTouch, false)
-        musicalKeyboard.addEventListener('touchend', handleTouch, false)
-        musicalKeyboard.addEventListener('touchcancel', handleTouch, false)
+        'touchstart touchmove touchend touchcancel'
+            .split(' ')
+            .forEach((e) =>
+                musicalKeyboard.addEventListener(e, handleTouch, false)
+            )
 
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(
