@@ -89,6 +89,11 @@ export default class Shapes {
             [x3, y3]
         ]
         this.poly = this.drawing.polygon(triangle())
+        this.poly.on(['mousedown', 'touchstart'], (e) => {
+            console.log(
+                `Clicked! serNumOfTri: ${this.serNumOfTri}; x=${e.target.points[0].x}; y=${e.target.points[0].y}`
+            )
+        })
     }
 
     drawCircle = () => {
