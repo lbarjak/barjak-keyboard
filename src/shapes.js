@@ -60,11 +60,11 @@ export default class Shapes {
     }
 
     drawTriangleSign = () => {
-        console.log('???')
         let color
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
-            this.draw(color)
+            //this.draw(color)
+            this.poly.fill(color)
         }
     }
 
@@ -96,46 +96,46 @@ export default class Shapes {
         // })
     }
 
-    drawCircle = () => {
-        let radiusMax = parseInt(heightOfTriangle / 3)
-        let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
-        let differenceOfCenterOfTriangle =
-            this.position * (heightOfTriangle / 2 - radiusMax)
-        ctx.beginPath()
-        ctx.arc(
-            this.x,
-            this.y + differenceOfCenterOfTriangle,
-            0.98 * radiusMax,
-            0,
-            2 * Math.PI,
-            false
-        )
-        ctx.closePath()
-    }
+    // drawCircle = () => {
+    //     let radiusMax = parseInt(heightOfTriangle / 3)
+    //     let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
+    //     let differenceOfCenterOfTriangle =
+    //         this.position * (heightOfTriangle / 2 - radiusMax)
+    //     ctx.beginPath()
+    //     ctx.arc(
+    //         this.x,
+    //         this.y + differenceOfCenterOfTriangle,
+    //         0.98 * radiusMax,
+    //         0,
+    //         2 * Math.PI,
+    //         false
+    //     )
+    //     ctx.closePath()
+    // }
 
-    drawHexagon = () => {
-        let edge = this.edge * 0.98
-        let diff = ((Math.sqrt(3) / 2) * (this.position * this.edge)) / 6
-        let side = 0
-        let size = edge / 3
-        let y = this.y + diff
-        ctx.moveTo(this.x - size, y + size)
-        ctx.beginPath()
-        for (side; side <= 6; side++) {
-            ctx.lineTo(
-                this.x + size * Math.cos((side * 2 * Math.PI) / 6),
-                y + size * Math.sin((side * 2 * Math.PI) / 6)
-            )
-        }
-        ctx.closePath()
-    }
+    // drawHexagon = () => {
+    //     let edge = this.edge * 0.98
+    //     let diff = ((Math.sqrt(3) / 2) * (this.position * this.edge)) / 6
+    //     let side = 0
+    //     let size = edge / 3
+    //     let y = this.y + diff
+    //     ctx.moveTo(this.x - size, y + size)
+    //     ctx.beginPath()
+    //     for (side; side <= 6; side++) {
+    //         ctx.lineTo(
+    //             this.x + size * Math.cos((side * 2 * Math.PI) / 6),
+    //             y + size * Math.sin((side * 2 * Math.PI) / 6)
+    //         )
+    //     }
+    //     ctx.closePath()
+    // }
 
-    getCurrentTriangle = (x, y) => {
-        if (this.isPointInShape(x, y)) {
-            return this.serNumOfTri
-        }
-        return -1
-    }
+    // getCurrentTriangle = (x, y) => {
+    //     if (this.isPointInShape(x, y)) {
+    //         return this.serNumOfTri
+    //     }
+    //     return -1
+    // }
 
     getSound = () => {
         return this.pitch
@@ -146,6 +146,7 @@ export default class Shapes {
     }
 
     setSignOff = () => {
-        this.draw()
+        //this.draw()
+        this.poly.fill(this.color)
     }
 }

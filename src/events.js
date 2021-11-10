@@ -15,7 +15,6 @@ export default class Events {
         this.midi = MidiHandler.getMidiHandler(
             this.numberOfHorizontalTris
         ).midiOut
-        this.polygons()
         this.init()
     }
 
@@ -67,26 +66,21 @@ export default class Events {
         }
     }
 
-    polygons = () => {
-        this.triangles.forEach((triangle) =>
-            triangle.poly.on(['mousedown', 'touchstart'], (e) => {
-                console.log(
-                    `Clicked! serNumOfTri: ${triangle.serNumOfTri}; x=${e.target.points[0].x}; y=${e.target.points[0].y}`
-                )
-            })
-        )
-    }
-
     init = () => {
         const musicalKeyboard = document.getElementsByTagName('canvas')[0]
         let isMouseDown
         let prevTriangleSerNum
-        let currentTriangleSerNum
-        let handleMouse = (e) => {
+        //let currentTriangleSerNum
+        let handleMouse = (e, currentTriangleSerNum) => {
+            console.log(
+                'handleMouse',
+                currentTriangleSerNum,
+                e.type,
+                isMouseDown
+            )
             if (e.type === 'mousedown') isMouseDown = true
             if (e.type === 'mouseup' || e.type === 'mouseout')
                 isMouseDown = false
-            currentTriangleSerNum = getCurrentTriangle(e.clientX, e.clientY)
             if (currentTriangleSerNum && isMouseDown) {
                 this.soundSwitch(true, currentTriangleSerNum)
                 if (prevTriangleSerNum === currentTriangleSerNum)
@@ -98,11 +92,13 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-        'mouseout mousedown mousemove mouseup'
-            .split(' ')
-            .forEach((e) =>
-                musicalKeyboard.addEventListener(e, handleMouse, false)
+
+        this.triangles.forEach((triangle) =>
+            triangle.poly.on(
+                ['mousedown', 'mousemove', 'mouseup'], //mouseout
+                (e) => handleMouse(e, triangle.serNumOfTri)
             )
+        )
 
         let prevTriangles = []
         let handleTouch = (e) => {
