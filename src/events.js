@@ -10,6 +10,7 @@ export default class Events {
         ]
         let drawing = document.getElementById('svgs')
         this.drawing = drawing.getElementsByTagName('svg')[0].instance
+        this.rect = drawing.getElementsByTagName('rect')[0].instance
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
@@ -70,14 +71,7 @@ export default class Events {
         const musicalKeyboard = document.getElementsByTagName('canvas')[0]
         let isMouseDown
         let prevTriangleSerNum
-        //let currentTriangleSerNum
-        let handleMouse = (e, currentTriangleSerNum) => {
-            console.log(
-                'handleMouse',
-                currentTriangleSerNum,
-                e.type,
-                isMouseDown
-            )
+        let handleMouse = (e, currentTriangleSerNum = 0) => {
             if (e.type === 'mousedown') isMouseDown = true
             if (e.type === 'mouseup' || e.type === 'mouseout')
                 isMouseDown = false
@@ -92,10 +86,11 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-
+        //this.rect.front()
+        this.rect.on('mouseout', (e) => console.log(e.type))
         this.triangles.forEach((triangle) =>
             triangle.poly.on(
-                ['mousedown', 'mousemove', 'mouseup'], //mouseout
+                ['mousedown', 'mousemove', 'mouseup'], //-mouseout
                 (e) => handleMouse(e, triangle.serNumOfTri)
             )
         )
@@ -126,11 +121,12 @@ export default class Events {
             }
             prevTriangles = currentTriangles
         }
-        'touchstart touchmove touchend touchcancel'
-            .split(' ')
-            .forEach((e) =>
-                musicalKeyboard.addEventListener(e, handleTouch, false)
+        this.triangles.forEach((triangle) =>
+            triangle.poly.on(
+                ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
+                (e) => handleTouch(e, triangle.serNumOfTri)
             )
+        )
 
         let getCurrentTriangle = (x, y) => {
             let findIt = this.triangles.find(

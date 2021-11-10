@@ -11,9 +11,12 @@ export default class DrawTriangles {
         this.triangles = []
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
-        this.selectorOfSheet = '#svgs'
-        this.drawing = SVG().addTo(this.selectorOfSheet).size(1920, 1080)
-        //this.rect = this.drawing.rect(600, 600).attr({ fill: 'gray' })
+        this.drawing = SVG()
+            .addTo('#svgs')
+            .size(window.innerWidth, window.innerHeight)
+        this.rect = this.drawing
+            .rect(window.innerWidth, window.innerHeight)
+            .attr({ fill: 'gray' })
     }
 
     drawTriangles = (numberOfVerticalTris) => {
@@ -92,9 +95,6 @@ export default class DrawTriangles {
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                // this.triangles[triangleParams.serNumOfTri] = new Triangle(
-                //     triangleParams
-                // )
                 this.triangles[triangleParams.serNumOfTri] = new Shapes(
                     triangleParams,
                     this.drawing

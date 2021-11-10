@@ -1,5 +1,4 @@
 export default class Shapes {
-    static serNumOfTri = 0
     constructor(triangleParams, drawing) {
         this.x = Math.round(triangleParams.triangleCenterX)
         this.y = Math.round(triangleParams.triangleCenterY)
@@ -8,8 +7,7 @@ export default class Shapes {
         this.noteName = triangleParams.noteName
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
-        //this.serNumOfTri = triangleParams.serNumOfTri
-        this.serNumOfTri = Shapes.serNumOfTri++
+        this.serNumOfTri = triangleParams.serNumOfTri
         this.shapes = {
             triangle: this.drawTriangle,
             circle: this.drawCircle,
@@ -63,7 +61,6 @@ export default class Shapes {
         let color
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
-            //this.draw(color)
             this.poly.fill(color)
         }
     }
@@ -89,11 +86,6 @@ export default class Shapes {
             [x3, y3]
         ]
         this.poly = this.drawing.polygon(triangle())
-        // this.poly.on(['mousedown', 'touchstart'], (e) => {
-        //     console.log(
-        //         `Clicked! serNumOfTri: ${this.serNumOfTri}; x=${e.target.points[0].x}; y=${e.target.points[0].y}`
-        //     )
-        // })
     }
 
     // drawCircle = () => {
@@ -146,7 +138,6 @@ export default class Shapes {
     }
 
     setSignOff = () => {
-        //this.draw()
         this.poly.fill(this.color)
     }
 }
