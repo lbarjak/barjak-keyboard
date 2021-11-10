@@ -8,11 +8,14 @@ export default class Events {
             instrument,
             numberOfHorizontalTris
         ]
+        let drawing = document.getElementById('svgs')
+        this.drawing = drawing.getElementsByTagName('svg')[0].instance
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
             this.numberOfHorizontalTris
         ).midiOut
+        this.polygons()
         this.init()
     }
 
@@ -62,6 +65,16 @@ export default class Events {
                 this.sounds = []
             }
         }
+    }
+
+    polygons = () => {
+        this.triangles.forEach((triangle) =>
+            triangle.poly.on(['mousedown', 'touchstart'], (e) => {
+                console.log(
+                    `Clicked! serNumOfTri: ${triangle.serNumOfTri}; x=${e.target.points[0].x}; y=${e.target.points[0].y}`
+                )
+            })
+        )
     }
 
     init = () => {

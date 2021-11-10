@@ -4,7 +4,7 @@ import DrawTriangles from './drawtriangles.js'
 
 export default class Canvas {
     constructor(selectedValueOfRows, selectedInst) {
-        this.selectedValueofRows = selectedValueOfRows
+        this.selectedValueOfRows = selectedValueOfRows
         this.selectedInst = selectedInst
         this.keyboard = document.getElementsByTagName('canvas')[0]
         this.root = document.getElementById('root')
@@ -59,7 +59,7 @@ export default class Canvas {
 
     musicalKeyboard = () => {
         let drawTriangles = new DrawTriangles()
-        let triangles = drawTriangles.drawTriangles(this.selectedValueofRows)
+        let triangles = drawTriangles.drawTriangles(this.selectedValueOfRows)
         new Events(
             triangles,
             this.selectedInst,
