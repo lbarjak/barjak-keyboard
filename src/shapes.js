@@ -1,5 +1,5 @@
 export default class Shapes {
-    constructor(triangleParams) {
+    constructor(triangleParams, drawing) {
         this.x = Math.round(triangleParams.triangleCenterX)
         this.y = Math.round(triangleParams.triangleCenterY)
         this.edge = Math.round(triangleParams.edgeOfTriangle)
@@ -13,21 +13,19 @@ export default class Shapes {
             circle: this.drawCircle,
             hexagon: this.drawHexagon
         }
-        this.shape = 'hexagon'
+        this.shape = 'triangle'
         if (/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
             this.shape = 'triangle'
-        this.selectorOfSheet = '#root'
-        this.drawing = SVG().addTo(this.selectorOfSheet).size(1920, 1080)
-        //this.rect = this.drawing.rect(600, 600).attr({ fill: 'gray' })
         this.poly
+        this.drawing = drawing
         this.draw()
     }
 
     draw = (color = this.color) => {
         this.drawTriangle()
-        this, poly.fill(color) //ctx.fillStyle = color
+        this.poly.fill(color) //ctx.fillStyle = color
         //ctx.fill()
-        poly.attr({
+        this.poly.attr({
             //"fill-opacity": 0.0001,
             stroke: color == 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
@@ -35,7 +33,8 @@ export default class Shapes {
         //ctx.lineWidth = 2
         //ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
         //ctx.stroke()
-        ctx.font = this.edge / 5 + 'px Arial'
+
+        /*         ctx.font = this.edge / 5 + 'px Arial'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
@@ -51,7 +50,8 @@ export default class Shapes {
             this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1),
             this.x,
             this.y + shift
-        )
+        ) */
+
         //this.onlyDevelopDrawShape()
     }
 
@@ -91,7 +91,7 @@ export default class Shapes {
             [x2, y2],
             [x3, y3]
         ]
-        this.poly = this.drawing.polygon(triangle)
+        this.poly = this.drawing.polygon(triangle())
         // ctx.beginPath()
         // ctx.moveTo(x1, y1)
         // ctx.lineTo(x2, y2)
