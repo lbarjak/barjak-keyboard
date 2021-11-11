@@ -73,7 +73,7 @@ export default class Events {
         let prevTriangleSerNum
         let handleMouse = (e, currentTriangleSerNum = 0) => {
             if (e.type === 'mousedown') isMouseDown = true
-            if (e.type === 'mouseup' || e.type === 'mouseout')
+            if (e.type === 'mouseup' || e.type === 'mouseleave')
                 isMouseDown = false
             if (currentTriangleSerNum && isMouseDown) {
                 this.soundSwitch(true, currentTriangleSerNum)
@@ -86,12 +86,10 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-        //this.rect.front()
-        this.rect.on('mouseout', (e) => console.log(e.type))
+        document.addEventListener('mouseleave', handleMouse)
         this.triangles.forEach((triangle) =>
-            triangle.poly.on(
-                ['mousedown', 'mousemove', 'mouseup'], //-mouseout
-                (e) => handleMouse(e, triangle.serNumOfTri)
+            triangle.poly.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
+                handleMouse(e, triangle.serNumOfTri)
             )
         )
 
