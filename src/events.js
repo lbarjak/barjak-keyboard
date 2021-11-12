@@ -92,30 +92,40 @@ export default class Events {
         //     )
         // )
 
-        let prevTriangles = []
         let currentTriangleSN
-        let handleTouch = (e) => {
-            e.preventDefault()
-            let currentTriangles = []
-            for (let touch of e.touches) {
-                currentTriangleSN = touch.target.attributes[1].value
-                this.soundSwitch(true, currentTriangleSN)
-                let serNumOfTri = 0
-                for (serNumOfTri in prevTriangles) {
-                    if (prevTriangles[serNumOfTri] === currentTriangleSN)
-                        prevTriangles.splice(serNumOfTri, 1)
+        let type
+        let soundControl = () => {
+            console.log(currentTriangleSN)
+            console.log(type)
+        }
+        window.addEventListener('touchmove', (e) => {
+            //console.log(e.touches[0].clientX, e.touches[0].clientY, e)
+            this.triangles.forEach((triangle) => {
+                if (
+                    triangle.isPointInShape(
+                        e.touches[0].clientX,
+                        e.touches[0].clientY
+                    )
+                ) {
+                    console.log(triangle.serNumOfTri)
                 }
-                currentTriangles.push(currentTriangleSN)
+            })
+        })
+        let handleTouch = (e) => {
+            if (e.touches.length) {
+                for (let touch of e.touches) {
+                    currentTriangleSN = touch.target.attributes[1].value
+                    type = e.type
+                }
+            } else {
+                currentTriangleSN = e.target.attributes[1].value
+                type = e.type
             }
-            for (let serNumOfTri in prevTriangles) {
-                this.soundSwitch(false, prevTriangles[serNumOfTri])
-            }
-            prevTriangles = currentTriangles
+            soundControl()
         }
         this.triangles.forEach((triangle) =>
-            triangle.poly.on(
-                ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
-                (e) => handleTouch(e)
+            triangle.poly.on(['touchstart', 'touchend', 'touchcancel'], (e) =>
+                handleTouch(e)
             )
         )
     }
