@@ -93,26 +93,19 @@ export default class Events {
         // )
 
         let prevTriangles = []
+        let currentTriangleSN
         let handleTouch = (e) => {
-            console.log(e.touches[0])
             e.preventDefault()
             let currentTriangles = []
-            let currentTriangleSN
-            if (e.targetTouches.length) {
-                for (let touch of e.touches) {
-                    currentTriangleSN = touch.target.attributes[1].value
-                    if (currentTriangleSN) {
-                        this.soundSwitch(true, currentTriangleSN)
-                        let serNumOfTri = 0
-                        for (serNumOfTri in prevTriangles) {
-                            if (
-                                prevTriangles[serNumOfTri] === currentTriangleSN
-                            )
-                                prevTriangles.splice(serNumOfTri, 1)
-                        }
-                        currentTriangles.push(currentTriangleSN)
-                    }
+            for (let touch of e.touches) {
+                currentTriangleSN = touch.target.attributes[1].value
+                this.soundSwitch(true, currentTriangleSN)
+                let serNumOfTri = 0
+                for (serNumOfTri in prevTriangles) {
+                    if (prevTriangles[serNumOfTri] === currentTriangleSN)
+                        prevTriangles.splice(serNumOfTri, 1)
                 }
+                currentTriangles.push(currentTriangleSN)
             }
             for (let serNumOfTri in prevTriangles) {
                 this.soundSwitch(false, prevTriangles[serNumOfTri])
