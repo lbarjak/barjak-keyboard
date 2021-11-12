@@ -23,6 +23,7 @@ export default class Shapes {
 
     draw = (color = this.color) => {
         this.drawTriangle()
+        this.poly.data('sn', this.serNumOfTri)
         this.poly.fill(color)
         this.poly.attr({
             stroke: color == 'gray' ? '#999999' : '#808080',

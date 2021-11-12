@@ -68,78 +68,61 @@ export default class Events {
     }
 
     init = () => {
-        let isMouseDown
-        let prevTriangleSerNum
-        let handleMouse = (e, currentTriangleSerNum = 0) => {
-            if (e.type === 'mousedown') isMouseDown = true
-            if (e.type === 'mouseup' || e.type === 'mouseleave')
-                isMouseDown = false
-            if (currentTriangleSerNum && isMouseDown) {
-                this.soundSwitch(true, currentTriangleSerNum)
-                if (prevTriangleSerNum === currentTriangleSerNum)
-                    prevTriangleSerNum = null
-            }
-            if (prevTriangleSerNum && this.sounds.length > 0) {
-                this.soundSwitch(false, prevTriangleSerNum)
-                if (!isMouseDown) this.allOff()
-            }
-            prevTriangleSerNum = currentTriangleSerNum
-        }
-        document.addEventListener('mouseleave', handleMouse)
-        this.triangles.forEach((triangle) =>
-            triangle.poly.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
-                handleMouse(e, triangle.serNumOfTri)
-            )
-        )
-
-        // let prevTriangles = []
-        // let handleTouch = (e, currentTriangleSerNum) => {
-        //     e.preventDefault()
-        //     let currentTriangles = []
-        //     for (let touch in e.touches) {
-        //         currentTriangleSerNum = getCurrentTriangle(
-        //             e.touches[touch].clientX,
-        //             e.touches[touch].clientY
-        //         )
-        //         if (currentTriangleSerNum) {
-        //             this.soundSwitch(true, currentTriangleSerNum)
-        //             let serNumOfTri = 0
-        //             for (serNumOfTri in prevTriangles) {
-        //                 if (
-        //                     prevTriangles[serNumOfTri] === currentTriangleSerNum
-        //                 )
-        //                     prevTriangles.splice(serNumOfTri, 1)
-        //             }
-        //             currentTriangles.push(currentTriangleSerNum)
-        //         }
+        // let isMouseDown
+        // let prevTriangleSerNum
+        // let handleMouse = (e, currentTriangleSerNum = 0) => {
+        //     if (e.type === 'mousedown') isMouseDown = true
+        //     if (e.type === 'mouseup' || e.type === 'mouseleave')
+        //         isMouseDown = false
+        //     if (currentTriangleSerNum && isMouseDown) {
+        //         this.soundSwitch(true, currentTriangleSerNum)
+        //         if (prevTriangleSerNum === currentTriangleSerNum)
+        //             prevTriangleSerNum = null
         //     }
-        //     for (let serNumOfTri in prevTriangles) {
-        //         this.soundSwitch(false, prevTriangles[serNumOfTri])
+        //     if (prevTriangleSerNum && this.sounds.length > 0) {
+        //         this.soundSwitch(false, prevTriangleSerNum)
+        //         if (!isMouseDown) this.allOff()
         //     }
-        //     prevTriangles = currentTriangles
+        //     prevTriangleSerNum = currentTriangleSerNum
         // }
-        let isTouch
-        let prevTriangleSN
-        let handleTouch = (e, currentTriangleSerNum = 0) => {
-            if (e.type === 'touchstart') isTouch = true
-            if (e.type === 'touchend')
-                // || e.type === 'touchcancel')
-                isTouch = false
-            if (currentTriangleSerNum && isTouch) {
-                this.soundSwitch(true, currentTriangleSerNum)
-                if (prevTriangleSN === currentTriangleSerNum)
-                    prevTriangleSN = null
+        // document.addEventListener('mouseleave', handleMouse)
+        // this.triangles.forEach((triangle) =>
+        //     triangle.poly.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
+        //         handleMouse(e, triangle.serNumOfTri)
+        //     )
+        // )
+
+        let prevTriangles = []
+        let handleTouch = (e) => {
+            console.log(e.touches[0])
+            e.preventDefault()
+            let currentTriangles = []
+            let currentTriangleSN
+            if (e.targetTouches.length) {
+                for (let touch of e.touches) {
+                    currentTriangleSN = touch.target.attributes[1].value
+                    if (currentTriangleSN) {
+                        this.soundSwitch(true, currentTriangleSN)
+                        let serNumOfTri = 0
+                        for (serNumOfTri in prevTriangles) {
+                            if (
+                                prevTriangles[serNumOfTri] === currentTriangleSN
+                            )
+                                prevTriangles.splice(serNumOfTri, 1)
+                        }
+                        currentTriangles.push(currentTriangleSN)
+                    }
+                }
             }
-            if (prevTriangleSN && this.sounds.length > 0) {
-                this.soundSwitch(false, prevTriangleSN)
-                if (!isTouch) this.allOff()
+            for (let serNumOfTri in prevTriangles) {
+                this.soundSwitch(false, prevTriangles[serNumOfTri])
             }
-            prevTriangleSN = currentTriangleSerNum
+            prevTriangles = currentTriangles
         }
         this.triangles.forEach((triangle) =>
             triangle.poly.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
-                (e) => handleTouch(e, triangle.serNumOfTri)
+                (e) => handleTouch(e)
             )
         )
     }
