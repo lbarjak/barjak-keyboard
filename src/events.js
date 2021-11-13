@@ -98,25 +98,6 @@ export default class Events {
             console.log(currentTriangleSN)
             console.log(type)
         }
-        this.svgs.addEventListener('touchmove', (e) => {
-            console.log(
-                document.elementFromPoint(
-                    e.touches[0].clientX,
-                    e.touches[0].clientY
-                ).attributes[1].value
-            )
-            //console.log(e.touches[0].clientX, e.touches[0].clientY, e)
-            /*             this.triangles.forEach((triangle) => {
-                if (
-                    triangle.isPointInShape(
-                        e.touches[0].clientX,
-                        e.touches[0].clientY
-                    )
-                ) {
-                    console.log(triangle.serNumOfTri)
-                }
-            }) */
-        })
         let handleTouch = (e) => {
             if (e.touches.length) {
                 for (let touch of e.touches) {
@@ -134,5 +115,13 @@ export default class Events {
                 handleTouch(e)
             )
         )
+        this.svgs.addEventListener('touchmove', (e) => {
+            for (let touch of e.touches) {
+                console.log(
+                    document.elementFromPoint(touch.clientX, touch.clientY)
+                        .attributes[1].value
+                )
+            }
+        })
     }
 }
