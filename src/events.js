@@ -8,9 +8,9 @@ export default class Events {
             instrument,
             numberOfHorizontalTris
         ]
-        let drawing = document.getElementById('svgs')
-        this.drawing = drawing.getElementsByTagName('svg')[0].instance
-        this.rect = drawing.getElementsByTagName('rect')[0].instance
+        this.svgs = document.getElementById('svgs')
+        this.drawing = this.svgs.getElementsByTagName('svg')[0].instance
+        this.rect = svgs.getElementsByTagName('rect')[0].instance
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
@@ -98,9 +98,15 @@ export default class Events {
             console.log(currentTriangleSN)
             console.log(type)
         }
-        window.addEventListener('touchmove', (e) => {
+        this.svgs.addEventListener('touchmove', (e) => {
+            console.log(
+                document.elementFromPoint(
+                    e.touches[0].clientX,
+                    e.touches[0].clientY
+                ).attributes[1].value
+            )
             //console.log(e.touches[0].clientX, e.touches[0].clientY, e)
-            this.triangles.forEach((triangle) => {
+            /*             this.triangles.forEach((triangle) => {
                 if (
                     triangle.isPointInShape(
                         e.touches[0].clientX,
@@ -109,7 +115,7 @@ export default class Events {
                 ) {
                     console.log(triangle.serNumOfTri)
                 }
-            })
+            }) */
         })
         let handleTouch = (e) => {
             if (e.touches.length) {
