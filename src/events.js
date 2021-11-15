@@ -92,36 +92,76 @@ export default class Events {
         //     )
         // )
 
+        // let currentTriangleSN
+        // let type
+        // let soundControl = () => {
+        //     console.log(currentTriangleSN)
+        //     console.log(type)
+        // }
+        // let handleTouch = (e) => {
+        //     if (e.touches.length) {
+        //         for (let touch of e.touches) {
+        //             currentTriangleSN = touch.target.attributes[1].value
+        //             type = e.type
+        //         }
+        //     } else {
+        //         currentTriangleSN = e.target.attributes[1].value
+        //         type = e.type
+        //     }
+        //     soundControl()
+        // }
+
+        let prevTriangles = []
         let currentTriangleSN
-        let type
-        let soundControl = () => {
-            console.log(currentTriangleSN)
-            console.log(type)
-        }
         let handleTouch = (e) => {
-            if (e.touches.length) {
-                for (let touch of e.touches) {
-                    currentTriangleSN = touch.target.attributes[1].value
-                    type = e.type
+            e.preventDefault()
+            let currentTriangles = []
+            for (let touch of e.touches) {
+                // currentTriangleSerNum = getCurrentTriangle(
+                //     e.touches[touch].clientX,
+                //     e.touches[touch].clientY
+                // )
+                if (
+                    e.type === 'touchstart' ||
+                    e.type === 'touchend' ||
+                    e.type === 'touchcancel'
+                )
+                    currentTriangleSN = e.target.attributes[1].value
+                else {
+                    currentTriangleSN = document.elementFromPoint(
+                        touch.clientX,
+                        touch.clientY
+                    ).attributes[1].value
                 }
-            } else {
-                currentTriangleSN = e.target.attributes[1].value
-                type = e.type
+                if (currentTriangleSN) {
+                    this.soundSwitch(true, currentTriangleSN)
+                    let serNumOfTri = 0
+                    for (serNumOfTri in prevTriangles) {
+                        if (prevTriangles[serNumOfTri] === currentTriangleSN)
+                            prevTriangles.splice(serNumOfTri, 1)
+                    }
+                    currentTriangles.push(currentTriangleSN)
+                }
             }
-            soundControl()
+            for (let serNumOfTri in prevTriangles) {
+                this.soundSwitch(false, prevTriangles[serNumOfTri])
+            }
+            prevTriangles = currentTriangles
         }
+
         this.triangles.forEach((triangle) =>
-            triangle.poly.on(['touchstart', 'touchend', 'touchcancel'], (e) =>
-                handleTouch(e)
+            triangle.poly.on(
+                ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
+                handleTouch
             )
         )
-        this.svgs.addEventListener('touchmove', (e) => {
-            for (let touch of e.touches) {
-                console.log(
-                    document.elementFromPoint(touch.clientX, touch.clientY)
-                        .attributes[1].value
-                )
-            }
-        })
+        // this.svgs.addEventListener('touchmove', (e) => {
+        //     for (let touch of e.touches) {
+        //         console.log(
+        //             document.elementFromPoint(touch.clientX, touch.clientY)
+        //                 .attributes[1].value
+        //         )
+        //     }
+        // })
     }
 }
