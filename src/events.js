@@ -98,18 +98,19 @@ export default class Events {
             e.preventDefault()
             let currentTriangles = []
             for (let touch of e.touches) {
-                if (
-                    e.type === 'touchstart' ||
-                    e.type === 'touchend' ||
-                    e.type === 'touchcancel'
-                )
-                    currentTriangleSN = e.target.attributes[1].value
-                else {
-                    currentTriangleSN = document.elementFromPoint(
-                        touch.clientX,
-                        touch.clientY
-                    ).attributes[1].value
-                }
+                // if (
+                //     e.type === 'touchstart' ||
+                //     e.type === 'touchend' ||
+                //     e.type === 'touchcancel'
+                // ) {
+                //     currentTriangleSN = e.target.attributes[1].value
+                // }
+                //if (e.type === 'touchmove') {
+                currentTriangleSN = document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                ).attributes[1].value
+                //}
                 if (currentTriangleSN) {
                     this.soundSwitch(true, currentTriangleSN)
                     let serNumOfTri = 0
@@ -129,7 +130,8 @@ export default class Events {
         this.triangles.forEach((triangle) =>
             triangle.poly.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
-                handleTouch
+                handleTouch,
+                false
             )
         )
     }
