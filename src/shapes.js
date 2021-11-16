@@ -23,39 +23,13 @@ export default class Shapes {
 
     draw = (color = this.color) => {
         this.drawTriangle()
-        this.poly.data('sn', this.serNumOfTri)
+        this.poly.data('serNum', this.serNumOfTri)
+        this.poly.data('noteName', this.noteName)
         this.poly.fill(color)
         this.poly.attr({
             stroke: color == 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
-
-        /*         ctx.font = this.edge / 5 + 'px Arial'
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        ctx.strokeStyle = color == 'gray' ? '#999999' : '#808080'
-        ctx.lineWidth = 1
-        let shift = (this.position * this.edge) / 10
-        ctx.strokeText(
-            this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1),
-            this.x,
-            this.y + shift
-        )
-        ctx.fillStyle = color
-        ctx.fillText(
-            this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1),
-            this.x,
-            this.y + shift
-        ) */
-
-        //this.onlyDevelopDrawShape()
-    }
-
-    onlyDevelopDrawShape = () => {
-        this.shapes[this.shape]()
-        ctx.lineWidth = 1
-        ctx.strokeStyle = 'red'
-        ctx.stroke()
     }
 
     drawTriangleSign = () => {
@@ -88,40 +62,6 @@ export default class Shapes {
         ]
         this.poly = this.drawing.polygon(triangle())
     }
-
-    // drawCircle = () => {
-    //     let radiusMax = parseInt(heightOfTriangle / 3)
-    //     let heightOfTriangle = parseInt((this.edge * Math.sqrt(3)) / 2)
-    //     let differenceOfCenterOfTriangle =
-    //         this.position * (heightOfTriangle / 2 - radiusMax)
-    //     ctx.beginPath()
-    //     ctx.arc(
-    //         this.x,
-    //         this.y + differenceOfCenterOfTriangle,
-    //         0.98 * radiusMax,
-    //         0,
-    //         2 * Math.PI,
-    //         false
-    //     )
-    //     ctx.closePath()
-    // }
-
-    // drawHexagon = () => {
-    //     let edge = this.edge * 0.98
-    //     let diff = ((Math.sqrt(3) / 2) * (this.position * this.edge)) / 6
-    //     let side = 0
-    //     let size = edge / 3
-    //     let y = this.y + diff
-    //     ctx.moveTo(this.x - size, y + size)
-    //     ctx.beginPath()
-    //     for (side; side <= 6; side++) {
-    //         ctx.lineTo(
-    //             this.x + size * Math.cos((side * 2 * Math.PI) / 6),
-    //             y + size * Math.sin((side * 2 * Math.PI) / 6)
-    //         )
-    //     }
-    //     ctx.closePath()
-    // }
 
     // getCurrentTriangle = (x, y) => {
     //     if (this.isPointInShape(x, y)) {
