@@ -92,35 +92,12 @@ export default class Events {
         //     )
         // )
 
-        // let currentTriangleSN
-        // let type
-        // let soundControl = () => {
-        //     console.log(currentTriangleSN)
-        //     console.log(type)
-        // }
-        // let handleTouch = (e) => {
-        //     if (e.touches.length) {
-        //         for (let touch of e.touches) {
-        //             currentTriangleSN = touch.target.attributes[1].value
-        //             type = e.type
-        //         }
-        //     } else {
-        //         currentTriangleSN = e.target.attributes[1].value
-        //         type = e.type
-        //     }
-        //     soundControl()
-        // }
-
         let prevTriangles = []
         let currentTriangleSN
         let handleTouch = (e) => {
             e.preventDefault()
             let currentTriangles = []
             for (let touch of e.touches) {
-                // currentTriangleSerNum = getCurrentTriangle(
-                //     e.touches[touch].clientX,
-                //     e.touches[touch].clientY
-                // )
                 if (
                     e.type === 'touchstart' ||
                     e.type === 'touchend' ||
@@ -155,13 +132,5 @@ export default class Events {
                 handleTouch
             )
         )
-        // this.svgs.addEventListener('touchmove', (e) => {
-        //     for (let touch of e.touches) {
-        //         console.log(
-        //             document.elementFromPoint(touch.clientX, touch.clientY)
-        //                 .attributes[1].value
-        //         )
-        //     }
-        // })
     }
 }
