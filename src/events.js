@@ -87,7 +87,7 @@ export default class Events {
         }
         document.addEventListener('mouseleave', handleMouse)
         this.triangles.forEach((triangle) =>
-            triangle.poly.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
+            triangle.triangle.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
                 handleMouse(e, triangle.serNumOfTri)
             )
         )
@@ -131,7 +131,7 @@ export default class Events {
         }
 
         this.triangles.forEach((triangle) =>
-            triangle.poly.on(
+            triangle.triangle.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
                 handleTouch,
                 false

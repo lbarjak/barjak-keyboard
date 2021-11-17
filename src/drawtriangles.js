@@ -104,8 +104,9 @@ export default class DrawTriangles {
         }
         this.triangles.forEach((triangle) => {
             if (triangle.pitch === 69) {
-                triangle.poly.front()
-                triangle.poly.stroke('cyan')
+                triangle.triangle.front()
+                triangle.triangle.stroke('cyan')
+                //triangle.hexagon.front()
             }
         })
         return this.triangles

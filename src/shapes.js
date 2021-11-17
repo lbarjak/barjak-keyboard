@@ -10,30 +10,32 @@ export default class Shapes {
         this.serNumOfTri = triangleParams.serNumOfTri
         this.shapes = {
             triangle: this.drawTriangle,
-            circle: this.drawCircle,
+            //circle: this.drawCircle,
             hexagon: this.drawHexagon
         }
-        this.shape = 'triangle'
+        //this.shape = 'triangle'
         if (/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
             this.shape = 'triangle'
-        this.poly
+        this.triangle
+        this.hexagon
         this.drawing = drawing
         this.draw()
     }
 
     draw = (color = this.color) => {
         this.drawTriangle()
-        this.poly.data('serNum', this.serNumOfTri)
-        this.poly.fill(color)
-        this.poly.attr({
+        this.triangle.data('serNum', this.serNumOfTri)
+        this.triangle.fill(color)
+        this.triangle.attr({
             stroke: color === 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
+        //this.drawHexagon()
     }
 
     isPointInShape = (pointerX, pointerY) => {
         let inside = false
-        inside = this.poly.inside(pointerX, pointerY)
+        inside = this.triangle.inside(pointerX, pointerY)
         if (inside) return true
         return false
     }
@@ -46,12 +48,26 @@ export default class Shapes {
         let y1 = Math.round(this.y + (this.position * height) / 2)
         let y2 = Math.round(this.y - (this.position * height) / 2)
         let y3 = y1
-        let triangle = () => [
+        let pointsOfTriangle = () => [
             [x1, y1],
             [x2, y2],
             [x3, y3]
         ]
-        this.poly = this.drawing.polygon(triangle())
+        this.triangle = this.drawing.polygon(pointsOfTriangle())
+    }
+
+    drawHexagon = () => {
+        let edge = this.edge * 0.98
+        let diff = ((Math.sqrt(3) / 2) * (this.position * this.edge)) / 6
+        let side = 0
+        let size = edge / 3
+        let y = this.y + diff
+        let points = [this.x - size, y + size]
+        for (side; side <= 6; side++) {
+            points.push(this.x + size * Math.cos((side * 2 * Math.PI) / 6))
+            points.push(y + size * Math.sin((side * 2 * Math.PI) / 6))
+        }
+        this.hexagon = this.drawing.polyline(points).fill('gray').opacity(0.4)
     }
 
     getSound = () => {
@@ -62,11 +78,11 @@ export default class Shapes {
         let color
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
-            this.poly.fill(color)
+            this.triangle.fill(color)
         }
     }
 
     setSignOff = () => {
-        this.poly.fill(this.color)
+        this.triangle.fill(this.color)
     }
 }
