@@ -102,6 +102,12 @@ export default class DrawTriangles {
                 triangleParams.serNumOfTri++
             }
         }
+        this.triangles.forEach((triangle) => {
+            if (triangle.pitch === 69) {
+                triangle.poly.front()
+                triangle.poly.stroke('cyan')
+            }
+        })
         return this.triangles
     }
 }

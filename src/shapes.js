@@ -26,17 +26,9 @@ export default class Shapes {
         this.poly.data('serNum', this.serNumOfTri)
         this.poly.fill(color)
         this.poly.attr({
-            stroke: color == 'gray' ? '#999999' : '#808080',
+            stroke: color === 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
-    }
-
-    drawTriangleSign = () => {
-        let color
-        if (this.color != 'gray') {
-            color = this.color == 'white' ? '#ffcccc' : '#660000'
-            this.poly.fill(color)
-        }
     }
 
     isPointInShape = (pointerX, pointerY) => {
@@ -62,19 +54,16 @@ export default class Shapes {
         this.poly = this.drawing.polygon(triangle())
     }
 
-    // getCurrentTriangle = (x, y) => {
-    //     if (this.isPointInShape(x, y)) {
-    //         return this.serNumOfTri
-    //     }
-    //     return -1
-    // }
-
     getSound = () => {
         return this.pitch
     }
 
     setSignOn = () => {
-        this.drawTriangleSign()
+        let color
+        if (this.color != 'gray') {
+            color = this.color == 'white' ? '#ffcccc' : '#660000'
+            this.poly.fill(color)
+        }
     }
 
     setSignOff = () => {
