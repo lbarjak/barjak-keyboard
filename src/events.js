@@ -86,11 +86,14 @@ export default class Events {
             prevTriangleSerNum = currentTriangleSerNum
         }
         document.addEventListener('mouseleave', handleMouse)
-        this.triangles.forEach((triangle) =>
-            triangle.triangle.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
+        this.triangles.forEach((triangle) => {
+            triangle.hexagon.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
                 handleMouse(e, triangle.serNumOfTri)
             )
-        )
+            triangle.triangle.on(['mouseup'], (e) =>
+                handleMouse(e, triangle.serNumOfTri)
+            )
+        })
 
         let prevTriangles = []
         let currentTriangleSN
@@ -98,6 +101,7 @@ export default class Events {
         let handleTouch = (e) => {
             e.preventDefault()
             let currentTriangles = []
+            let shape
             for (let touch of e.touches) {
                 x = touch.clientX
                 y = touch.clientY
@@ -107,14 +111,18 @@ export default class Events {
                     y >= 0 ||
                     y < window.innerHeight
                 ) {
-                    currentTriangleSN = document.elementFromPoint(
+                    shape = document.elementFromPoint(
                         touch.clientX,
                         touch.clientY
-                    ).attributes[1].value
+                    )
+                    currentTriangleSN = shape.attributes['data-serNum'].value
                 } else {
                     this.allOff()
                 }
-                if (currentTriangleSN) {
+                if (
+                    currentTriangleSN &&
+                    shape.attributes['data-type'].value === 'hexagon'
+                ) {
                     this.soundSwitch(true, currentTriangleSN)
                     let serNumOfTri = 0
                     for (serNumOfTri in prevTriangles) {
@@ -130,12 +138,17 @@ export default class Events {
             prevTriangles = currentTriangles
         }
 
-        this.triangles.forEach((triangle) =>
-            triangle.triangle.on(
+        this.triangles.forEach((triangle) => {
+            triangle.hexagon.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
                 handleTouch,
                 false
             )
-        )
+            triangle.triangle.on(
+                ['touchend', 'touchcancel'],
+                handleTouch,
+                false
+            )
+        })
     }
 }

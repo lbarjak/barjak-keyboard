@@ -25,12 +25,14 @@ export default class Shapes {
     draw = (color = this.color) => {
         this.drawTriangle()
         this.triangle.data('serNum', this.serNumOfTri)
+        this.triangle.data('type', 'triangle')
         this.triangle.fill(color)
         this.triangle.attr({
             stroke: color === 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
-        //this.drawHexagon()
+        this.drawHexagon()
+        this.hexagon.data('serNum', this.serNumOfTri)
     }
 
     isPointInShape = (pointerX, pointerY) => {
@@ -67,7 +69,8 @@ export default class Shapes {
             points.push(this.x + size * Math.cos((side * 2 * Math.PI) / 6))
             points.push(y + size * Math.sin((side * 2 * Math.PI) / 6))
         }
-        this.hexagon = this.drawing.polyline(points).fill('gray').opacity(0.4)
+        this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.4)
+        this.hexagon.data('type', 'hexagon')
     }
 
     getSound = () => {

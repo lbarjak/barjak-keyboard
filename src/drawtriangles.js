@@ -106,7 +106,7 @@ export default class DrawTriangles {
             if (triangle.pitch === 69) {
                 triangle.triangle.front()
                 triangle.triangle.stroke('cyan')
-                //triangle.hexagon.front()
+                triangle.hexagon.front()
             }
         })
         return this.triangles
