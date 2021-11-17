@@ -145,7 +145,7 @@ export default class Events {
                 false
             )
             triangle.triangle.on(
-                ['touchend', 'touchcancel'],
+                ['touchmove', 'touchend', 'touchcancel'],
                 handleTouch,
                 false
             )
