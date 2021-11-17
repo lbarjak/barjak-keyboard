@@ -8,9 +8,9 @@ export default class Events {
             instrument,
             numberOfHorizontalTris
         ]
-        this.svgs = document.getElementById('svgs')
-        this.drawing = this.svgs.getElementsByTagName('svg')[0].instance
-        this.rect = svgs.getElementsByTagName('rect')[0].instance
+        // this.svgs = document.getElementById('svgs')
+        // this.drawing = this.svgs.getElementsByTagName('svg')[0].instance
+        // this.rect = svgs.getElementsByTagName('rect')[0].instance
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
