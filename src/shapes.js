@@ -8,16 +8,17 @@ export default class Shapes {
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.serNumOfTri
-        this.shapes = {
-            triangle: this.drawTriangle,
-            //circle: this.drawCircle,
-            hexagon: this.drawHexagon
-        }
+        // this.shapes = {
+        //     triangle: this.drawTriangle,
+        //     //circle: this.drawCircle,
+        //     hexagon: this.drawHexagon
+        // }
         //this.shape = 'triangle'
         if (/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
             this.shape = 'triangle'
         this.triangle
         this.hexagon
+        this.text
         this.drawing = drawing
         this.draw()
     }
@@ -31,6 +32,7 @@ export default class Shapes {
             stroke: color === 'gray' ? '#999999' : '#808080',
             'stroke-width': 2
         })
+        this.text()
         this.drawHexagon()
         this.hexagon.data('serNum', this.serNumOfTri)
     }
@@ -69,8 +71,25 @@ export default class Shapes {
             points.push(this.x + size * Math.cos((side * 2 * Math.PI) / 6))
             points.push(y + size * Math.sin((side * 2 * Math.PI) / 6))
         }
-        this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.4)
+        this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.2)
         this.hexagon.data('type', 'hexagon')
+    }
+
+    text = () => {
+        let color = this.color
+        let shift = (this.position * this.edge) / 10
+        this.text = this.drawing
+            .text(this.noteName + ((this.pitch - (this.pitch % 12)) / 12 - 1))
+            .x(this.x)
+            .y(this.y + shift - 600 / this.edge)
+            .fill('none')
+            .font({
+                family: 'Arial',
+                size: this.edge / 5,
+                anchor: 'middle',
+                stroke: color == 'gray' ? '#999999' : '#808080',
+                'stroke-width': 0.5
+            })
     }
 
     getSound = () => {

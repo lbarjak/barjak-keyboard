@@ -90,7 +90,7 @@ export default class Events {
             triangle.hexagon.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
                 handleMouse(e, triangle.serNumOfTri)
             )
-            triangle.triangle.on(['mouseup'], (e) =>
+            triangle.triangle.on(['mousedown', 'mouseup'], (e) =>
                 handleMouse(e, triangle.serNumOfTri)
             )
         })
