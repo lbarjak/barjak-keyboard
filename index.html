@@ -28,16 +28,12 @@
         }
 
         body {
-            /* background-image: url('background.png'); */
             font-family: Arial, Helvetica, sans-serif;
             text-align: center;
         }
 
-        canvas {
-            display: none;
-        }
-
-        #page1 {
+        #page1,
+        #loading {
             margin-top: 5vh;
         }
 
@@ -70,8 +66,8 @@
 
 <body>
     <div id="svgs"></div>
-    <canvas></canvas>
-    <div id="root">
+    <div id="loading"></div>
+    <div id="menu">
         <h3>Barjak-keyboard</h3>
         <form id="instruments">
             <input type="radio" name="instruments" value="piano" />Piano
