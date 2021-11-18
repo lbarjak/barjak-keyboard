@@ -1,6 +1,6 @@
 import Precalc from './precalc.js'
 import BufferPlayer from './bufferplayer.js'
-import Canvas from './canvas.js'
+import Loading from './loading.js'
 
 export default class Menu {
     constructor() {
@@ -98,7 +98,7 @@ export default class Menu {
             if (this.selectedValueOfRows > this.numberOfVerticalTrisMax)
                 this.selectedValueOfRows = this.numberOfVerticalTrisMax
             BufferPlayer.getPlayer(this.selectedInst, this.selectedOctave)
-            new Canvas(
+            new Loading(
                 this.selectedValueOfRows,
                 this.selectedInst
             ).loadSoundFiles()
