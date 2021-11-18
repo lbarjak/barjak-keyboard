@@ -1,4 +1,5 @@
 import Triangle from './triangle.js'
+import Shapes from './shapes.js'
 import BufferPlayer from './bufferplayer.js'
 
 export default class DrawTriangles {
@@ -10,6 +11,12 @@ export default class DrawTriangles {
         this.triangles = []
         this.edgeOfTriangle = 0
         this.heightOfTriangle = 0
+        this.drawing = SVG()
+            .addTo('#svgs')
+            .size(window.innerWidth, window.innerHeight)
+        this.rect = this.drawing
+            .rect(window.innerWidth, window.innerHeight)
+            .attr({ fill: 'gray' })
     }
 
     drawTriangles = (numberOfVerticalTris) => {
@@ -88,12 +95,21 @@ export default class DrawTriangles {
                 triangleParams.mirroring = 2 * (column % 2 ^ row % 2) - 1
                 triangleParams.pitch = pitch++
                 triangleParams.edgeOfTriangle = this.edgeOfTriangle
-                this.triangles[triangleParams.serNumOfTri] = new Triangle(
-                    triangleParams
+                this.triangles[triangleParams.serNumOfTri] = new Shapes(
+                    triangleParams,
+                    this.drawing
                 )
                 triangleParams.serNumOfTri++
             }
         }
+        this.triangles.forEach((triangle) => {
+            if (triangle.pitch === 69) {
+                triangle.triangle.front()
+                triangle.triangle.stroke('cyan')
+                triangle.text.front()
+                triangle.hexagon.front()
+            }
+        })
         return this.triangles
     }
 }
