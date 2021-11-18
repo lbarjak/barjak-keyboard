@@ -1,4 +1,3 @@
-import Triangle from './triangle.js'
 import Shapes from './shapes.js'
 import BufferPlayer from './bufferplayer.js'
 
@@ -102,14 +101,6 @@ export default class DrawTriangles {
                 triangleParams.serNumOfTri++
             }
         }
-        this.triangles.forEach((triangle) => {
-            if (triangle.pitch === 69) {
-                triangle.triangle.front()
-                triangle.triangle.stroke('cyan')
-                triangle.text.front()
-                triangle.hexagon.front()
-            }
-        })
         return this.triangles
     }
 }

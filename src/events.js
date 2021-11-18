@@ -3,14 +3,17 @@ import MidiHandler from './midihandler.js'
 
 export default class Events {
     constructor(triangles, instrument, numberOfHorizontalTris) {
-        ;[this.triangles, this.instrument, this.numberOfHorizontalTris] = [
-            triangles,
-            instrument,
-            numberOfHorizontalTris
-        ]
-        // this.svgs = document.getElementById('svgs')
-        // this.drawing = this.svgs.getElementsByTagName('svg')[0].instance
-        // this.rect = svgs.getElementsByTagName('rect')[0].instance
+        triangles.forEach((triangle) => {
+            if (triangle.pitch === 69) {
+                triangle.triangle.front()
+                triangle.triangle.stroke('cyan')
+                triangle.text.front()
+                triangle.hexagon.front()
+            }
+        })
+        this.triangles = triangles
+        this.instrument = instrument
+        this.numberOfHorizontalTris = numberOfHorizontalTris
         this.player = BufferPlayer.getPlayer()
         this.sounds = []
         this.midi = MidiHandler.getMidiHandler(
