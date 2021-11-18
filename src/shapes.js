@@ -8,14 +8,13 @@ export default class Shapes {
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.serNumOfTri
-        // this.shapes = {
-        //     triangle: this.drawTriangle,
-        //     //circle: this.drawCircle,
-        //     hexagon: this.drawHexagon
-        // }
-        //this.shape = 'triangle'
+        this.shapes = {
+            triangle: '',
+            hexagon: this.drawHexagon
+        }
+        this.shape = 'hexagon'
         if (/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
-            this.shape = 'triangle'
+            this.shape = 'hexagon'
         this.triangle
         this.hexagon
         this.text
@@ -33,7 +32,7 @@ export default class Shapes {
             'stroke-width': 2
         })
         this.text()
-        this.drawHexagon()
+        this.shapes[this.shape]()
         this.hexagon.data('serNum', this.serNumOfTri)
     }
 
