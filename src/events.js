@@ -3,14 +3,6 @@ import MidiHandler from './midihandler.js'
 
 export default class Events {
     constructor(triangles, instrument, numberOfHorizontalTris) {
-        triangles.forEach((triangle) => {
-            if (triangle.pitch === 69) {
-                triangle.triangle.front()
-                triangle.triangle.stroke('cyan')
-                triangle.text.front()
-                triangle.hexagon.front()
-            }
-        })
         this.triangles = triangles
         this.instrument = instrument
         this.numberOfHorizontalTris = numberOfHorizontalTris
@@ -88,15 +80,6 @@ export default class Events {
             }
             prevTriangleSerNum = currentTriangleSerNum
         }
-        document.addEventListener('mouseleave', handleMouse)
-        this.triangles.forEach((triangle) => {
-            triangle.hexagon.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
-                handleMouse(e, triangle.serNumOfTri)
-            )
-            triangle.triangle.on(['mousedown', 'mouseup'], (e) =>
-                handleMouse(e, triangle.serNumOfTri)
-            )
-        })
 
         let prevTriangles = []
         let currentTriangleSN
@@ -141,7 +124,16 @@ export default class Events {
             prevTriangles = currentTriangles
         }
 
+        document.addEventListener('mouseleave', handleMouse)
+
         this.triangles.forEach((triangle) => {
+            triangle.hexagon.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
+                handleMouse(e, triangle.serNumOfTri)
+            )
+            triangle.triangle.on(['mousedown', 'mouseup'], (e) =>
+                handleMouse(e, triangle.serNumOfTri)
+            )
+
             triangle.hexagon.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
                 handleTouch,
