@@ -87,6 +87,7 @@ export default class Events {
 
         let prevTriangles = []
         let currentTriangleSN
+        let shapeType
         let x, y
 
         let handleTouch = (e) => {
@@ -107,12 +108,15 @@ export default class Events {
                         touch.clientY
                     )
                     currentTriangleSN = shape.attributes['data-serNum'].value
+                    shapeType = shape.attributes['data-type'].value
                 } else {
                     this.allOff()
                 }
                 if (
                     currentTriangleSN &&
-                    shape.attributes['data-type'].value === 'hexagon'
+                    ((shapeType === 'hexagon' && e.type === 'touchmove') ||
+                        (shapeType === 'hexagon' && e.type === 'touchstart') ||
+                        (shapeType === 'triangle' && e.type === 'touchstart'))
                 ) {
                     this.soundSwitch(true, currentTriangleSN)
                     let serNumOfTri = 0
@@ -130,6 +134,7 @@ export default class Events {
         }
 
         document.addEventListener('mouseleave', handleMouse)
+        document.addEventListener('touchleave', handleTouch)
 
         this.triangles.forEach((triangle) => {
             triangle.hexagon.on(
@@ -140,12 +145,12 @@ export default class Events {
             triangle.triangle.on(['mousedown', 'mouseup'], handleMouse, false)
 
             triangle.hexagon.on(
-                ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
+                ['touchstart', 'touchmove', 'touchend'],
                 handleTouch,
                 false
             )
             triangle.triangle.on(
-                ['touchmove', 'touchend', 'touchcancel'],
+                ['touchstart', 'touchmove', 'touchend'],
                 handleTouch,
                 false
             )
