@@ -65,7 +65,11 @@ export default class Events {
     init = () => {
         let isMouseDown
         let prevTriangleSerNum
-        let handleMouse = (e, currentTriangleSerNum = 0) => {
+        let currentTriangleSerNum
+
+        let handleMouse = (e) => {
+            e.preventDefault()
+            currentTriangleSerNum = e.target.attributes['data-serNum'].value
             if (e.type === 'mousedown') isMouseDown = true
             if (e.type === 'mouseup' || e.type === 'mouseleave')
                 isMouseDown = false
@@ -84,6 +88,7 @@ export default class Events {
         let prevTriangles = []
         let currentTriangleSN
         let x, y
+
         let handleTouch = (e) => {
             e.preventDefault()
             let currentTriangles = []
@@ -127,12 +132,12 @@ export default class Events {
         document.addEventListener('mouseleave', handleMouse)
 
         this.triangles.forEach((triangle) => {
-            triangle.hexagon.on(['mousedown', 'mousemove', 'mouseup'], (e) =>
-                handleMouse(e, triangle.serNumOfTri)
+            triangle.hexagon.on(
+                ['mousedown', 'mousemove', 'mouseup'],
+                handleMouse,
+                false
             )
-            triangle.triangle.on(['mousedown', 'mouseup'], (e) =>
-                handleMouse(e, triangle.serNumOfTri)
-            )
+            triangle.triangle.on(['mousedown', 'mouseup'], handleMouse, false)
 
             triangle.hexagon.on(
                 ['touchstart', 'touchmove', 'touchend', 'touchcancel'],

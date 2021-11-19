@@ -48,6 +48,9 @@
     <script src="./svg.min.js"></script>
     <script type="module">
         import Menu from './src/menu.js'
+        document.oncontextmenu = (e) => {
+            e.preventDefault()
+        }
         const image = 'background.png'
         fetch(image)
             .then(() => {
