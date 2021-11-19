@@ -51,6 +51,9 @@
         document.oncontextmenu = (e) => {
             e.preventDefault()
         }
+        document.onselectstart = () => {
+            return false
+        }
         const image = 'background.png'
         fetch(image)
             .then(() => {
