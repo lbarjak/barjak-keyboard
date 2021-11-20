@@ -75,8 +75,10 @@ export default class Menu {
             )
             selectShiftOfRows.addEventListener('change', (event) => {
                 Menu.selectedShiftOfRows = event.target.value
-                selectShiftOfRows.style.display = 'none'
-                m.style.display = 'block'
+                setTimeout(() => {
+                    selectShiftOfRows.style.display = 'none'
+                    m.style.display = 'block'
+                }, 100)
             })
         }
         selectShiftOfRows()
