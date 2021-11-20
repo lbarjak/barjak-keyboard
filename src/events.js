@@ -112,18 +112,21 @@ export default class Events {
                 } else {
                     this.allOff()
                 }
-                if (
-                    currentTriangleSN &&
-                    shape.attributes['data-type'].value === 'hexagon'
-                ) {
-                    this.soundSwitch(true, currentTriangleSN)
-                    let serNumOfTri = 0
-                    for (serNumOfTri in prevTriangles) {
-                        if (prevTriangles[serNumOfTri] === currentTriangleSN)
-                            prevTriangles.splice(serNumOfTri, 1)
+                if (currentTriangleSN) {
+                    if (prevTriangles.includes(currentTriangleSN)) {
+                        prevTriangles.splice(
+                            prevTriangles.indexOf(currentTriangleSN),
+                            1
+                        )
                     }
-                    currentTriangles.push(currentTriangleSN)
                 }
+                currentTriangles.push(currentTriangleSN)
+                if (
+                    (shapeType === 'hexagon' && e.type === 'touchmove') ||
+                    (shapeType === 'hexagon' && e.type === 'touchstart') ||
+                    (shapeType === 'triangle' && e.type === 'touchstart')
+                )
+                    this.soundSwitch(true, currentTriangleSN)
             }
             for (let serNumOfTri in prevTriangles) {
                 this.soundSwitch(false, prevTriangles[serNumOfTri])
