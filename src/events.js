@@ -112,27 +112,15 @@ export default class Events {
                 } else {
                     this.allOff()
                 }
-                if (shapeType === 'triangle' && e.type === 'touchmove') {
-                    if (prevTriangles.includes(currentTriangleSN)) {
-                        prevTriangles.splice(
-                            prevTriangles.indexOf(currentTriangleSN),
-                            1
-                        )
-                    }
-                    currentTriangles.push(currentTriangleSN)
-                }
                 if (
                     currentTriangleSN &&
-                    ((shapeType === 'hexagon' && e.type === 'touchmove') ||
-                        (shapeType === 'hexagon' && e.type === 'touchstart') ||
-                        (shapeType === 'triangle' && e.type === 'touchstart'))
+                    shape.attributes['data-type'].value === 'hexagon'
                 ) {
                     this.soundSwitch(true, currentTriangleSN)
-                    if (prevTriangles.includes(currentTriangleSN)) {
-                        prevTriangles.splice(
-                            prevTriangles.indexOf(currentTriangleSN),
-                            1
-                        )
+                    let serNumOfTri = 0
+                    for (serNumOfTri in prevTriangles) {
+                        if (prevTriangles[serNumOfTri] === currentTriangleSN)
+                            prevTriangles.splice(serNumOfTri, 1)
                     }
                     currentTriangles.push(currentTriangleSN)
                 }
