@@ -55,7 +55,6 @@ export default class Events {
                     this.instrument === 'midi'
                         ? this.midi(128, pitch, serNumOfTri)
                         : this.player.stop(pitch, serNumOfTri)
-                    this.player.stop(pitch, serNumOfTri)
                 }
                 this.sounds = []
             }
@@ -67,9 +66,22 @@ export default class Events {
         let prevTriangleSerNum
         let currentTriangleSerNum
 
+        let inside = (x, y) => {
+            return (
+                x >= 0 &&
+                x < window.innerWidth &&
+                y >= 0 &&
+                y < window.innerHeight
+            )
+        }
+
         let handleMouse = (e) => {
             e.preventDefault()
-            currentTriangleSerNum = e.target.attributes['data-serNum'].value
+            if (inside(e.clientX, e.clientY) && e.target.tagName !== 'BODY') {
+                currentTriangleSerNum = e.target.attributes['data-serNum'].value
+            } else {
+                isMouseDown = false
+            }
             if (e.type === 'mousedown') isMouseDown = true
             if (e.type === 'mouseup' || e.type === 'mouseleave')
                 isMouseDown = false
@@ -97,16 +109,8 @@ export default class Events {
             for (let touch of e.touches) {
                 x = touch.clientX
                 y = touch.clientY
-                if (
-                    x >= 0 ||
-                    x < window.innerWidth ||
-                    y >= 0 ||
-                    y < window.innerHeight
-                ) {
-                    shape = document.elementFromPoint(
-                        touch.clientX,
-                        touch.clientY
-                    )
+                if (inside(x, y)) {
+                    shape = document.elementFromPoint(x, y)
                     currentTriangleSN = shape.attributes['data-serNum'].value
                     shapeType = shape.attributes['data-type'].value
                 } else {
@@ -134,7 +138,7 @@ export default class Events {
             prevTriangles = currentTriangles
         }
 
-        document.addEventListener('mouseleave', handleMouse)
+        document.addEventListener('mouseout', handleMouse)
         document.addEventListener('touchleave', handleTouch)
 
         this.triangles.forEach((triangle) => {
