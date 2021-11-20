@@ -138,7 +138,7 @@ export default class Events {
             prevTriangles = currentTriangles
         }
 
-        document.addEventListener('mouseout', handleMouse)
+        document.addEventListener('mouseleave', handleMouse)
         document.addEventListener('touchleave', handleTouch)
 
         this.triangles.forEach((triangle) => {
