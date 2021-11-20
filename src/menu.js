@@ -3,6 +3,7 @@ import BufferPlayer from './bufferplayer.js'
 import Loading from './loading.js'
 
 export default class Menu {
+    static selectedShiftOfRows = 6
     constructor() {
         this.mobile = false
         window.onresize = this.reload
@@ -24,28 +25,6 @@ export default class Menu {
             }
         }
 
-        if (navigator.requestMIDIAccess)
-            document.getElementById('midi').style.display = 'block'
-
-        let section1 = document.getElementById('section1')
-
-        let setInstruments = () => {
-            let instruments = document.getElementById('instruments')
-            instruments.addEventListener('change', (event) => {
-                this.selectedInst = event.target.value
-                removeAllChildNodes(section1)
-                insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
-                setOctaves()
-            })
-        }
-        setInstruments()
-
-        let removeAllChildNodes = (parent) => {
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild)
-            }
-        }
-
         let insertForm = (sect, title, name, min, max) => {
             sect.innerHTML += '<p><b>' + title + '</b></p>'
             let form = document.createElement('form')
@@ -62,6 +41,46 @@ export default class Menu {
             }
             sect.append(form)
         }
+
+        let removeAllChildNodes = (parent) => {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild)
+            }
+        }
+
+        if (navigator.requestMIDIAccess)
+            document.getElementById('midi').style.display = 'block'
+
+        let section1 = document.getElementById('section1')
+
+        let setInstruments = () => {
+            let instruments = document.getElementById('instruments')
+            instruments.addEventListener('change', (event) => {
+                this.selectedInst = event.target.value
+                removeAllChildNodes(section1)
+                insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
+                setOctaves()
+            })
+        }
+        let selectShiftOfRows = () => {
+            let m = document.getElementById('menu')
+            m.style.display = 'none'
+            let selectShiftOfRows = document.getElementById('selectrowshift')
+            insertForm(
+                selectShiftOfRows,
+                'Select shift of rows:',
+                'shiftofrows',
+                5,
+                13
+            )
+            selectShiftOfRows.addEventListener('change', (event) => {
+                Menu.selectedShiftOfRows = event.target.value
+                selectShiftOfRows.style.display = 'none'
+                m.style.display = 'block'
+            })
+        }
+        selectShiftOfRows()
+        setInstruments()
 
         let setOctaves = () => {
             section1.innerHTML += "<span id='section2'></span>"
