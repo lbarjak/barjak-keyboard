@@ -112,6 +112,15 @@ export default class Events {
                 } else {
                     this.allOff()
                 }
+                if (shapeType === 'triangle' && e.type === 'touchmove') {
+                    if (prevTriangles.includes(currentTriangleSN)) {
+                        prevTriangles.splice(
+                            prevTriangles.indexOf(currentTriangleSN),
+                            1
+                        )
+                    }
+                    currentTriangles.push(currentTriangleSN)
+                }
                 if (
                     currentTriangleSN &&
                     ((shapeType === 'hexagon' && e.type === 'touchmove') ||
@@ -119,10 +128,11 @@ export default class Events {
                         (shapeType === 'triangle' && e.type === 'touchstart'))
                 ) {
                     this.soundSwitch(true, currentTriangleSN)
-                    let serNumOfTri = 0
-                    for (serNumOfTri in prevTriangles) {
-                        if (prevTriangles[serNumOfTri] === currentTriangleSN)
-                            prevTriangles.splice(serNumOfTri, 1)
+                    if (prevTriangles.includes(currentTriangleSN)) {
+                        prevTriangles.splice(
+                            prevTriangles.indexOf(currentTriangleSN),
+                            1
+                        )
                     }
                     currentTriangles.push(currentTriangleSN)
                 }
