@@ -13,8 +13,6 @@ export default class Shapes {
             hexagon: this.drawHexagon
         }
         this.shape = 'hexagon'
-        if (/Android|webOS|iPhone|iPod/i.test(navigator.userAgent))
-            this.shape = 'hexagon'
         this.triangle
         this.hexagon
         this.offArea
@@ -103,7 +101,7 @@ export default class Shapes {
         ]
         let pointsRel = []
         let x = this.x
-        let y = this.y + (this.position * e) / 2.3 //2.24
+        let y = this.y + (this.position * e) / 2.3
         let points = () => {
             for (let i = 0; i < p.length; i++) {
                 pointsRel.push((x += p[i][0]))
@@ -111,7 +109,6 @@ export default class Shapes {
             }
         }
         points()
-        //if (this.serNumOfTri === 1 || this.serNumOfTri === 6)
         this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.2)
         this.offArea.data('serNum', this.serNumOfTri)
         this.offArea.data('type', 'offArea')
