@@ -26,8 +26,6 @@ export default class Shapes {
     draw = (color = this.color) => {
         this.drawOffArea()
         this.drawTriangle()
-        this.triangle.data('serNum', this.serNumOfTri)
-        this.triangle.data('type', 'triangle')
         this.triangle.fill(color)
         this.triangle.attr({
             stroke: color === 'gray' ? '#999999' : '#808080',
@@ -35,7 +33,6 @@ export default class Shapes {
         })
         this.text()
         this.shapes[this.shape]()
-        this.hexagon.data('serNum', this.serNumOfTri)
     }
 
     isPointInShape = (pointerX, pointerY) => {
@@ -59,6 +56,8 @@ export default class Shapes {
             [x3, y3]
         ]
         this.triangle = this.drawing.polygon(pointsOfTriangle())
+        this.triangle.data('serNum', this.serNumOfTri)
+        this.triangle.data('type', 'triangle')
     }
 
     drawHexagon = () => {
@@ -73,6 +72,7 @@ export default class Shapes {
             points.push(y + size * Math.sin((side * 2 * Math.PI) / 6))
         }
         this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.2)
+        this.hexagon.data('serNum', this.serNumOfTri)
         this.hexagon.data('type', 'hexagon')
     }
 
@@ -111,8 +111,10 @@ export default class Shapes {
             }
         }
         points()
-        //if (this.serNumOfTri === 36 || this.serNumOfTri === 39)
+        //if (this.serNumOfTri === 1 || this.serNumOfTri === 6)
         this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.5)
+        this.offArea.data('serNum', this.serNumOfTri)
+        this.offArea.data('type', 'offArea')
     }
 
     text = () => {
