@@ -103,14 +103,6 @@ export default class DrawTriangles {
                 triangleParams.serNumOfTri++
             }
         }
-        this.triangles.forEach((triangle) => {
-            if (triangle.pitch === 69) {
-                triangle.triangle.front()
-                triangle.triangle.stroke('red')
-                triangle.text.front()
-                triangle.hexagon.front()
-            }
-        })
         return this.triangles
     }
 }

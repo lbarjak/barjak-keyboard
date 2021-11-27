@@ -89,6 +89,9 @@ export default class Shapes {
                 stroke: color == 'gray' ? '#999999' : '#808080',
                 'stroke-width': 0.5
             })
+        if (this.pitch === 69) {
+            this.text.stroke('red')
+        }
     }
 
     getSound = () => {
