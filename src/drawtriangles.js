@@ -104,9 +104,7 @@ export default class DrawTriangles {
             }
         }
         this.triangles.forEach((triangle) => {
-            triangle.triangle.front()
-            triangle.text.front()
-            triangle.hexagon.front()
+            triangle.offArea.back()
         })
         return this.triangles
     }

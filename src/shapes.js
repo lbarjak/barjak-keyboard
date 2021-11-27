@@ -17,6 +17,7 @@ export default class Shapes {
             this.shape = 'hexagon'
         this.triangle
         this.hexagon
+        this.offArea
         this.text
         this.drawing = drawing
         this.draw()
@@ -111,7 +112,7 @@ export default class Shapes {
         }
         points()
         //if (this.serNumOfTri === 36 || this.serNumOfTri === 39)
-        this.drawing.polygon(pointsRel).fill('red').opacity(0.5)
+        this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.5)
     }
 
     text = () => {
