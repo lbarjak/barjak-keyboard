@@ -156,7 +156,11 @@ export default class Events {
                 handleTouch,
                 false
             )
-            triangle.triangle.on(['touchstart', 'touchend'], handleTouch, false)
+            triangle.triangle.on(
+                ['touchstart', 'touchmove', 'touchend'],
+                handleTouch,
+                false
+            )
         })
     }
 }
