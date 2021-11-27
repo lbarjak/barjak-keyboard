@@ -103,7 +103,7 @@ export default class Shapes {
         ]
         let pointsRel = []
         let x = this.x
-        let y = this.y + (this.position * e) / 2.4 //2.24
+        let y = this.y + (this.position * e) / 2.3 //2.24
         let points = () => {
             for (let i = 0; i < p.length; i++) {
                 pointsRel.push((x += p[i][0]))
@@ -112,7 +112,7 @@ export default class Shapes {
         }
         points()
         //if (this.serNumOfTri === 1 || this.serNumOfTri === 6)
-        this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.5)
+        this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.2)
         this.offArea.data('serNum', this.serNumOfTri)
         this.offArea.data('type', 'offArea')
     }
@@ -146,10 +146,12 @@ export default class Shapes {
         if (this.color != 'gray') {
             color = this.color == 'white' ? '#ffcccc' : '#660000'
             this.triangle.fill(color)
+            this.offArea.front()
         }
     }
 
     setSignOff = () => {
         this.triangle.fill(this.color)
+        this.offArea.back()
     }
 }
