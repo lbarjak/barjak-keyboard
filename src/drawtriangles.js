@@ -103,6 +103,11 @@ export default class DrawTriangles {
                 triangleParams.serNumOfTri++
             }
         }
+        this.triangles.forEach((triangle) => {
+            triangle.triangle.front()
+            triangle.text.front()
+            triangle.hexagon.front()
+        })
         return this.triangles
     }
 }

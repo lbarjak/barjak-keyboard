@@ -23,6 +23,7 @@ export default class Shapes {
     }
 
     draw = (color = this.color) => {
+        this.drawOffArea()
         this.drawTriangle()
         this.triangle.data('serNum', this.serNumOfTri)
         this.triangle.data('type', 'triangle')
@@ -72,6 +73,45 @@ export default class Shapes {
         }
         this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.2)
         this.hexagon.data('type', 'hexagon')
+    }
+
+    drawOffArea = () => {
+        let e = Math.round(this.edge / 3)
+        let h = Math.round((e * Math.sqrt(3)) / 2) * this.position
+        let w = e / 2
+        let p = [
+            [-e, 0],
+            [-e, 0],
+            [-w, h],
+            [w, h],
+            [e, 0],
+            [w, -h],
+            [e, 0],
+            [w, h],
+            [e, 0],
+            [w, -h],
+            [-w, -h],
+            [-e, 0],
+            [-w, -h],
+            [w, -h],
+            [-w, -h],
+            [-e, 0],
+            [-w, h],
+            [w, h],
+            [-w, h]
+        ]
+        let pointsRel = []
+        let x = this.x
+        let y = this.y + (this.position * e) / 2.4 //2.24
+        let points = () => {
+            for (let i = 0; i < p.length; i++) {
+                pointsRel.push((x += p[i][0]))
+                pointsRel.push((y += p[i][1]))
+            }
+        }
+        points()
+        //if (this.serNumOfTri === 36 || this.serNumOfTri === 39)
+        this.drawing.polygon(pointsRel).fill('red').opacity(0.5)
     }
 
     text = () => {
