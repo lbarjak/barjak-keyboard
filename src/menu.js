@@ -3,7 +3,6 @@ import BufferPlayer from './bufferplayer.js'
 import Loading from './loading.js'
 
 export default class Menu {
-    static selectedShiftOfRows = 6
     constructor() {
         this.mobile = false
         window.onresize = this.reload
@@ -62,26 +61,6 @@ export default class Menu {
                 setOctaves()
             })
         }
-        let selectShiftOfRows = () => {
-            let m = document.getElementById('menu')
-            m.style.display = 'none'
-            let selectShiftOfRows = document.getElementById('selectrowshift')
-            insertForm(
-                selectShiftOfRows,
-                'Select shift of rows:',
-                'shiftofrows',
-                5,
-                13
-            )
-            selectShiftOfRows.addEventListener('change', (event) => {
-                Menu.selectedShiftOfRows = event.target.value
-                setTimeout(() => {
-                    selectShiftOfRows.style.display = 'none'
-                    m.style.display = 'block'
-                }, 100)
-            })
-        }
-        selectShiftOfRows()
         setInstruments()
 
         let setOctaves = () => {
