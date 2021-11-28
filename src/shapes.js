@@ -8,11 +8,6 @@ export default class Shapes {
         this.color = triangleParams.color
         this.pitch = triangleParams.pitch
         this.serNumOfTri = triangleParams.serNumOfTri
-        this.shapes = {
-            triangle: '',
-            hexagon: this.drawHexagon
-        }
-        this.shape = 'hexagon'
         this.triangle
         this.hexagon
         this.offArea
@@ -30,7 +25,7 @@ export default class Shapes {
             'stroke-width': 2
         })
         this.text()
-        this.shapes[this.shape]()
+        this.drawHexagon()
     }
 
     isPointInShape = (pointerX, pointerY) => {
@@ -69,7 +64,7 @@ export default class Shapes {
             points.push(this.x + size * Math.cos((side * 2 * Math.PI) / 6))
             points.push(y + size * Math.sin((side * 2 * Math.PI) / 6))
         }
-        this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.2)
+        this.hexagon = this.drawing.polygon(points).fill('gray').opacity(0.0001)
         this.hexagon.data('serNum', this.serNumOfTri)
         this.hexagon.data('type', 'hexagon')
     }
@@ -109,7 +104,10 @@ export default class Shapes {
             }
         }
         points()
-        this.offArea = this.drawing.polygon(pointsRel).fill('red').opacity(0.2)
+        this.offArea = this.drawing
+            .polygon(pointsRel)
+            .fill('red')
+            .opacity(0.0001)
         this.offArea.data('serNum', this.serNumOfTri)
         this.offArea.data('type', 'offArea')
     }
