@@ -140,7 +140,7 @@ export default class Events {
         }
 
         document.addEventListener('mouseleave', handleMouse)
-        document.addEventListener('touchleave', handleTouch)
+        document.addEventListener('touchend', handleTouch)
 
         this.triangles.forEach((triangle) => {
             triangle.hexagon.on(
