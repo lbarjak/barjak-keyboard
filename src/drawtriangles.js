@@ -103,6 +103,9 @@ export default class DrawTriangles {
                 triangleParams.serNumOfTri++
             }
         }
+        this.triangles.forEach((triangle) => {
+            triangle.offArea.back()
+        })
         return this.triangles
     }
 }

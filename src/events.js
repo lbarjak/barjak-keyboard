@@ -124,7 +124,8 @@ export default class Events {
                         )
                     }
                 }
-                currentTriangles.push(currentTriangleSN)
+                if (!currentTriangles.includes(currentTriangleSN))
+                    currentTriangles.push(currentTriangleSN)
                 if (
                     (shapeType === 'hexagon' && e.type === 'touchmove') ||
                     (shapeType === 'hexagon' && e.type === 'touchstart') ||
@@ -148,6 +149,7 @@ export default class Events {
                 false
             )
             triangle.triangle.on(['mousedown', 'mouseup'], handleMouse, false)
+            triangle.offArea.on('mouseup', handleMouse, false)
 
             triangle.hexagon.on(
                 ['touchstart', 'touchmove', 'touchend'],
