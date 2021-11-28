@@ -1,6 +1,5 @@
 import Shapes from './shapes.js'
 import BufferPlayer from './bufferplayer.js'
-import Menu from './menu.js'
 
 export default class DrawTriangles {
     constructor() {
@@ -26,8 +25,7 @@ export default class DrawTriangles {
         this.heightOfTriangle = (this.edgeOfTriangle * Math.sqrt(3)) / 2
         this.numberOfHorizontalTris =
             2 + 2 * Math.round(window.innerWidth / this.edgeOfTriangle)
-        //const noteOffsetAlwaysSix = 6
-        const noteOffsetAlwaysSix = Menu.selectedShiftOfRows
+        const noteOffsetAlwaysSix = 6
         let heightOfKeyboard = Math.round(
             this.heightOfTriangle * this.numberOfVerticalTris
         )
