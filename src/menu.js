@@ -3,7 +3,6 @@ import BufferPlayer from './bufferplayer.js'
 import Loading from './loading.js'
 
 export default class Menu {
-    //static selectedShiftOfRows = 6
     constructor() {
         this.mobile = false
         window.onresize = this.reload
