@@ -109,12 +109,10 @@ export default class Events {
             for (let touch of e.touches) {
                 x = touch.clientX
                 y = touch.clientY
-                if (inside(x, y)) {
-                    shape = document.elementFromPoint(x, y)
+                shape = document.elementFromPoint(x, y)
+                if (shape) {
                     currentTriangleSN = shape.attributes['data-serNum'].value
                     shapeType = shape.attributes['data-type'].value
-                } else {
-                    this.allOff()
                 }
                 if (currentTriangleSN) {
                     if (prevTriangles.includes(currentTriangleSN)) {
@@ -140,7 +138,6 @@ export default class Events {
         }
 
         document.addEventListener('mouseleave', handleMouse)
-        document.addEventListener('touchend', handleTouch)
 
         this.triangles.forEach((triangle) => {
             triangle.hexagon.on(
