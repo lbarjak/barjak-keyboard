@@ -1,7 +1,7 @@
 Multitouch and multitimbral instrument for touchscreen (but also works with mouse).
 Any number of voices can be played simultaneously.
 Each row is a separate instrument, so you can play multiple instance of the same sound.
-The triangles are not sensitive at their peaks, pay attention to the glissandos.
+The triangles are not sensitive at their peaks, play attention to the glissandos.
 It plays immediately with an USB midi device.
 
 demo (piano, harpsichord and midi): https://barjak-keyboard.netlify.app
