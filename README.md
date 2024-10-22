@@ -1,7 +1,7 @@
-Multitouch and multitimbral instrument for touchscreen (but also works with mouse).
-Any number of voices can be played simultaneously.
-Each row is a separate instrument, so you can play multiple instance of the same sound.
-The triangles are not sensitive near the verices so one can play whole note glissandos without lifting the finger.
+Multitouch and multitimbral instrument for touchscreen (but also works with mouse).<br />
+Any number of voices can be played simultaneously.<br />
+Each row is a separate instrument, so you can play multiple instance of the same sound.<br />
+The triangles are not sensitive near the verices so one can play whole note glissandos without lifting the finger.<br />
 It plays immediately with an USB midi device.
 
 demo (piano, harpsichord and midi): https://barjak-keyboard.netlify.app
