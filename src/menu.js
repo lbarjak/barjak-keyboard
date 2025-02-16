@@ -10,40 +10,42 @@ export default class Menu {
     }
 
     reload = () => {
-        fetch('', {
-            'Cache-Control': 'no-cache'
+        caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+                caches.delete(cacheName)
+            })
+        }).finally(() => {
+            location.reload();
         })
-            .then(() => location.reload())
-            .catch((error) => console.warn(error))
+    }
+
+    insertForm = (sect, title, name, min, max) => {
+        sect.innerHTML += '<p><b>' + title + '</b></p>'
+        let form = document.createElement('form')
+        form.setAttribute('id', name)
+        for (let i = min; i < max; i++) {
+            let input = document.createElement('input')
+            form.append(input)
+            input.type = 'radio'
+            input.name = name
+            input.value = i
+            let label = document.createElement('label')
+            label.textContent = i + ' '
+            form.append(label)
+        }
+        sect.append(form)
+    }
+
+    removeAllChildNodes = (parent) => {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild)
+        }
     }
 
     menu = () => {
         document.onkeydown = (e) => {
             if (e.key === 'Escape') {
                 this.reload()
-            }
-        }
-
-        let insertForm = (sect, title, name, min, max) => {
-            sect.innerHTML += '<p><b>' + title + '</b></p>'
-            let form = document.createElement('form')
-            form.setAttribute('id', name)
-            for (let i = min; i < max; i++) {
-                let input = document.createElement('input')
-                form.append(input)
-                input.type = 'radio'
-                input.name = name
-                input.value = i
-                let label = document.createElement('label')
-                label.textContent = i + ' '
-                form.append(label)
-            }
-            sect.append(form)
-        }
-
-        let removeAllChildNodes = (parent) => {
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild)
             }
         }
 
@@ -56,8 +58,8 @@ export default class Menu {
             let instruments = document.getElementById('instruments')
             instruments.addEventListener('change', (event) => {
                 this.selectedInst = event.target.value
-                removeAllChildNodes(section1)
-                insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
+                this.removeAllChildNodes(section1)
+                this.insertForm(section1, 'Octave shift:', 'octaves', 0, 3)
                 setOctaves()
             })
         }
@@ -68,12 +70,12 @@ export default class Menu {
             let octaves = document.getElementById('octaves')
             octaves.addEventListener('change', (event) => {
                 this.selectedOctave = event.target.value
-                removeAllChildNodes(section2)
+                this.removeAllChildNodes(section2)
                 this.numberOfVerticalTrisMax = new Precalc().precalc(
                     this.selectedOctave,
                     this.selectedInst
                 )
-                insertForm(
+                this.insertForm(
                     section2,
                     'Rows of keyboard:',
                     'rows',
