@@ -4,7 +4,9 @@ Each row is a separate instrument, so you can play multiple instance of the same
 The triangles are not sensitive near the vertices so one can play whole note glissandos without lifting the finger.<br />
 It plays immediately with an USB midi device (MIDI in).
 
-demo (piano, harpsichord and midi): https://barjak-keyboard.netlify.app
+demo (piano, harpsichord and midi):
+https://barjak-keyboard.netlify.app
+https://lbarjak.github.io/barjak-keyboard/
 
 YouTube video: https://youtu.be/TAFolFpNNH0
 
