@@ -5,7 +5,9 @@ The triangles are not sensitive near the vertices so one can play whole note gli
 It plays immediately with an USB midi device (MIDI in).
 
 demo (piano, harpsichord and midi):
+
 https://barjak-keyboard.netlify.app
+
 https://lbarjak.github.io/barjak-keyboard/
 
 YouTube video: https://youtu.be/TAFolFpNNH0
