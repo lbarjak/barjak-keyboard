@@ -1,46 +1,78 @@
 # Barjak keyboard
 
-Multitouch, multitimbral instrument for touchscreens (also works with a mouse).
+An **isomorphic multitouch keyboard instrument for touchscreens** featuring a **triangular key layout**.
 
-## Features
+![Barjak keyboard layout](docs/barjak-keyboard-layout.png)
 
-- Multitouch and multitimbral instrument for touchscreens (also works with a mouse).
-- Any number of voices can be played simultaneously.
-- Each row is a separate instrument, so you can play multiple instances of the same sound.
-- The triangles are not sensitive near the vertices, so you can play whole-note glissandos without lifting your finger.
-- It works immediately with a USB MIDI device (MIDI in).
+▶ **Live demo**
+https://barjak-keyboard.netlify.app
 
-## Demo
+▶ **GitHub Pages demo**
+https://lbarjak.github.io/barjak-keyboard/
 
-- https://barjak-keyboard.netlify.app
-- https://lbarjak.github.io/barjak-keyboard/
-- YouTube video: https://youtu.be/TAFolFpNNH0
+▶ **Video demo**
+https://www.youtube.com/watch?v=TAFolFpNNH0&lc=
 
-Code: László Barják (2020)
+---
 
-## Description
+# Features
 
-Barjak keyboard is an [isomorphic](https://en.wikipedia.org/wiki/Isomorphic_keyboard) musical keyboard layout designed by András Barják. It uses triangles to provide its note layout instead of the more common square-based or hexagonal patterns.
+* Multitouch, multitimbral instrument for touchscreens (also playable with a mouse).
+* Any number of voices can be played simultaneously.
+* Each row acts as a separate instrument, allowing multiple instances of the same sound.
+* The triangular keys are less sensitive near their vertices, allowing smooth **whole-note glissandos** without lifting the finger.
+* Works immediately with **USB MIDI devices** (MIDI input).
 
-## History and motivation
+---
 
-András Barják has been obsessed with the possibilities of isomorphic keyboards since his childhood. He owns an [Axis 49 MIDI controller](https://www.c-thru-music.com/cgi/?page=prod_axis-49) and has mostly played the [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout) (also known as the Jammer layout). As a young pianist, he was interested in the [Jankó keyboard](https://en.wikipedia.org/wiki/Jank%C3%B3_keyboard) and, as a guitar player, he tried several isomorphic tunings (e.g., [tritone tuning](https://en.wikipedia.org/wiki/Augmented-fourths_tuning)).
+# Description
 
-The [Hexiano app](https://github.com/lrq3000/hexiano), which offered both layouts mapped to a hexagonal pattern on Android, provided great motivation for him.
+Barjak keyboard is an [isomorphic](https://en.wikipedia.org/wiki/Isomorphic_keyboard) musical keyboard layout designed by **András Barják**.
 
-The [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout) offers great improvisational possibilities for diatonic music (including folk, pop, rock, and modal jazz), while the [Jankó layout](https://en.wikipedia.org/wiki/Jank%C3%B3_keyboard) comes in handy for playing chromatic music (jazz and contemporary classical). However, their advantages and disadvantages are almost mutually exclusive: the ergonomic modal playability of the [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout) comes at the price of sacrificing chromatic playability, while conventional diatonic or tonal music is considered harder to play on the [Jankó layout](https://en.wikipedia.org/wiki/Jank%C3%B3_keyboard).
+Instead of square or hexagonal keys, the layout uses **triangular keys**, forming a triangular grid across the surface.
 
-The Barjak layout was born as an attempt to combine the strengths of both layouts into a single one.
+In an **isomorphic keyboard**, every musical interval corresponds to the **same geometric displacement** on the playing surface.
+This means that chord shapes, scales, and fingering patterns remain identical in every key.
 
-## Advantages
+The triangular key arrangement forms a **triangular lattice**, a natural two-dimensional grid that represents musical intervals in a compact and ergonomic way.
 
-- All fingering patterns are consistent and easy to transpose.
-- Ergonomic accessibility of 4th, 5th, and 8th intervals.
-- Diatonic scales are always accessible on triangles of similar direction without the need to move the hand horizontally.
-- Chromatic ornamentations and accidental passing tones are easily available.
-- Chromatic playing is still easier compared to the traditional piano keyboard layout.
+Notes repeat along straight lattice directions, making interval relationships visually apparent and easy to learn.
 
-## Disadvantages
+---
 
-- More complex than the [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout).
-- Mistakes might sound more dissonant compared to other layouts.
+# History and motivation
+
+András Barják has been fascinated by the possibilities of isomorphic keyboards since childhood.
+
+He owns an [Axis 49 MIDI controller](https://www.c-thru-music.com/cgi/?page=prod_axis-49) and has mostly played the [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout) (also known as the Jammer layout).
+As a young pianist he was interested in the [Jankó keyboard](https://en.wikipedia.org/wiki/Jank%C3%B3_keyboard), and as a guitar player he experimented with several isomorphic tunings such as [tritone tuning](https://en.wikipedia.org/wiki/Augmented-fourths_tuning).
+
+The [Hexiano app](https://github.com/lrq3000/hexiano), which mapped both layouts onto a hexagonal grid on Android, also provided inspiration.
+
+The [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout) offers excellent improvisational possibilities for diatonic music (folk, pop, rock, modal jazz), while the [Jankó layout](https://en.wikipedia.org/wiki/Jank%C3%B3_keyboard) is particularly convenient for chromatic music (jazz and contemporary classical).
+
+However, their advantages and disadvantages are almost mutually exclusive:
+the ergonomic modal playability of the Wicki-Hayden layout comes at the cost of reduced chromatic accessibility, while conventional tonal music can be harder to approach on the Jankó layout.
+
+The **Barjak layout** was created as an attempt to combine the strengths of both systems into a single layout.
+
+---
+
+# Advantages
+
+* Fingering patterns are consistent and easy to transpose.
+* Ergonomic access to **fourths, fifths, and octaves**.
+* Diatonic scales are accessible on triangles of similar orientation without moving the hand horizontally.
+* Chromatic ornamentations and passing tones are easily available.
+* Chromatic playing remains easier than on a traditional piano keyboard.
+
+---
+
+# Disadvantages
+
+* More complex than the [Wicki-Hayden layout](https://en.wikipedia.org/wiki/Wicki%E2%80%93Hayden_note_layout).
+* Mistakes may sound more dissonant compared to other layouts.
+
+---
+
+Code: **László Barják (2020)**
